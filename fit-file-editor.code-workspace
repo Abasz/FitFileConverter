@@ -1,0 +1,17 @@
+{
+    "folders": [
+        {
+            "path": "."
+        },
+        {
+            "path": "..\\..\\connectiq-sdk-manager-windows\\FitSDKRelease_21.53.00\\cs"
+        }
+    ],
+    "settings": {
+        "cSpell.words": [
+            "Defn",
+            "Mesg",
+            "Mesgs"
+        ]
+    }
+}
