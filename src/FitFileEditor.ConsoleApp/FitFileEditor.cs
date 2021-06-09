@@ -34,6 +34,16 @@ namespace FitFileEditor.ConsoleApp
 
         private void MakeChanges(bool shouldMultiplyCadence = false)
         {
+            //WORKOUTMSG
+            if (FitFileParser.WorkoutMesgs is not null)
+                FitFileParser.Edit(FitFileParser.WorkoutMesgs.Select(workMesg =>
+                {
+                    workMesg.SetSport(Sport.Rowing);
+                    workMesg.SetSubSport(SubSport.Generic);
+
+                    return workMesg;
+                }).ToList());
+
             //SPORTEMSG
             if (FitFileParser.SportMesgs is not null)
                 FitFileParser.Edit(FitFileParser.SportMesgs.Select(sportMesg =>

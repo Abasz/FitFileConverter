@@ -141,8 +141,7 @@ namespace FitFileEditor.ConsoleApp
 
             var newobject = typeof(FitFileParser).GetProperties()
                 .Where(prop => prop.GetValue(this)is not null)
-                .Select(prop => (IEnumerable<dynamic>)prop.GetValue(this) !)
-                .Select(mesgs => mesgs
+                .Select(prop => ((IEnumerable<dynamic>)prop.GetValue(this) !)
                     .Select(mesg => new Mesg(mesg))
                     .ToList())
                 .Aggregate(new List<List<Mesg>>(), (accumulator, mesgs) =>
