@@ -44,6 +44,10 @@ namespace FitFileEditor.ConsoleApp
                     return workMesg;
                 }).ToList());
 
+            //WORKOUTSTEPMSG
+            if (FitFileParser.WorkoutStepMesgs is not null && shouldMultiplyCadence)
+                FitFileParser.Edit(FitFileParser.WorkoutStepMesgs.MultiplyCadence(2).ToList());
+
             //SPORTEMSG
             if (FitFileParser.SportMesgs is not null)
                 FitFileParser.Edit(FitFileParser.SportMesgs.Select(sportMesg =>
@@ -51,6 +55,7 @@ namespace FitFileEditor.ConsoleApp
                     sportMesg.SetSport(Sport.Rowing);
                     sportMesg.SetSubSport(SubSport.Generic);
                     sportMesg.SetName("Row");
+                    sportMesg.SetFieldValue(4, 29);
 
                     return sportMesg;
                 }).ToList());

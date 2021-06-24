@@ -69,6 +69,22 @@ namespace FitFileEditor.ConsoleApp
             });
         }
 
+        public static IEnumerable<WorkoutStepMesg> MultiplyCadence(this IEnumerable<WorkoutStepMesg> wrkStep, uint multiplier = 2)
+        {
+            return wrkStep.Select(wrkStepField =>
+            {
+                if (wrkStepField.GetTargetType() == WktStepTarget.Cadence)
+                {
+                    var targetLow = wrkStepField.GetCustomTargetCadenceLow();
+                    var targetHigh = wrkStepField.GetCustomTargetCadenceHigh();
+                    wrkStepField.SetCustomTargetCadenceLow(targetLow * multiplier);
+                    wrkStepField.SetCustomTargetCadenceHigh(targetHigh * multiplier);
+                }
+
+                return wrkStepField;
+            });
+        }
+
         public static IEnumerable<LapMesg> AddStrokeDistance(this IEnumerable<LapMesg> laps, System.DateTime initialDateTime, IEnumerable<RecordMesg> recordMesgs)
         {
             return laps.Select(lap =>
