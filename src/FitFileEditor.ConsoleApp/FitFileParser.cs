@@ -228,6 +228,176 @@ namespace FitFileEditor.ConsoleApp
             });
         }
 
+        public void FromJson(string path)
+        {
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(assembly => assembly?.FullName?.Contains("Fit,") ?? false).ElementAt(0);
+
+            if (assemblies is null)
+            {
+                throw new InvalidOperationException("Fit Assembly is not loaded");
+            }
+            var pathEdited = $"{Path.GetFileNameWithoutExtension(path)}-edited.fit";
+            var outputFile = new FileStream($"{pathEdited}", FileMode.Create, FileAccess.ReadWrite, FileShare.Read);
+
+            var fitFileWriter = new Encode(ProtocolVersion.V20);
+            fitFileWriter.Open(outputFile);
+
+            var fitJsonFile = JsonSerializer.Deserialize<Dictionary<string, List<Dictionary<string, object>>>>(System.IO.File.ReadAllText(path), new JsonSerializerOptions()
+                {
+                    WriteIndented = true,
+                        PropertyNameCaseInsensitive = true,
+                        IgnoreNullValues = true,
+                        DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
+                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                });
+
+            if (fitJsonFile is null)
+            {
+                throw new JsonException("Fit json file is in an invalid format");
+            }
+
+            var profiles = JsonSerializer.Deserialize<Dictionary<string, ProfileMeta>>(System.IO.File.ReadAllText("profiles.json"), new JsonSerializerOptions()
+                {
+                    WriteIndented = true,
+                        PropertyNameCaseInsensitive = true,
+                        IgnoreNullValues = true,
+                        DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
+                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                });
+
+            if (profiles is null)
+            {
+                throw new JsonException("Profiles.json file is in an invalid format");
+            }
+
+            var types = JsonSerializer.Deserialize<Dictionary<string, TypeMeta>>(System.IO.File.ReadAllText("types.json"), new JsonSerializerOptions()
+                {
+                    WriteIndented = true,
+                        PropertyNameCaseInsensitive = true,
+                        IgnoreNullValues = true,
+                        DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
+                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                });
+
+            if (types is null)
+            {
+                throw new JsonException("Types.json file is in an invalid format");
+            }
+
+            foreach (var key in fitJsonFile.Keys)
+            {
+                var index = 0;
+                foreach (var mesgItems in fitJsonFile[key])
+                {
+                    Mesg mesg;
+                    if (key.Contains("unknown"))
+                    {
+                        var mesgNum = Convert.ToUInt16(key.Replace("unknown-", ""));
+                        var unknownMesgs = UnknownMesgs?.Where(mesg => mesg.Num == mesgNum);
+                        if (unknownMesgs is null)
+                            continue;
+
+                        mesg = unknownMesgs.ElementAt(index);
+                    }
+                    else
+                    {
+                        mesg = new Mesg(key, profiles[key].Num);
+                    }
+
+                    foreach (var property in mesgItems)
+                    {
+                        var propertyValue = property.Value?.ToString();
+                        if (property.Key.Contains("unknown"))
+                        {
+                            IEnumerable<Mesg> ? currentMesgs = (IEnumerable<Mesg> ? )typeof(FitFileParser)?.GetProperty($"{key.ToFirstUpper()}Mesgs")?.GetValue(this);
+
+                            if ((currentMesgs is not null && currentMesgs.Any()) || key.Contains("unknown"))
+                            {
+                                var unkownMesg = key.Contains("unknown") ? mesg : currentMesgs!.ElementAt(index);
+                                var unkownField = unkownMesg.GetField(Convert.ToByte(property.Key.Replace("unknown-", "")));
+
+                                if (long.TryParse(propertyValue, out long value))
+                                {
+                                    unkownField.SetValue(value);
+                                    mesg.SetField(unkownField);
+
+                                    continue;
+                                }
+
+                                var data = Encoding.UTF8.GetBytes(propertyValue ?? "");
+                                var zdata = new byte[data.Length + 1];
+                                data.CopyTo(zdata, 0);
+
+                                var test = unkownField.GetValue(Convert.ToByte(property.Key.Replace("unknown-", "")));
+
+                                unkownField.SetValue(zdata);
+                                mesg.SetField(unkownField);
+                            }
+
+                            continue;
+                        }
+
+                        var propertyMeta = profiles[key].Fields[property.Key];
+
+                        if (propertyMeta.IsNumber)
+                        {
+                            if (propertyMeta.ProfileType == "DateTime" || propertyMeta.ProfileType == "LocalDateTime")
+                            {
+                                mesg.SetFieldValue(
+                                    propertyMeta.Num,
+                                    new Dynastream.Fit.DateTime(
+                                        System.DateTime.Parse(propertyValue ?? "1990-01-01").ToUniversalTime()).GetTimeStamp()
+                                );
+
+                                continue;
+                            }
+
+                            if (propertyMeta.Units == "semicircles")
+                            {
+                                var degrees = Convert.ToDouble(propertyValue) * (Math.Pow(2, 31) / 180);
+
+                                mesg.SetFieldValue(propertyMeta.Num, degrees);
+
+                                continue;
+                            }
+
+                            mesg.SetFieldValue(propertyMeta.Num, propertyValue);
+
+                            continue;
+                        }
+
+                        if (propertyMeta.ProfileType == "String")
+                        {
+                            var data = Encoding.UTF8.GetBytes(propertyValue ?? "");
+                            var zdata = new byte[data.Length + 1];
+                            data.CopyTo(zdata, 0);
+
+                            mesg.SetFieldValue(propertyMeta.Num, zdata);
+
+                            continue;
+                        }
+
+                        var type = assemblies.GetType($"Dynastream.Fit.{propertyMeta.ProfileType}");
+                        if (type is null)
+                        {
+                            mesg.SetFieldValue(propertyMeta.Num, propertyValue);
+
+                            continue;
+                        }
+
+                        Enum.TryParse(type!, propertyValue, true, out object? enumValue);
+                        mesg.SetFieldValue(propertyMeta.Num, enumValue);
+                    }
+                    fitFileWriter.Write(mesg);
+                    index++;
+                }
+            }
+
+            fitFileWriter.Close();
+            outputFile.Close();
+            Console.WriteLine($"Encoded FIT file {pathEdited}");
+        }
+
         public void OnMesg(object sender, MesgEventArgs e)
         {
             switch (e.mesg.Num)
