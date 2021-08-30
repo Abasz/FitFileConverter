@@ -3,6 +3,8 @@
 *.FIT
 *.fit
 !*.test.fit
+profiles.json
+types.json
 *.fit.json
 !*.test.fit.json
 project.lock.json

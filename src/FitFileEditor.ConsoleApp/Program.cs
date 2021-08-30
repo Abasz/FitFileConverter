@@ -8,6 +8,11 @@ namespace FitFileEditor.ConsoleApp
     {
         static int Main(string[] args)
         {
+            if (args[0] == "generate")
+            {
+                return GenerateFitMetadata.Generate();
+            }
+
             if (args.Length < 1 || !File.Exists(args[0]))
             {
                 Console.WriteLine("Invalid FIT file path");
