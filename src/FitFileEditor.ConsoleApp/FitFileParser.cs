@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 
+using File = System.IO.File;
+
 using Dynastream.Fit;
 
 using FitFileEditor.Libs;
@@ -242,7 +244,7 @@ namespace FitFileEditor.ConsoleApp
             var fitFileWriter = new Encode(ProtocolVersion.V20);
             fitFileWriter.Open(outputFile);
 
-            var fitJsonFile = JsonSerializer.Deserialize<Dictionary<string, List<Dictionary<string, object>>>>(System.IO.File.ReadAllText(path), new JsonSerializerOptions()
+            var fitJsonFile = JsonSerializer.Deserialize<Dictionary<string, List<Dictionary<string, object>>>>(File.ReadAllText(path), new JsonSerializerOptions()
                 {
                     WriteIndented = true,
                         PropertyNameCaseInsensitive = true,
@@ -256,7 +258,7 @@ namespace FitFileEditor.ConsoleApp
                 throw new JsonException("Fit json file is in an invalid format");
             }
 
-            var profiles = JsonSerializer.Deserialize<Dictionary<string, ProfileMeta>>(System.IO.File.ReadAllText("profiles.json"), new JsonSerializerOptions()
+            var profiles = JsonSerializer.Deserialize<Dictionary<string, ProfileMeta>>(File.ReadAllText("profiles.json"), new JsonSerializerOptions()
                 {
                     WriteIndented = true,
                         PropertyNameCaseInsensitive = true,
@@ -270,7 +272,7 @@ namespace FitFileEditor.ConsoleApp
                 throw new JsonException("Profiles.json file is in an invalid format");
             }
 
-            var types = JsonSerializer.Deserialize<Dictionary<string, TypeMeta>>(System.IO.File.ReadAllText("types.json"), new JsonSerializerOptions()
+            var types = JsonSerializer.Deserialize<Dictionary<string, TypeMeta>>(File.ReadAllText("types.json"), new JsonSerializerOptions()
                 {
                     WriteIndented = true,
                         PropertyNameCaseInsensitive = true,
@@ -402,616 +404,616 @@ namespace FitFileEditor.ConsoleApp
         {
             switch (e.mesg.Num)
             {
-                case (ushort)MesgNum.FileId:
+                case MesgNum.FileId:
                     if (FileIdMesgs == null)
                         FileIdMesgs = new List<FileIdMesg>();
 
                     FileIdMesgs.Add(new FileIdMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.FileCreator:
+                case MesgNum.FileCreator:
                     if (FileCreatorMesgs == null)
                         FileCreatorMesgs = new List<FileCreatorMesg>();
 
                     FileCreatorMesgs.Add(new FileCreatorMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.TimestampCorrelation:
+                case MesgNum.TimestampCorrelation:
                     if (TimestampCorrelationMesgs == null)
                         TimestampCorrelationMesgs = new List<TimestampCorrelationMesg>();
 
                     TimestampCorrelationMesgs.Add(new TimestampCorrelationMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.Software:
+                case MesgNum.Software:
                     if (SoftwareMesgs == null)
                         SoftwareMesgs = new List<SoftwareMesg>();
 
                     SoftwareMesgs.Add(new SoftwareMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.SlaveDevice:
+                case MesgNum.SlaveDevice:
                     if (SlaveDeviceMesgs == null)
                         SlaveDeviceMesgs = new List<SlaveDeviceMesg>();
 
                     SlaveDeviceMesgs.Add(new SlaveDeviceMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.Capabilities:
+                case MesgNum.Capabilities:
                     if (CapabilitiesMesgs == null)
                         CapabilitiesMesgs = new List<CapabilitiesMesg>();
 
                     CapabilitiesMesgs.Add(new CapabilitiesMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.FileCapabilities:
+                case MesgNum.FileCapabilities:
                     if (FileCapabilitiesMesgs == null)
                         FileCapabilitiesMesgs = new List<FileCapabilitiesMesg>();
 
                     FileCapabilitiesMesgs.Add(new FileCapabilitiesMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.MesgCapabilities:
+                case MesgNum.MesgCapabilities:
                     if (MesgCapabilitiesMesgs == null)
                         MesgCapabilitiesMesgs = new List<MesgCapabilitiesMesg>();
 
                     MesgCapabilitiesMesgs.Add(new MesgCapabilitiesMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.FieldCapabilities:
+                case MesgNum.FieldCapabilities:
                     if (FieldCapabilitiesMesgs == null)
                         FieldCapabilitiesMesgs = new List<FieldCapabilitiesMesg>();
 
                     FieldCapabilitiesMesgs.Add(new FieldCapabilitiesMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.DeviceSettings:
+                case MesgNum.DeviceSettings:
                     if (DeviceSettingsMesgs == null)
                         DeviceSettingsMesgs = new List<DeviceSettingsMesg>();
 
                     DeviceSettingsMesgs.Add(new DeviceSettingsMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.UserProfile:
+                case MesgNum.UserProfile:
                     if (UserProfileMesgs == null)
                         UserProfileMesgs = new List<UserProfileMesg>();
 
                     UserProfileMesgs.Add(new UserProfileMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.HrmProfile:
+                case MesgNum.HrmProfile:
                     if (HrmProfileMesgs == null)
                         HrmProfileMesgs = new List<HrmProfileMesg>();
 
                     HrmProfileMesgs.Add(new HrmProfileMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.SdmProfile:
+                case MesgNum.SdmProfile:
                     if (SdmProfileMesgs == null)
                         SdmProfileMesgs = new List<SdmProfileMesg>();
 
                     SdmProfileMesgs.Add(new SdmProfileMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.BikeProfile:
+                case MesgNum.BikeProfile:
                     if (BikeProfileMesgs == null)
                         BikeProfileMesgs = new List<BikeProfileMesg>();
 
                     BikeProfileMesgs.Add(new BikeProfileMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.Connectivity:
+                case MesgNum.Connectivity:
                     if (ConnectivityMesgs == null)
                         ConnectivityMesgs = new List<ConnectivityMesg>();
 
                     ConnectivityMesgs.Add(new ConnectivityMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.WatchfaceSettings:
+                case MesgNum.WatchfaceSettings:
                     if (WatchfaceSettingsMesgs == null)
                         WatchfaceSettingsMesgs = new List<WatchfaceSettingsMesg>();
 
                     WatchfaceSettingsMesgs.Add(new WatchfaceSettingsMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.OhrSettings:
+                case MesgNum.OhrSettings:
                     if (OhrSettingsMesgs == null)
                         OhrSettingsMesgs = new List<OhrSettingsMesg>();
 
                     OhrSettingsMesgs.Add(new OhrSettingsMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.ZonesTarget:
+                case MesgNum.ZonesTarget:
                     if (ZonesTargetMesgs == null)
                         ZonesTargetMesgs = new List<ZonesTargetMesg>();
 
                     ZonesTargetMesgs.Add(new ZonesTargetMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.Sport:
+                case MesgNum.Sport:
                     if (SportMesgs == null)
                         SportMesgs = new List<SportMesg>();
 
                     SportMesgs.Add(new SportMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.HrZone:
+                case MesgNum.HrZone:
                     if (HrZoneMesgs == null)
                         HrZoneMesgs = new List<HrZoneMesg>();
 
                     HrZoneMesgs.Add(new HrZoneMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.SpeedZone:
+                case MesgNum.SpeedZone:
                     if (SpeedZoneMesgs == null)
                         SpeedZoneMesgs = new List<SpeedZoneMesg>();
 
                     SpeedZoneMesgs.Add(new SpeedZoneMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.CadenceZone:
+                case MesgNum.CadenceZone:
                     if (CadenceZoneMesgs == null)
                         CadenceZoneMesgs = new List<CadenceZoneMesg>();
 
                     CadenceZoneMesgs.Add(new CadenceZoneMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.PowerZone:
+                case MesgNum.PowerZone:
                     if (PowerZoneMesgs == null)
                         PowerZoneMesgs = new List<PowerZoneMesg>();
 
                     PowerZoneMesgs.Add(new PowerZoneMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.MetZone:
+                case MesgNum.MetZone:
                     if (MetZoneMesgs == null)
                         MetZoneMesgs = new List<MetZoneMesg>();
 
                     MetZoneMesgs.Add(new MetZoneMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.DiveSettings:
+                case MesgNum.DiveSettings:
                     if (DiveSettingsMesgs == null)
                         DiveSettingsMesgs = new List<DiveSettingsMesg>();
 
                     DiveSettingsMesgs.Add(new DiveSettingsMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.DiveAlarm:
+                case MesgNum.DiveAlarm:
                     if (DiveAlarmMesgs == null)
                         DiveAlarmMesgs = new List<DiveAlarmMesg>();
 
                     DiveAlarmMesgs.Add(new DiveAlarmMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.DiveGas:
+                case MesgNum.DiveGas:
                     if (DiveGasMesgs == null)
                         DiveGasMesgs = new List<DiveGasMesg>();
 
                     DiveGasMesgs.Add(new DiveGasMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.Goal:
+                case MesgNum.Goal:
                     if (GoalMesgs == null)
                         GoalMesgs = new List<GoalMesg>();
 
                     GoalMesgs.Add(new GoalMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.Activity:
+                case MesgNum.Activity:
                     if (ActivityMesgs == null)
                         ActivityMesgs = new List<ActivityMesg>();
 
                     ActivityMesgs.Add(new ActivityMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.Session:
+                case MesgNum.Session:
                     if (SessionMesgs == null)
                         SessionMesgs = new List<SessionMesg>();
 
                     SessionMesgs.Add(new SessionMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.Lap:
+                case MesgNum.Lap:
                     if (LapMesgs == null)
                         LapMesgs = new List<LapMesg>();
 
                     LapMesgs.Add(new LapMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.Length:
+                case MesgNum.Length:
                     if (LengthMesgs == null)
                         LengthMesgs = new List<LengthMesg>();
 
                     LengthMesgs.Add(new LengthMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.Record:
+                case MesgNum.Record:
                     if (RecordMesgs == null)
                         RecordMesgs = new List<RecordMesg>();
 
                     RecordMesgs.Add(new RecordMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.Event:
+                case MesgNum.Event:
                     if (EventMesgs == null)
                         EventMesgs = new List<EventMesg>();
 
                     EventMesgs.Add(new EventMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.DeviceInfo:
+                case MesgNum.DeviceInfo:
                     if (DeviceInfoMesgs == null)
                         DeviceInfoMesgs = new List<DeviceInfoMesg>();
 
                     DeviceInfoMesgs.Add(new DeviceInfoMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.TrainingFile:
+                case MesgNum.TrainingFile:
                     if (TrainingFileMesgs == null)
                         TrainingFileMesgs = new List<TrainingFileMesg>();
 
                     TrainingFileMesgs.Add(new TrainingFileMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.Hrv:
+                case MesgNum.Hrv:
                     if (HrvMesgs == null)
                         HrvMesgs = new List<HrvMesg>();
 
                     HrvMesgs.Add(new HrvMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.WeatherConditions:
+                case MesgNum.WeatherConditions:
                     if (WeatherConditionsMesgs == null)
                         WeatherConditionsMesgs = new List<WeatherConditionsMesg>();
 
                     WeatherConditionsMesgs.Add(new WeatherConditionsMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.WeatherAlert:
+                case MesgNum.WeatherAlert:
                     if (WeatherAlertMesgs == null)
                         WeatherAlertMesgs = new List<WeatherAlertMesg>();
 
                     WeatherAlertMesgs.Add(new WeatherAlertMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.GpsMetadata:
+                case MesgNum.GpsMetadata:
                     if (GpsMetadataMesgs == null)
                         GpsMetadataMesgs = new List<GpsMetadataMesg>();
 
                     GpsMetadataMesgs.Add(new GpsMetadataMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.CameraEvent:
+                case MesgNum.CameraEvent:
                     if (CameraEventMesgs == null)
                         CameraEventMesgs = new List<CameraEventMesg>();
 
                     CameraEventMesgs.Add(new CameraEventMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.GyroscopeData:
+                case MesgNum.GyroscopeData:
                     if (GyroscopeDataMesgs == null)
                         GyroscopeDataMesgs = new List<GyroscopeDataMesg>();
 
                     GyroscopeDataMesgs.Add(new GyroscopeDataMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.AccelerometerData:
+                case MesgNum.AccelerometerData:
                     if (AccelerometerDataMesgs == null)
                         AccelerometerDataMesgs = new List<AccelerometerDataMesg>();
 
                     AccelerometerDataMesgs.Add(new AccelerometerDataMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.MagnetometerData:
+                case MesgNum.MagnetometerData:
                     if (MagnetometerDataMesgs == null)
                         MagnetometerDataMesgs = new List<MagnetometerDataMesg>();
 
                     MagnetometerDataMesgs.Add(new MagnetometerDataMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.BarometerData:
+                case MesgNum.BarometerData:
                     if (BarometerDataMesgs == null)
                         BarometerDataMesgs = new List<BarometerDataMesg>();
 
                     BarometerDataMesgs.Add(new BarometerDataMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.ThreeDSensorCalibration:
+                case MesgNum.ThreeDSensorCalibration:
                     if (ThreeDSensorCalibrationMesgs == null)
                         ThreeDSensorCalibrationMesgs = new List<ThreeDSensorCalibrationMesg>();
 
                     ThreeDSensorCalibrationMesgs.Add(new ThreeDSensorCalibrationMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.OneDSensorCalibration:
+                case MesgNum.OneDSensorCalibration:
                     if (OneDSensorCalibrationMesgs == null)
                         OneDSensorCalibrationMesgs = new List<OneDSensorCalibrationMesg>();
 
                     OneDSensorCalibrationMesgs.Add(new OneDSensorCalibrationMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.VideoFrame:
+                case MesgNum.VideoFrame:
                     if (VideoFrameMesgs == null)
                         VideoFrameMesgs = new List<VideoFrameMesg>();
 
                     VideoFrameMesgs.Add(new VideoFrameMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.ObdiiData:
+                case MesgNum.ObdiiData:
                     if (ObdiiDataMesgs == null)
                         ObdiiDataMesgs = new List<ObdiiDataMesg>();
 
                     ObdiiDataMesgs.Add(new ObdiiDataMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.NmeaSentence:
+                case MesgNum.NmeaSentence:
                     if (NmeaSentenceMesgs == null)
                         NmeaSentenceMesgs = new List<NmeaSentenceMesg>();
 
                     NmeaSentenceMesgs.Add(new NmeaSentenceMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.AviationAttitude:
+                case MesgNum.AviationAttitude:
                     if (AviationAttitudeMesgs == null)
                         AviationAttitudeMesgs = new List<AviationAttitudeMesg>();
 
                     AviationAttitudeMesgs.Add(new AviationAttitudeMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.Video:
+                case MesgNum.Video:
                     if (VideoMesgs == null)
                         VideoMesgs = new List<VideoMesg>();
 
                     VideoMesgs.Add(new VideoMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.VideoTitle:
+                case MesgNum.VideoTitle:
                     if (VideoTitleMesgs == null)
                         VideoTitleMesgs = new List<VideoTitleMesg>();
 
                     VideoTitleMesgs.Add(new VideoTitleMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.VideoDescription:
+                case MesgNum.VideoDescription:
                     if (VideoDescriptionMesgs == null)
                         VideoDescriptionMesgs = new List<VideoDescriptionMesg>();
 
                     VideoDescriptionMesgs.Add(new VideoDescriptionMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.VideoClip:
+                case MesgNum.VideoClip:
                     if (VideoClipMesgs == null)
                         VideoClipMesgs = new List<VideoClipMesg>();
 
                     VideoClipMesgs.Add(new VideoClipMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.Set:
+                case MesgNum.Set:
                     if (SetMesgs == null)
                         SetMesgs = new List<SetMesg>();
 
                     SetMesgs.Add(new SetMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.Jump:
+                case MesgNum.Jump:
                     if (JumpMesgs == null)
                         JumpMesgs = new List<JumpMesg>();
 
                     JumpMesgs.Add(new JumpMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.Course:
+                case MesgNum.Course:
                     if (CourseMesgs == null)
                         CourseMesgs = new List<CourseMesg>();
 
                     CourseMesgs.Add(new CourseMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.CoursePoint:
+                case MesgNum.CoursePoint:
                     if (CoursePointMesgs == null)
                         CoursePointMesgs = new List<CoursePointMesg>();
 
                     CoursePointMesgs.Add(new CoursePointMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.SegmentId:
+                case MesgNum.SegmentId:
                     if (SegmentIdMesgs == null)
                         SegmentIdMesgs = new List<SegmentIdMesg>();
 
                     SegmentIdMesgs.Add(new SegmentIdMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.SegmentLeaderboardEntry:
+                case MesgNum.SegmentLeaderboardEntry:
                     if (SegmentLeaderboardEntryMesgs == null)
                         SegmentLeaderboardEntryMesgs = new List<SegmentLeaderboardEntryMesg>();
 
                     SegmentLeaderboardEntryMesgs.Add(new SegmentLeaderboardEntryMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.SegmentPoint:
+                case MesgNum.SegmentPoint:
                     if (SegmentPointMesgs == null)
                         SegmentPointMesgs = new List<SegmentPointMesg>();
 
                     SegmentPointMesgs.Add(new SegmentPointMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.SegmentLap:
+                case MesgNum.SegmentLap:
                     if (SegmentLapMesgs == null)
                         SegmentLapMesgs = new List<SegmentLapMesg>();
 
                     SegmentLapMesgs.Add(new SegmentLapMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.SegmentFile:
+                case MesgNum.SegmentFile:
                     if (SegmentFileMesgs == null)
                         SegmentFileMesgs = new List<SegmentFileMesg>();
 
                     SegmentFileMesgs.Add(new SegmentFileMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.Workout:
+                case MesgNum.Workout:
                     if (WorkoutMesgs == null)
                         WorkoutMesgs = new List<WorkoutMesg>();
 
                     WorkoutMesgs.Add(new WorkoutMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.WorkoutSession:
+                case MesgNum.WorkoutSession:
                     if (WorkoutSessionMesgs == null)
                         WorkoutSessionMesgs = new List<WorkoutSessionMesg>();
 
                     WorkoutSessionMesgs.Add(new WorkoutSessionMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.WorkoutStep:
+                case MesgNum.WorkoutStep:
                     if (WorkoutStepMesgs == null)
                         WorkoutStepMesgs = new List<WorkoutStepMesg>();
 
                     WorkoutStepMesgs.Add(new WorkoutStepMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.ExerciseTitle:
+                case MesgNum.ExerciseTitle:
                     if (ExerciseTitleMesgs == null)
                         ExerciseTitleMesgs = new List<ExerciseTitleMesg>();
 
                     ExerciseTitleMesgs.Add(new ExerciseTitleMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.Schedule:
+                case MesgNum.Schedule:
                     if (ScheduleMesgs == null)
                         ScheduleMesgs = new List<ScheduleMesg>();
 
                     ScheduleMesgs.Add(new ScheduleMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.Totals:
+                case MesgNum.Totals:
                     if (TotalsMesgs == null)
                         TotalsMesgs = new List<TotalsMesg>();
 
                     TotalsMesgs.Add(new TotalsMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.WeightScale:
+                case MesgNum.WeightScale:
                     if (WeightScaleMesgs == null)
                         WeightScaleMesgs = new List<WeightScaleMesg>();
 
                     WeightScaleMesgs.Add(new WeightScaleMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.BloodPressure:
+                case MesgNum.BloodPressure:
                     if (BloodPressureMesgs == null)
                         BloodPressureMesgs = new List<BloodPressureMesg>();
 
                     BloodPressureMesgs.Add(new BloodPressureMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.MonitoringInfo:
+                case MesgNum.MonitoringInfo:
                     if (MonitoringInfoMesgs == null)
                         MonitoringInfoMesgs = new List<MonitoringInfoMesg>();
 
                     MonitoringInfoMesgs.Add(new MonitoringInfoMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.Monitoring:
+                case MesgNum.Monitoring:
                     if (MonitoringMesgs == null)
                         MonitoringMesgs = new List<MonitoringMesg>();
 
                     MonitoringMesgs.Add(new MonitoringMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.Hr:
+                case MesgNum.Hr:
                     if (HrMesgs == null)
                         HrMesgs = new List<HrMesg>();
 
                     HrMesgs.Add(new HrMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.StressLevel:
+                case MesgNum.StressLevel:
                     if (StressLevelMesgs == null)
                         StressLevelMesgs = new List<StressLevelMesg>();
 
                     StressLevelMesgs.Add(new StressLevelMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.MemoGlob:
+                case MesgNum.MemoGlob:
                     if (MemoGlobMesgs == null)
                         MemoGlobMesgs = new List<MemoGlobMesg>();
 
                     MemoGlobMesgs.Add(new MemoGlobMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.AntChannelId:
+                case MesgNum.AntChannelId:
                     if (AntChannelIdMesgs == null)
                         AntChannelIdMesgs = new List<AntChannelIdMesg>();
 
                     AntChannelIdMesgs.Add(new AntChannelIdMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.AntRx:
+                case MesgNum.AntRx:
                     if (AntRxMesgs == null)
                         AntRxMesgs = new List<AntRxMesg>();
 
                     AntRxMesgs.Add(new AntRxMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.AntTx:
+                case MesgNum.AntTx:
                     if (AntTxMesgs == null)
                         AntTxMesgs = new List<AntTxMesg>();
 
                     AntTxMesgs.Add(new AntTxMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.ExdScreenConfiguration:
+                case MesgNum.ExdScreenConfiguration:
                     if (ExdScreenConfigurationMesgs == null)
                         ExdScreenConfigurationMesgs = new List<ExdScreenConfigurationMesg>();
 
                     ExdScreenConfigurationMesgs.Add(new ExdScreenConfigurationMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.ExdDataFieldConfiguration:
+                case MesgNum.ExdDataFieldConfiguration:
                     if (ExdDataFieldConfigurationMesgs == null)
                         ExdDataFieldConfigurationMesgs = new List<ExdDataFieldConfigurationMesg>();
 
                     ExdDataFieldConfigurationMesgs.Add(new ExdDataFieldConfigurationMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.ExdDataConceptConfiguration:
+                case MesgNum.ExdDataConceptConfiguration:
                     if (ExdDataConceptConfigurationMesgs == null)
                         ExdDataConceptConfigurationMesgs = new List<ExdDataConceptConfigurationMesg>();
 
                     ExdDataConceptConfigurationMesgs.Add(new ExdDataConceptConfigurationMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.FieldDescription:
+                case MesgNum.FieldDescription:
                     if (FieldDescriptionMesgs == null)
                         FieldDescriptionMesgs = new List<FieldDescriptionMesg>();
 
                     FieldDescriptionMesgs.Add(new FieldDescriptionMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.DeveloperDataId:
+                case MesgNum.DeveloperDataId:
                     if (DeveloperDataIdMesgs == null)
                         DeveloperDataIdMesgs = new List<DeveloperDataIdMesg>();
 
                     DeveloperDataIdMesgs.Add(new DeveloperDataIdMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.DiveSummary:
+                case MesgNum.DiveSummary:
                     if (DiveSummaryMesgs == null)
                         DiveSummaryMesgs = new List<DiveSummaryMesg>();
 
                     DiveSummaryMesgs.Add(new DiveSummaryMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.ClimbPro:
+                case MesgNum.ClimbPro:
                     if (ClimbProMesgs == null)
                         ClimbProMesgs = new List<ClimbProMesg>();
 
                     ClimbProMesgs.Add(new ClimbProMesg(e.mesg));
                     break;
 
-                case (ushort)MesgNum.Pad:
+                case MesgNum.Pad:
                     if (PadMesgs == null)
                         PadMesgs = new List<PadMesg>();
 

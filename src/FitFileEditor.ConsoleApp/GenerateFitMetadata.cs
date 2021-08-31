@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 
+using File = System.IO.File;
+
 using Dynastream.Fit;
 
 namespace FitFileEditor.ConsoleApp
@@ -88,7 +90,7 @@ namespace FitFileEditor.ConsoleApp
                 };
             });
 
-            System.IO.File.WriteAllText("profiles.json",
+            File.WriteAllText("profiles.json",
                 JsonSerializer.Serialize(profiles, new JsonSerializerOptions()
                 {
                     WriteIndented = true,
@@ -99,7 +101,7 @@ namespace FitFileEditor.ConsoleApp
                 })
             );
 
-            System.IO.File.WriteAllText("types.json",
+            File.WriteAllText("types.json",
                 JsonSerializer.Serialize(types, new JsonSerializerOptions()
                 {
                     WriteIndented = true,
