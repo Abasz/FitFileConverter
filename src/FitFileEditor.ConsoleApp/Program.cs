@@ -9,7 +9,10 @@ namespace FitFileEditor.ConsoleApp
     {
         static int Main(string[] args)
         {
-            return Parser.Default.ParseArguments<EditorOptions, ConverterOptions, SetupOptions>(args)
+            var parser = new Parser(with => with.HelpWriter = null);
+            var parserResult = parser.ParseArguments<EditorOptions, ConverterOptions, SetupOptions>(args);
+
+            return parserResult
                 .MapResult(
                     (EditorOptions options) =>
                     {
@@ -64,7 +67,11 @@ namespace FitFileEditor.ConsoleApp
                         return 0;
                     },
                     (SetupOptions options) => GenerateFitMetadata.Generate(),
-                    errors => 1
+                    errors =>
+                    {
+                        Console.WriteLine(HelperTextOptions.HelpText(parserResult));
+                        return 1;
+                    }
                 );
         }
     }
