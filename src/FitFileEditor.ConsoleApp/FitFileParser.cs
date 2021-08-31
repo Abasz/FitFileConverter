@@ -230,7 +230,7 @@ namespace FitFileEditor.ConsoleApp
             });
         }
 
-        public void FromJson(string path)
+        public void FromJson(string path, string? output)
         {
             var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(assembly => assembly?.FullName?.Contains("Fit,") ?? false).ElementAt(0);
 
@@ -238,7 +238,8 @@ namespace FitFileEditor.ConsoleApp
             {
                 throw new InvalidOperationException("Fit Assembly is not loaded");
             }
-            var pathEdited = $"{Path.GetFileNameWithoutExtension(path)}-edited.fit";
+
+            var pathEdited = output ?? $"{Path.GetFileNameWithoutExtension(path)}-edited.fit";
             var outputFile = new FileStream($"{pathEdited}", FileMode.Create, FileAccess.ReadWrite, FileShare.Read);
 
             var fitFileWriter = new Encode(ProtocolVersion.V20);
@@ -258,6 +259,9 @@ namespace FitFileEditor.ConsoleApp
                 throw new JsonException("Fit json file is in an invalid format");
             }
 
+            if (!File.Exists("profiles.json"))
+                GenerateFitMetadata.Generate();
+
             var profiles = JsonSerializer.Deserialize<Dictionary<string, ProfileMeta>>(File.ReadAllText("profiles.json"), new JsonSerializerOptions()
                 {
                     WriteIndented = true,
@@ -271,6 +275,9 @@ namespace FitFileEditor.ConsoleApp
             {
                 throw new JsonException("Profiles.json file is in an invalid format");
             }
+
+            if (!File.Exists("types.json"))
+                GenerateFitMetadata.Generate();
 
             var types = JsonSerializer.Deserialize<Dictionary<string, TypeMeta>>(File.ReadAllText("types.json"), new JsonSerializerOptions()
                 {

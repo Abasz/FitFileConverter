@@ -20,11 +20,11 @@ namespace FitFileEditor.ConsoleApp
             FitFileParser.ReadFitFile(FitFilePath);
         }
 
-        public void Edit(bool shouldMultiplyCadence = true)
+        public void Edit(string? output, bool shouldMultiplyCadence = true)
         {
             Console.WriteLine($"Editing FIT file: {FitFilePath}");
             MakeChanges(shouldMultiplyCadence);
-            FitFileParser.WriteFitFile($"{Path.GetFileNameWithoutExtension(FitFilePath)}-edited.fit");
+            FitFileParser.WriteFitFile(output ?? $"{Path.GetFileNameWithoutExtension(FitFilePath)}-edited.fit");
         }
 
         public string ToJson()
