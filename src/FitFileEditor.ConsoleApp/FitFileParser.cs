@@ -5,233 +5,137 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 
-using File = System.IO.File;
-
 using Dynastream.Fit;
 
 using FitFileEditor.Libs;
+
+using File = System.IO.File;
 
 namespace FitFileEditor.ConsoleApp
 {
     public class FitFileParser
     {
-        public List<FileIdMesg> ? FileIdMesgs { get; private set; }
-        public List<FileCreatorMesg> ? FileCreatorMesgs { get; private set; }
-        public List<TimestampCorrelationMesg> ? TimestampCorrelationMesgs { get; private set; }
-        public List<SoftwareMesg> ? SoftwareMesgs { get; private set; }
-        public List<SlaveDeviceMesg> ? SlaveDeviceMesgs { get; private set; }
-        public List<CapabilitiesMesg> ? CapabilitiesMesgs { get; private set; }
-        public List<FileCapabilitiesMesg> ? FileCapabilitiesMesgs { get; private set; }
-        public List<MesgCapabilitiesMesg> ? MesgCapabilitiesMesgs { get; private set; }
-        public List<FieldCapabilitiesMesg> ? FieldCapabilitiesMesgs { get; private set; }
-        public List<DeviceSettingsMesg> ? DeviceSettingsMesgs { get; private set; }
-        public List<UserProfileMesg> ? UserProfileMesgs { get; private set; }
-        public List<HrmProfileMesg> ? HrmProfileMesgs { get; private set; }
-        public List<SdmProfileMesg> ? SdmProfileMesgs { get; private set; }
-        public List<BikeProfileMesg> ? BikeProfileMesgs { get; private set; }
-        public List<ConnectivityMesg> ? ConnectivityMesgs { get; private set; }
-        public List<WatchfaceSettingsMesg> ? WatchfaceSettingsMesgs { get; private set; }
-        public List<OhrSettingsMesg> ? OhrSettingsMesgs { get; private set; }
-        public List<ZonesTargetMesg> ? ZonesTargetMesgs { get; private set; }
-        public List<SportMesg> ? SportMesgs { get; private set; }
-        public List<HrZoneMesg> ? HrZoneMesgs { get; private set; }
-        public List<SpeedZoneMesg> ? SpeedZoneMesgs { get; private set; }
-        public List<CadenceZoneMesg> ? CadenceZoneMesgs { get; private set; }
-        public List<PowerZoneMesg> ? PowerZoneMesgs { get; private set; }
-        public List<MetZoneMesg> ? MetZoneMesgs { get; private set; }
-        public List<DiveSettingsMesg> ? DiveSettingsMesgs { get; private set; }
-        public List<DiveAlarmMesg> ? DiveAlarmMesgs { get; private set; }
-        public List<DiveGasMesg> ? DiveGasMesgs { get; private set; }
-        public List<GoalMesg> ? GoalMesgs { get; private set; }
-        public List<ActivityMesg> ? ActivityMesgs { get; private set; }
-        public List<SessionMesg> ? SessionMesgs { get; private set; }
-        public List<LapMesg> ? LapMesgs { get; private set; }
-        public List<LengthMesg> ? LengthMesgs { get; private set; }
-        public List<RecordMesg> ? RecordMesgs { get; private set; }
-        public List<EventMesg> ? EventMesgs { get; private set; }
-        public List<DeviceInfoMesg> ? DeviceInfoMesgs { get; private set; }
-        public List<TrainingFileMesg> ? TrainingFileMesgs { get; private set; }
-        public List<HrvMesg> ? HrvMesgs { get; private set; }
-        public List<WeatherConditionsMesg> ? WeatherConditionsMesgs { get; private set; }
-        public List<WeatherAlertMesg> ? WeatherAlertMesgs { get; private set; }
-        public List<GpsMetadataMesg> ? GpsMetadataMesgs { get; private set; }
-        public List<CameraEventMesg> ? CameraEventMesgs { get; private set; }
-        public List<GyroscopeDataMesg> ? GyroscopeDataMesgs { get; private set; }
-        public List<AccelerometerDataMesg> ? AccelerometerDataMesgs { get; private set; }
-        public List<MagnetometerDataMesg> ? MagnetometerDataMesgs { get; private set; }
-        public List<BarometerDataMesg> ? BarometerDataMesgs { get; private set; }
-        public List<ThreeDSensorCalibrationMesg> ? ThreeDSensorCalibrationMesgs { get; private set; }
-        public List<OneDSensorCalibrationMesg> ? OneDSensorCalibrationMesgs { get; private set; }
-        public List<VideoFrameMesg> ? VideoFrameMesgs { get; private set; }
-        public List<ObdiiDataMesg> ? ObdiiDataMesgs { get; private set; }
-        public List<NmeaSentenceMesg> ? NmeaSentenceMesgs { get; private set; }
-        public List<AviationAttitudeMesg> ? AviationAttitudeMesgs { get; private set; }
-        public List<VideoMesg> ? VideoMesgs { get; private set; }
-        public List<VideoTitleMesg> ? VideoTitleMesgs { get; private set; }
-        public List<VideoDescriptionMesg> ? VideoDescriptionMesgs { get; private set; }
-        public List<VideoClipMesg> ? VideoClipMesgs { get; private set; }
-        public List<SetMesg> ? SetMesgs { get; private set; }
-        public List<JumpMesg> ? JumpMesgs { get; private set; }
-        public List<CourseMesg> ? CourseMesgs { get; private set; }
-        public List<CoursePointMesg> ? CoursePointMesgs { get; private set; }
-        public List<SegmentIdMesg> ? SegmentIdMesgs { get; private set; }
-        public List<SegmentLeaderboardEntryMesg> ? SegmentLeaderboardEntryMesgs { get; private set; }
-        public List<SegmentPointMesg> ? SegmentPointMesgs { get; private set; }
-        public List<SegmentLapMesg> ? SegmentLapMesgs { get; private set; }
-        public List<SegmentFileMesg> ? SegmentFileMesgs { get; private set; }
-        public List<WorkoutMesg> ? WorkoutMesgs { get; private set; }
-        public List<WorkoutSessionMesg> ? WorkoutSessionMesgs { get; private set; }
-        public List<WorkoutStepMesg> ? WorkoutStepMesgs { get; private set; }
-        public List<ExerciseTitleMesg> ? ExerciseTitleMesgs { get; private set; }
-        public List<ScheduleMesg> ? ScheduleMesgs { get; private set; }
-        public List<TotalsMesg> ? TotalsMesgs { get; private set; }
-        public List<WeightScaleMesg> ? WeightScaleMesgs { get; private set; }
-        public List<BloodPressureMesg> ? BloodPressureMesgs { get; private set; }
-        public List<MonitoringInfoMesg> ? MonitoringInfoMesgs { get; private set; }
-        public List<MonitoringMesg> ? MonitoringMesgs { get; private set; }
-        public List<HrMesg> ? HrMesgs { get; private set; }
-        public List<StressLevelMesg> ? StressLevelMesgs { get; private set; }
-        public List<MemoGlobMesg> ? MemoGlobMesgs { get; private set; }
-        public List<AntChannelIdMesg> ? AntChannelIdMesgs { get; private set; }
-        public List<AntRxMesg> ? AntRxMesgs { get; private set; }
-        public List<AntTxMesg> ? AntTxMesgs { get; private set; }
-        public List<ExdScreenConfigurationMesg> ? ExdScreenConfigurationMesgs { get; private set; }
-        public List<ExdDataFieldConfigurationMesg> ? ExdDataFieldConfigurationMesgs { get; private set; }
-        public List<ExdDataConceptConfigurationMesg> ? ExdDataConceptConfigurationMesgs { get; private set; }
-        public List<FieldDescriptionMesg> ? FieldDescriptionMesgs { get; private set; }
-        public List<DeveloperDataIdMesg> ? DeveloperDataIdMesgs { get; private set; }
-        public List<DiveSummaryMesg> ? DiveSummaryMesgs { get; private set; }
-        public List<ClimbProMesg> ? ClimbProMesgs { get; private set; }
-        public List<PadMesg> ? PadMesgs { get; private set; }
-        public List<Mesg> ? UnknownMesgs { get; private set; }
+        private FitFileParser() {}
 
-        public void ReadFitFile(string fitFilePath)
+        public IEnumerable<FileIdMesg> FileIdMesgs { get; private set; } = new List<FileIdMesg>();
+        public IEnumerable<FileCreatorMesg> FileCreatorMesgs { get; private set; } = new List<FileCreatorMesg>();
+        public IEnumerable<TimestampCorrelationMesg> TimestampCorrelationMesgs { get; private set; } = new List<TimestampCorrelationMesg>();
+        public IEnumerable<SoftwareMesg> SoftwareMesgs { get; private set; } = new List<SoftwareMesg>();
+        public IEnumerable<SlaveDeviceMesg> SlaveDeviceMesgs { get; private set; } = new List<SlaveDeviceMesg>();
+        public IEnumerable<CapabilitiesMesg> CapabilitiesMesgs { get; private set; } = new List<CapabilitiesMesg>();
+        public IEnumerable<FileCapabilitiesMesg> FileCapabilitiesMesgs { get; private set; } = new List<FileCapabilitiesMesg>();
+        public IEnumerable<MesgCapabilitiesMesg> MesgCapabilitiesMesgs { get; private set; } = new List<MesgCapabilitiesMesg>();
+        public IEnumerable<FieldCapabilitiesMesg> FieldCapabilitiesMesgs { get; private set; } = new List<FieldCapabilitiesMesg>();
+        public IEnumerable<DeviceSettingsMesg> DeviceSettingsMesgs { get; private set; } = new List<DeviceSettingsMesg>();
+        public IEnumerable<UserProfileMesg> UserProfileMesgs { get; private set; } = new List<UserProfileMesg>();
+        public IEnumerable<HrmProfileMesg> HrmProfileMesgs { get; private set; } = new List<HrmProfileMesg>();
+        public IEnumerable<SdmProfileMesg> SdmProfileMesgs { get; private set; } = new List<SdmProfileMesg>();
+        public IEnumerable<BikeProfileMesg> BikeProfileMesgs { get; private set; } = new List<BikeProfileMesg>();
+        public IEnumerable<ConnectivityMesg> ConnectivityMesgs { get; private set; } = new List<ConnectivityMesg>();
+        public IEnumerable<WatchfaceSettingsMesg> WatchfaceSettingsMesgs { get; private set; } = new List<WatchfaceSettingsMesg>();
+        public IEnumerable<OhrSettingsMesg> OhrSettingsMesgs { get; private set; } = new List<OhrSettingsMesg>();
+        public IEnumerable<ZonesTargetMesg> ZonesTargetMesgs { get; private set; } = new List<ZonesTargetMesg>();
+        public IEnumerable<SportMesg> SportMesgs { get; private set; } = new List<SportMesg>();
+        public IEnumerable<HrZoneMesg> HrZoneMesgs { get; private set; } = new List<HrZoneMesg>();
+        public IEnumerable<SpeedZoneMesg> SpeedZoneMesgs { get; private set; } = new List<SpeedZoneMesg>();
+        public IEnumerable<CadenceZoneMesg> CadenceZoneMesgs { get; private set; } = new List<CadenceZoneMesg>();
+        public IEnumerable<PowerZoneMesg> PowerZoneMesgs { get; private set; } = new List<PowerZoneMesg>();
+        public IEnumerable<MetZoneMesg> MetZoneMesgs { get; private set; } = new List<MetZoneMesg>();
+        public IEnumerable<DiveSettingsMesg> DiveSettingsMesgs { get; private set; } = new List<DiveSettingsMesg>();
+        public IEnumerable<DiveAlarmMesg> DiveAlarmMesgs { get; private set; } = new List<DiveAlarmMesg>();
+        public IEnumerable<DiveGasMesg> DiveGasMesgs { get; private set; } = new List<DiveGasMesg>();
+        public IEnumerable<GoalMesg> GoalMesgs { get; private set; } = new List<GoalMesg>();
+        public IEnumerable<ActivityMesg> ActivityMesgs { get; private set; } = new List<ActivityMesg>();
+        public IEnumerable<SessionMesg> SessionMesgs { get; private set; } = new List<SessionMesg>();
+        public IEnumerable<LapMesg> LapMesgs { get; private set; } = new List<LapMesg>();
+        public IEnumerable<LengthMesg> LengthMesgs { get; private set; } = new List<LengthMesg>();
+        public IEnumerable<RecordMesg> RecordMesgs { get; private set; } = new List<RecordMesg>();
+        public IEnumerable<EventMesg> EventMesgs { get; private set; } = new List<EventMesg>();
+        public IEnumerable<DeviceInfoMesg> DeviceInfoMesgs { get; private set; } = new List<DeviceInfoMesg>();
+        public IEnumerable<TrainingFileMesg> TrainingFileMesgs { get; private set; } = new List<TrainingFileMesg>();
+        public IEnumerable<HrvMesg> HrvMesgs { get; private set; } = new List<HrvMesg>();
+        public IEnumerable<WeatherConditionsMesg> WeatherConditionsMesgs { get; private set; } = new List<WeatherConditionsMesg>();
+        public IEnumerable<WeatherAlertMesg> WeatherAlertMesgs { get; private set; } = new List<WeatherAlertMesg>();
+        public IEnumerable<GpsMetadataMesg> GpsMetadataMesgs { get; private set; } = new List<GpsMetadataMesg>();
+        public IEnumerable<CameraEventMesg> CameraEventMesgs { get; private set; } = new List<CameraEventMesg>();
+        public IEnumerable<GyroscopeDataMesg> GyroscopeDataMesgs { get; private set; } = new List<GyroscopeDataMesg>();
+        public IEnumerable<AccelerometerDataMesg> AccelerometerDataMesgs { get; private set; } = new List<AccelerometerDataMesg>();
+        public IEnumerable<MagnetometerDataMesg> MagnetometerDataMesgs { get; private set; } = new List<MagnetometerDataMesg>();
+        public IEnumerable<BarometerDataMesg> BarometerDataMesgs { get; private set; } = new List<BarometerDataMesg>();
+        public IEnumerable<ThreeDSensorCalibrationMesg> ThreeDSensorCalibrationMesgs { get; private set; } = new List<ThreeDSensorCalibrationMesg>();
+        public IEnumerable<OneDSensorCalibrationMesg> OneDSensorCalibrationMesgs { get; private set; } = new List<OneDSensorCalibrationMesg>();
+        public IEnumerable<VideoFrameMesg> VideoFrameMesgs { get; private set; } = new List<VideoFrameMesg>();
+        public IEnumerable<ObdiiDataMesg> ObdiiDataMesgs { get; private set; } = new List<ObdiiDataMesg>();
+        public IEnumerable<NmeaSentenceMesg> NmeaSentenceMesgs { get; private set; } = new List<NmeaSentenceMesg>();
+        public IEnumerable<AviationAttitudeMesg> AviationAttitudeMesgs { get; private set; } = new List<AviationAttitudeMesg>();
+        public IEnumerable<VideoMesg> VideoMesgs { get; private set; } = new List<VideoMesg>();
+        public IEnumerable<VideoTitleMesg> VideoTitleMesgs { get; private set; } = new List<VideoTitleMesg>();
+        public IEnumerable<VideoDescriptionMesg> VideoDescriptionMesgs { get; private set; } = new List<VideoDescriptionMesg>();
+        public IEnumerable<VideoClipMesg> VideoClipMesgs { get; private set; } = new List<VideoClipMesg>();
+        public IEnumerable<SetMesg> SetMesgs { get; private set; } = new List<SetMesg>();
+        public IEnumerable<JumpMesg> JumpMesgs { get; private set; } = new List<JumpMesg>();
+        public IEnumerable<CourseMesg> CourseMesgs { get; private set; } = new List<CourseMesg>();
+        public IEnumerable<CoursePointMesg> CoursePointMesgs { get; private set; } = new List<CoursePointMesg>();
+        public IEnumerable<SegmentIdMesg> SegmentIdMesgs { get; private set; } = new List<SegmentIdMesg>();
+        public IEnumerable<SegmentLeaderboardEntryMesg> SegmentLeaderboardEntryMesgs { get; private set; } = new List<SegmentLeaderboardEntryMesg>();
+        public IEnumerable<SegmentPointMesg> SegmentPointMesgs { get; private set; } = new List<SegmentPointMesg>();
+        public IEnumerable<SegmentLapMesg> SegmentLapMesgs { get; private set; } = new List<SegmentLapMesg>();
+        public IEnumerable<SegmentFileMesg> SegmentFileMesgs { get; private set; } = new List<SegmentFileMesg>();
+        public IEnumerable<WorkoutMesg> WorkoutMesgs { get; private set; } = new List<WorkoutMesg>();
+        public IEnumerable<WorkoutSessionMesg> WorkoutSessionMesgs { get; private set; } = new List<WorkoutSessionMesg>();
+        public IEnumerable<WorkoutStepMesg> WorkoutStepMesgs { get; private set; } = new List<WorkoutStepMesg>();
+        public IEnumerable<ExerciseTitleMesg> ExerciseTitleMesgs { get; private set; } = new List<ExerciseTitleMesg>();
+        public IEnumerable<ScheduleMesg> ScheduleMesgs { get; private set; } = new List<ScheduleMesg>();
+        public IEnumerable<TotalsMesg> TotalsMesgs { get; private set; } = new List<TotalsMesg>();
+        public IEnumerable<WeightScaleMesg> WeightScaleMesgs { get; private set; } = new List<WeightScaleMesg>();
+        public IEnumerable<BloodPressureMesg> BloodPressureMesgs { get; private set; } = new List<BloodPressureMesg>();
+        public IEnumerable<MonitoringInfoMesg> MonitoringInfoMesgs { get; private set; } = new List<MonitoringInfoMesg>();
+        public IEnumerable<MonitoringMesg> MonitoringMesgs { get; private set; } = new List<MonitoringMesg>();
+        public IEnumerable<HrMesg> HrMesgs { get; private set; } = new List<HrMesg>();
+        public IEnumerable<StressLevelMesg> StressLevelMesgs { get; private set; } = new List<StressLevelMesg>();
+        public IEnumerable<MemoGlobMesg> MemoGlobMesgs { get; private set; } = new List<MemoGlobMesg>();
+        public IEnumerable<AntChannelIdMesg> AntChannelIdMesgs { get; private set; } = new List<AntChannelIdMesg>();
+        public IEnumerable<AntRxMesg> AntRxMesgs { get; private set; } = new List<AntRxMesg>();
+        public IEnumerable<AntTxMesg> AntTxMesgs { get; private set; } = new List<AntTxMesg>();
+        public IEnumerable<ExdScreenConfigurationMesg> ExdScreenConfigurationMesgs { get; private set; } = new List<ExdScreenConfigurationMesg>();
+        public IEnumerable<ExdDataFieldConfigurationMesg> ExdDataFieldConfigurationMesgs { get; private set; } = new List<ExdDataFieldConfigurationMesg>();
+        public IEnumerable<ExdDataConceptConfigurationMesg> ExdDataConceptConfigurationMesgs { get; private set; } = new List<ExdDataConceptConfigurationMesg>();
+        public IEnumerable<FieldDescriptionMesg> FieldDescriptionMesgs { get; private set; } = new List<FieldDescriptionMesg>();
+        public IEnumerable<DeveloperDataIdMesg> DeveloperDataIdMesgs { get; private set; } = new List<DeveloperDataIdMesg>();
+        public IEnumerable<DiveSummaryMesg> DiveSummaryMesgs { get; private set; } = new List<DiveSummaryMesg>();
+        public IEnumerable<ClimbProMesg> ClimbProMesgs { get; private set; } = new List<ClimbProMesg>();
+        public IEnumerable<PadMesg> PadMesgs { get; private set; } = new List<PadMesg>();
+        public IEnumerable<Mesg> UnknownMesgs { get; private set; } = new List<Mesg>();
+
+        public static FitFileParser FromFit(string fitFilePath)
         {
+            if (!File.Exists(fitFilePath))
+                throw new FileNotFoundException("Invalid Fit file path");
+
+            var fitFileModel = new FitFileParser();
             var fitFileReader = new Decode();
-            fitFileReader.MesgEvent += OnMesg;
+            fitFileReader.MesgEvent += fitFileModel.ProcessMesgs;
 
             var fitSource = new FileStream(fitFilePath, FileMode.Open);
             fitFileReader.Read(fitSource);
             fitSource.Close();
+
+            Console.WriteLine($"Decoded FIT file \"{fitFilePath}\"");
+
+            return fitFileModel;
         }
 
-        public void WriteFitFile(string fitFilePath)
+        public static FitFileParser FromJson(string path, string fitFilePath, string? outputPath = null)
         {
-            var outputFile = new FileStream(fitFilePath, FileMode.Create, FileAccess.ReadWrite, FileShare.Read);
-            var fitFileWriter = new Encode(ProtocolVersion.V20);
-            fitFileWriter.Open(outputFile);
-
-            var properties = typeof(FitFileParser).GetProperties();
-            foreach (var property in properties)
-            {
-                var mesgs = (IEnumerable<dynamic> ? )property.GetValue(this);
-                if (mesgs is not null)
-                    foreach (var mesg in mesgs)
-                    {
-                        fitFileWriter.Write(mesg);
-                    }
-            }
-
-            fitFileWriter.Close();
-            outputFile.Close();
-            Console.WriteLine($"Encoded FIT file {fitFilePath}");
+            var fitFileModel = FromFit(fitFilePath);
+            return FromJson(path, fitFileModel, outputPath);
         }
 
-        public string ToJson()
+        public static FitFileParser FromJson(string path, FitFileParser? fitFileModel = null, string? outputPath = null)
         {
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(assembly => assembly.FullName!.Contains("Fit,")).ElementAt(0);
+            if (!File.Exists(path))
+                throw new FileNotFoundException("Invalid Json file path");
 
-            var newobject = typeof(FitFileParser).GetProperties()
-                .Where(prop => prop.GetValue(this)is not null)
-                .Select(prop => ((IEnumerable<dynamic>)prop.GetValue(this) !)
-                    .Select(mesg => new Mesg(mesg))
-                    .ToList())
-                .Aggregate(new List<List<Mesg>>(), (accumulator, mesgs) =>
-                {
-                    if (mesgs.ElementAt(0).Name.ToLower() == "unknown")
-                    {
-                        var unkownMesgGroups = mesgs.Select(mesg =>
-                        {
-                            mesg.Name = $"{mesg.Name}-{mesg.Num}";
-
-                            return mesg;
-                        }).GroupBy(mesg => mesg.Name);
-
-                        accumulator.AddRange(unkownMesgGroups.Select(group =>
-                            group
-                            .Aggregate(new List<Mesg>(), (accumulator, mesg) =>
-                            {
-                                accumulator.Add(mesg);
-                                return accumulator;
-                            })).ToList());
-                    }
-                    else
-                    {
-                        accumulator.Add(mesgs);
-                    }
-
-                    return accumulator;
-                }).ToDictionary(
-                    mesgs => mesgs[0].Name,
-                    mesgs => mesgs.Select(mesg =>
-                        mesg.Fields.ToDictionary(field =>
-                            field.Name.ToLower() == "unknown" ?
-                            $"{field.Name}-{field.Num}" : field.Name,
-                            field =>
-                            {
-                                var fieldValue = field.GetValue();
-                                var fieldType = new Field(field).ProfileType.ToString();
-
-                                if (fieldValue is byte[] stringValue)
-                                    return Encoding.UTF8.GetString(stringValue).TrimEnd('\0');
-
-                                if (field.IsNumeric())
-                                {
-                                    if (field.GetUnits() == "semicircles")
-                                    {
-                                        var degrees = (int)fieldValue * (180 / Math.Pow(2, 31));
-
-                                        return degrees;
-                                    }
-
-                                    if (fieldType == "DateTime" ||
-                                        fieldType == "LocalDateTime")
-                                    {
-                                        var date = DateTimeOffset.FromUnixTimeSeconds((uint)fieldValue + 631065600).UtcDateTime;
-
-                                        return date;
-                                    };
-
-                                    return fieldValue;
-                                }
-
-                                var enumValue = fieldValue ?? 0xFF;
-                                var type = assemblies.GetType($"Dynastream.Fit.{fieldType ?? "Enum"}");
-                                if (type is null)
-                                {
-                                    return fieldValue;
-                                }
-
-                                return Enum.ToObject(type!, enumValue)?.ToString()?.ToCamelCase() ?? fieldValue;
-                            }
-                        )
-                        .Concat(mesg.DeveloperFields.ToDictionary(field =>
-                            field.Name.ToLower() == "unknown" ? $"{field.Name}-{field.Num}" : field.Name, field => (object?)field.GetValue()))
-                        .ToDictionary(k => k.Key, k => k.Value))
-                    .ToList());
-
-            return JsonSerializer.Serialize(newobject, new JsonSerializerOptions()
-            {
-                WriteIndented = true,
-                    PropertyNameCaseInsensitive = true,
-                    IgnoreNullValues = true,
-                    DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
-                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            });
-        }
-
-        public void FromJson(string path, string? output)
-        {
             var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(assembly => assembly?.FullName?.Contains("Fit,") ?? false).ElementAt(0);
 
             if (assemblies is null)
@@ -239,7 +143,7 @@ namespace FitFileEditor.ConsoleApp
                 throw new InvalidOperationException("Fit Assembly is not loaded");
             }
 
-            var pathEdited = output ?? $"{Path.GetFileNameWithoutExtension(path)}-edited.fit";
+            var pathEdited = outputPath ?? $"{Path.GetFileNameWithoutExtension(path)}-edited.fit";
             var outputFile = new FileStream($"{pathEdited}", FileMode.Create, FileAccess.ReadWrite, FileShare.Read);
 
             var fitFileWriter = new Encode(ProtocolVersion.V20);
@@ -260,7 +164,7 @@ namespace FitFileEditor.ConsoleApp
             }
 
             if (!File.Exists("profiles.json"))
-                GenerateFitMetadata.Generate(true, false);
+                GenerateFitMetadata.Generate(ShouldGenerateProfiles: true);
 
             var profiles = JsonSerializer.Deserialize<Dictionary<string, ProfileMeta>>(File.ReadAllText("profiles.json"), new JsonSerializerOptions()
                 {
@@ -277,7 +181,7 @@ namespace FitFileEditor.ConsoleApp
             }
 
             if (!File.Exists("types.json"))
-                GenerateFitMetadata.Generate(false, true);
+                GenerateFitMetadata.Generate(ShouldGenerateTypes: true);
 
             var types = JsonSerializer.Deserialize<Dictionary<string, TypeMeta>>(File.ReadAllText("types.json"), new JsonSerializerOptions()
                 {
@@ -302,7 +206,7 @@ namespace FitFileEditor.ConsoleApp
                     if (key.Contains("unknown"))
                     {
                         var mesgNum = Convert.ToUInt16(key.Replace("unknown-", ""));
-                        var unknownMesgs = UnknownMesgs?.Where(mesg => mesg.Num == mesgNum);
+                        var unknownMesgs = fitFileModel?.UnknownMesgs.Where(mesg => mesg.Num == mesgNum);
                         if (unknownMesgs is null)
                             continue;
 
@@ -318,7 +222,9 @@ namespace FitFileEditor.ConsoleApp
                         var propertyValue = property.Value?.ToString();
                         if (property.Key.Contains("unknown"))
                         {
-                            IEnumerable<Mesg> ? currentMesgs = (IEnumerable<Mesg> ? )typeof(FitFileParser)?.GetProperty($"{key.ToFirstUpper()}Mesgs")?.GetValue(this);
+                            IEnumerable<Mesg> ? currentMesgs = null;
+                            if (fitFileModel is not null)
+                                currentMesgs = (IEnumerable<Mesg> ? )typeof(FitFileParser)?.GetProperty($"{key.ToFirstUpper()}Mesgs")?.GetValue(fitFileModel);
 
                             if ((currentMesgs is not null && currentMesgs.Any()) || key.Contains("unknown"))
                             {
@@ -404,1267 +310,730 @@ namespace FitFileEditor.ConsoleApp
 
             fitFileWriter.Close();
             outputFile.Close();
-            Console.WriteLine($"Encoded FIT file {pathEdited}");
+            Console.WriteLine($"Decoded \"{path}\" file to \"{pathEdited}\"");
+
+            return FromFit(pathEdited);
         }
 
-        public void OnMesg(object sender, MesgEventArgs e)
+        private void ProcessMesgs(object sender, MesgEventArgs e)
         {
             switch (e.mesg.Num)
             {
                 case MesgNum.FileId:
-                    if (FileIdMesgs == null)
-                        FileIdMesgs = new List<FileIdMesg>();
-
-                    FileIdMesgs.Add(new FileIdMesg(e.mesg));
+                    FileIdMesgs = FileIdMesgs.Append(new FileIdMesg(e.mesg));
                     break;
 
                 case MesgNum.FileCreator:
-                    if (FileCreatorMesgs == null)
-                        FileCreatorMesgs = new List<FileCreatorMesg>();
-
-                    FileCreatorMesgs.Add(new FileCreatorMesg(e.mesg));
+                    FileCreatorMesgs = FileCreatorMesgs.Append(new FileCreatorMesg(e.mesg));
                     break;
 
                 case MesgNum.TimestampCorrelation:
-                    if (TimestampCorrelationMesgs == null)
-                        TimestampCorrelationMesgs = new List<TimestampCorrelationMesg>();
-
-                    TimestampCorrelationMesgs.Add(new TimestampCorrelationMesg(e.mesg));
+                    TimestampCorrelationMesgs = TimestampCorrelationMesgs.Append(new TimestampCorrelationMesg(e.mesg));
                     break;
 
                 case MesgNum.Software:
-                    if (SoftwareMesgs == null)
-                        SoftwareMesgs = new List<SoftwareMesg>();
-
-                    SoftwareMesgs.Add(new SoftwareMesg(e.mesg));
+                    SoftwareMesgs = SoftwareMesgs.Append(new SoftwareMesg(e.mesg));
                     break;
 
                 case MesgNum.SlaveDevice:
-                    if (SlaveDeviceMesgs == null)
-                        SlaveDeviceMesgs = new List<SlaveDeviceMesg>();
-
-                    SlaveDeviceMesgs.Add(new SlaveDeviceMesg(e.mesg));
+                    SlaveDeviceMesgs = SlaveDeviceMesgs.Append(new SlaveDeviceMesg(e.mesg));
                     break;
 
                 case MesgNum.Capabilities:
-                    if (CapabilitiesMesgs == null)
-                        CapabilitiesMesgs = new List<CapabilitiesMesg>();
-
-                    CapabilitiesMesgs.Add(new CapabilitiesMesg(e.mesg));
+                    CapabilitiesMesgs = CapabilitiesMesgs.Append(new CapabilitiesMesg(e.mesg));
                     break;
 
                 case MesgNum.FileCapabilities:
-                    if (FileCapabilitiesMesgs == null)
-                        FileCapabilitiesMesgs = new List<FileCapabilitiesMesg>();
-
-                    FileCapabilitiesMesgs.Add(new FileCapabilitiesMesg(e.mesg));
+                    FileCapabilitiesMesgs = FileCapabilitiesMesgs.Append(new FileCapabilitiesMesg(e.mesg));
                     break;
 
                 case MesgNum.MesgCapabilities:
-                    if (MesgCapabilitiesMesgs == null)
-                        MesgCapabilitiesMesgs = new List<MesgCapabilitiesMesg>();
-
-                    MesgCapabilitiesMesgs.Add(new MesgCapabilitiesMesg(e.mesg));
+                    MesgCapabilitiesMesgs = MesgCapabilitiesMesgs.Append(new MesgCapabilitiesMesg(e.mesg));
                     break;
 
                 case MesgNum.FieldCapabilities:
-                    if (FieldCapabilitiesMesgs == null)
-                        FieldCapabilitiesMesgs = new List<FieldCapabilitiesMesg>();
-
-                    FieldCapabilitiesMesgs.Add(new FieldCapabilitiesMesg(e.mesg));
+                    FieldCapabilitiesMesgs = FieldCapabilitiesMesgs.Append(new FieldCapabilitiesMesg(e.mesg));
                     break;
 
                 case MesgNum.DeviceSettings:
-                    if (DeviceSettingsMesgs == null)
-                        DeviceSettingsMesgs = new List<DeviceSettingsMesg>();
-
-                    DeviceSettingsMesgs.Add(new DeviceSettingsMesg(e.mesg));
+                    DeviceSettingsMesgs = DeviceSettingsMesgs.Append(new DeviceSettingsMesg(e.mesg));
                     break;
 
                 case MesgNum.UserProfile:
-                    if (UserProfileMesgs == null)
-                        UserProfileMesgs = new List<UserProfileMesg>();
-
-                    UserProfileMesgs.Add(new UserProfileMesg(e.mesg));
+                    UserProfileMesgs = UserProfileMesgs.Append(new UserProfileMesg(e.mesg));
                     break;
 
                 case MesgNum.HrmProfile:
-                    if (HrmProfileMesgs == null)
-                        HrmProfileMesgs = new List<HrmProfileMesg>();
-
-                    HrmProfileMesgs.Add(new HrmProfileMesg(e.mesg));
+                    HrmProfileMesgs = HrmProfileMesgs.Append(new HrmProfileMesg(e.mesg));
                     break;
 
                 case MesgNum.SdmProfile:
-                    if (SdmProfileMesgs == null)
-                        SdmProfileMesgs = new List<SdmProfileMesg>();
-
-                    SdmProfileMesgs.Add(new SdmProfileMesg(e.mesg));
+                    SdmProfileMesgs = SdmProfileMesgs.Append(new SdmProfileMesg(e.mesg));
                     break;
 
                 case MesgNum.BikeProfile:
-                    if (BikeProfileMesgs == null)
-                        BikeProfileMesgs = new List<BikeProfileMesg>();
-
-                    BikeProfileMesgs.Add(new BikeProfileMesg(e.mesg));
+                    BikeProfileMesgs = BikeProfileMesgs.Append(new BikeProfileMesg(e.mesg));
                     break;
 
                 case MesgNum.Connectivity:
-                    if (ConnectivityMesgs == null)
-                        ConnectivityMesgs = new List<ConnectivityMesg>();
-
-                    ConnectivityMesgs.Add(new ConnectivityMesg(e.mesg));
+                    ConnectivityMesgs = ConnectivityMesgs.Append(new ConnectivityMesg(e.mesg));
                     break;
 
                 case MesgNum.WatchfaceSettings:
-                    if (WatchfaceSettingsMesgs == null)
-                        WatchfaceSettingsMesgs = new List<WatchfaceSettingsMesg>();
-
-                    WatchfaceSettingsMesgs.Add(new WatchfaceSettingsMesg(e.mesg));
+                    WatchfaceSettingsMesgs = WatchfaceSettingsMesgs.Append(new WatchfaceSettingsMesg(e.mesg));
                     break;
 
                 case MesgNum.OhrSettings:
-                    if (OhrSettingsMesgs == null)
-                        OhrSettingsMesgs = new List<OhrSettingsMesg>();
-
-                    OhrSettingsMesgs.Add(new OhrSettingsMesg(e.mesg));
+                    OhrSettingsMesgs = OhrSettingsMesgs.Append(new OhrSettingsMesg(e.mesg));
                     break;
 
                 case MesgNum.ZonesTarget:
-                    if (ZonesTargetMesgs == null)
-                        ZonesTargetMesgs = new List<ZonesTargetMesg>();
-
-                    ZonesTargetMesgs.Add(new ZonesTargetMesg(e.mesg));
+                    ZonesTargetMesgs = ZonesTargetMesgs.Append(new ZonesTargetMesg(e.mesg));
                     break;
 
                 case MesgNum.Sport:
-                    if (SportMesgs == null)
-                        SportMesgs = new List<SportMesg>();
-
-                    SportMesgs.Add(new SportMesg(e.mesg));
+                    SportMesgs = SportMesgs.Append(new SportMesg(e.mesg));
                     break;
 
                 case MesgNum.HrZone:
-                    if (HrZoneMesgs == null)
-                        HrZoneMesgs = new List<HrZoneMesg>();
-
-                    HrZoneMesgs.Add(new HrZoneMesg(e.mesg));
+                    HrZoneMesgs = HrZoneMesgs.Append(new HrZoneMesg(e.mesg));
                     break;
 
                 case MesgNum.SpeedZone:
-                    if (SpeedZoneMesgs == null)
-                        SpeedZoneMesgs = new List<SpeedZoneMesg>();
-
-                    SpeedZoneMesgs.Add(new SpeedZoneMesg(e.mesg));
+                    SpeedZoneMesgs = SpeedZoneMesgs.Append(new SpeedZoneMesg(e.mesg));
                     break;
 
                 case MesgNum.CadenceZone:
-                    if (CadenceZoneMesgs == null)
-                        CadenceZoneMesgs = new List<CadenceZoneMesg>();
-
-                    CadenceZoneMesgs.Add(new CadenceZoneMesg(e.mesg));
+                    CadenceZoneMesgs = CadenceZoneMesgs.Append(new CadenceZoneMesg(e.mesg));
                     break;
 
                 case MesgNum.PowerZone:
-                    if (PowerZoneMesgs == null)
-                        PowerZoneMesgs = new List<PowerZoneMesg>();
-
-                    PowerZoneMesgs.Add(new PowerZoneMesg(e.mesg));
+                    PowerZoneMesgs = PowerZoneMesgs.Append(new PowerZoneMesg(e.mesg));
                     break;
 
                 case MesgNum.MetZone:
-                    if (MetZoneMesgs == null)
-                        MetZoneMesgs = new List<MetZoneMesg>();
-
-                    MetZoneMesgs.Add(new MetZoneMesg(e.mesg));
+                    MetZoneMesgs = MetZoneMesgs.Append(new MetZoneMesg(e.mesg));
                     break;
 
                 case MesgNum.DiveSettings:
-                    if (DiveSettingsMesgs == null)
-                        DiveSettingsMesgs = new List<DiveSettingsMesg>();
-
-                    DiveSettingsMesgs.Add(new DiveSettingsMesg(e.mesg));
+                    DiveSettingsMesgs = DiveSettingsMesgs.Append(new DiveSettingsMesg(e.mesg));
                     break;
 
                 case MesgNum.DiveAlarm:
-                    if (DiveAlarmMesgs == null)
-                        DiveAlarmMesgs = new List<DiveAlarmMesg>();
-
-                    DiveAlarmMesgs.Add(new DiveAlarmMesg(e.mesg));
+                    DiveAlarmMesgs = DiveAlarmMesgs.Append(new DiveAlarmMesg(e.mesg));
                     break;
 
                 case MesgNum.DiveGas:
-                    if (DiveGasMesgs == null)
-                        DiveGasMesgs = new List<DiveGasMesg>();
-
-                    DiveGasMesgs.Add(new DiveGasMesg(e.mesg));
+                    DiveGasMesgs = DiveGasMesgs.Append(new DiveGasMesg(e.mesg));
                     break;
 
                 case MesgNum.Goal:
-                    if (GoalMesgs == null)
-                        GoalMesgs = new List<GoalMesg>();
-
-                    GoalMesgs.Add(new GoalMesg(e.mesg));
+                    GoalMesgs = GoalMesgs.Append(new GoalMesg(e.mesg));
                     break;
 
                 case MesgNum.Activity:
-                    if (ActivityMesgs == null)
-                        ActivityMesgs = new List<ActivityMesg>();
-
-                    ActivityMesgs.Add(new ActivityMesg(e.mesg));
+                    ActivityMesgs = ActivityMesgs.Append(new ActivityMesg(e.mesg));
                     break;
 
                 case MesgNum.Session:
-                    if (SessionMesgs == null)
-                        SessionMesgs = new List<SessionMesg>();
-
-                    SessionMesgs.Add(new SessionMesg(e.mesg));
+                    SessionMesgs = SessionMesgs.Append(new SessionMesg(e.mesg));
                     break;
 
                 case MesgNum.Lap:
-                    if (LapMesgs == null)
-                        LapMesgs = new List<LapMesg>();
-
-                    LapMesgs.Add(new LapMesg(e.mesg));
+                    LapMesgs = LapMesgs.Append(new LapMesg(e.mesg));
                     break;
 
                 case MesgNum.Length:
-                    if (LengthMesgs == null)
-                        LengthMesgs = new List<LengthMesg>();
-
-                    LengthMesgs.Add(new LengthMesg(e.mesg));
+                    LengthMesgs = LengthMesgs.Append(new LengthMesg(e.mesg));
                     break;
 
                 case MesgNum.Record:
-                    if (RecordMesgs == null)
-                        RecordMesgs = new List<RecordMesg>();
-
-                    RecordMesgs.Add(new RecordMesg(e.mesg));
+                    RecordMesgs = RecordMesgs.Append(new RecordMesg(e.mesg));
                     break;
 
                 case MesgNum.Event:
-                    if (EventMesgs == null)
-                        EventMesgs = new List<EventMesg>();
-
-                    EventMesgs.Add(new EventMesg(e.mesg));
+                    EventMesgs = EventMesgs.Append(new EventMesg(e.mesg));
                     break;
 
                 case MesgNum.DeviceInfo:
-                    if (DeviceInfoMesgs == null)
-                        DeviceInfoMesgs = new List<DeviceInfoMesg>();
-
-                    DeviceInfoMesgs.Add(new DeviceInfoMesg(e.mesg));
+                    DeviceInfoMesgs = DeviceInfoMesgs.Append(new DeviceInfoMesg(e.mesg));
                     break;
 
                 case MesgNum.TrainingFile:
-                    if (TrainingFileMesgs == null)
-                        TrainingFileMesgs = new List<TrainingFileMesg>();
-
-                    TrainingFileMesgs.Add(new TrainingFileMesg(e.mesg));
+                    TrainingFileMesgs = TrainingFileMesgs.Append(new TrainingFileMesg(e.mesg));
                     break;
 
                 case MesgNum.Hrv:
-                    if (HrvMesgs == null)
-                        HrvMesgs = new List<HrvMesg>();
-
-                    HrvMesgs.Add(new HrvMesg(e.mesg));
+                    HrvMesgs = HrvMesgs.Append(new HrvMesg(e.mesg));
                     break;
 
                 case MesgNum.WeatherConditions:
-                    if (WeatherConditionsMesgs == null)
-                        WeatherConditionsMesgs = new List<WeatherConditionsMesg>();
-
-                    WeatherConditionsMesgs.Add(new WeatherConditionsMesg(e.mesg));
+                    WeatherConditionsMesgs = WeatherConditionsMesgs.Append(new WeatherConditionsMesg(e.mesg));
                     break;
 
                 case MesgNum.WeatherAlert:
-                    if (WeatherAlertMesgs == null)
-                        WeatherAlertMesgs = new List<WeatherAlertMesg>();
-
-                    WeatherAlertMesgs.Add(new WeatherAlertMesg(e.mesg));
+                    WeatherAlertMesgs = WeatherAlertMesgs.Append(new WeatherAlertMesg(e.mesg));
                     break;
 
                 case MesgNum.GpsMetadata:
-                    if (GpsMetadataMesgs == null)
-                        GpsMetadataMesgs = new List<GpsMetadataMesg>();
-
-                    GpsMetadataMesgs.Add(new GpsMetadataMesg(e.mesg));
+                    GpsMetadataMesgs = GpsMetadataMesgs.Append(new GpsMetadataMesg(e.mesg));
                     break;
 
                 case MesgNum.CameraEvent:
-                    if (CameraEventMesgs == null)
-                        CameraEventMesgs = new List<CameraEventMesg>();
-
-                    CameraEventMesgs.Add(new CameraEventMesg(e.mesg));
+                    CameraEventMesgs = CameraEventMesgs.Append(new CameraEventMesg(e.mesg));
                     break;
 
                 case MesgNum.GyroscopeData:
-                    if (GyroscopeDataMesgs == null)
-                        GyroscopeDataMesgs = new List<GyroscopeDataMesg>();
-
-                    GyroscopeDataMesgs.Add(new GyroscopeDataMesg(e.mesg));
+                    GyroscopeDataMesgs = GyroscopeDataMesgs.Append(new GyroscopeDataMesg(e.mesg));
                     break;
 
                 case MesgNum.AccelerometerData:
-                    if (AccelerometerDataMesgs == null)
-                        AccelerometerDataMesgs = new List<AccelerometerDataMesg>();
-
-                    AccelerometerDataMesgs.Add(new AccelerometerDataMesg(e.mesg));
+                    AccelerometerDataMesgs = AccelerometerDataMesgs.Append(new AccelerometerDataMesg(e.mesg));
                     break;
 
                 case MesgNum.MagnetometerData:
-                    if (MagnetometerDataMesgs == null)
-                        MagnetometerDataMesgs = new List<MagnetometerDataMesg>();
-
-                    MagnetometerDataMesgs.Add(new MagnetometerDataMesg(e.mesg));
+                    MagnetometerDataMesgs = MagnetometerDataMesgs.Append(new MagnetometerDataMesg(e.mesg));
                     break;
 
                 case MesgNum.BarometerData:
-                    if (BarometerDataMesgs == null)
-                        BarometerDataMesgs = new List<BarometerDataMesg>();
-
-                    BarometerDataMesgs.Add(new BarometerDataMesg(e.mesg));
+                    BarometerDataMesgs = BarometerDataMesgs.Append(new BarometerDataMesg(e.mesg));
                     break;
 
                 case MesgNum.ThreeDSensorCalibration:
-                    if (ThreeDSensorCalibrationMesgs == null)
-                        ThreeDSensorCalibrationMesgs = new List<ThreeDSensorCalibrationMesg>();
-
-                    ThreeDSensorCalibrationMesgs.Add(new ThreeDSensorCalibrationMesg(e.mesg));
+                    ThreeDSensorCalibrationMesgs = ThreeDSensorCalibrationMesgs.Append(new ThreeDSensorCalibrationMesg(e.mesg));
                     break;
 
                 case MesgNum.OneDSensorCalibration:
-                    if (OneDSensorCalibrationMesgs == null)
-                        OneDSensorCalibrationMesgs = new List<OneDSensorCalibrationMesg>();
-
-                    OneDSensorCalibrationMesgs.Add(new OneDSensorCalibrationMesg(e.mesg));
+                    OneDSensorCalibrationMesgs = OneDSensorCalibrationMesgs.Append(new OneDSensorCalibrationMesg(e.mesg));
                     break;
 
                 case MesgNum.VideoFrame:
-                    if (VideoFrameMesgs == null)
-                        VideoFrameMesgs = new List<VideoFrameMesg>();
-
-                    VideoFrameMesgs.Add(new VideoFrameMesg(e.mesg));
+                    VideoFrameMesgs = VideoFrameMesgs.Append(new VideoFrameMesg(e.mesg));
                     break;
 
                 case MesgNum.ObdiiData:
-                    if (ObdiiDataMesgs == null)
-                        ObdiiDataMesgs = new List<ObdiiDataMesg>();
-
-                    ObdiiDataMesgs.Add(new ObdiiDataMesg(e.mesg));
+                    ObdiiDataMesgs = ObdiiDataMesgs.Append(new ObdiiDataMesg(e.mesg));
                     break;
 
                 case MesgNum.NmeaSentence:
-                    if (NmeaSentenceMesgs == null)
-                        NmeaSentenceMesgs = new List<NmeaSentenceMesg>();
-
-                    NmeaSentenceMesgs.Add(new NmeaSentenceMesg(e.mesg));
+                    NmeaSentenceMesgs = NmeaSentenceMesgs.Append(new NmeaSentenceMesg(e.mesg));
                     break;
 
                 case MesgNum.AviationAttitude:
-                    if (AviationAttitudeMesgs == null)
-                        AviationAttitudeMesgs = new List<AviationAttitudeMesg>();
-
-                    AviationAttitudeMesgs.Add(new AviationAttitudeMesg(e.mesg));
+                    AviationAttitudeMesgs = AviationAttitudeMesgs.Append(new AviationAttitudeMesg(e.mesg));
                     break;
 
                 case MesgNum.Video:
-                    if (VideoMesgs == null)
-                        VideoMesgs = new List<VideoMesg>();
-
-                    VideoMesgs.Add(new VideoMesg(e.mesg));
+                    VideoMesgs = VideoMesgs.Append(new VideoMesg(e.mesg));
                     break;
 
                 case MesgNum.VideoTitle:
-                    if (VideoTitleMesgs == null)
-                        VideoTitleMesgs = new List<VideoTitleMesg>();
-
-                    VideoTitleMesgs.Add(new VideoTitleMesg(e.mesg));
+                    VideoTitleMesgs = VideoTitleMesgs.Append(new VideoTitleMesg(e.mesg));
                     break;
 
                 case MesgNum.VideoDescription:
-                    if (VideoDescriptionMesgs == null)
-                        VideoDescriptionMesgs = new List<VideoDescriptionMesg>();
-
-                    VideoDescriptionMesgs.Add(new VideoDescriptionMesg(e.mesg));
+                    VideoDescriptionMesgs = VideoDescriptionMesgs.Append(new VideoDescriptionMesg(e.mesg));
                     break;
 
                 case MesgNum.VideoClip:
-                    if (VideoClipMesgs == null)
-                        VideoClipMesgs = new List<VideoClipMesg>();
-
-                    VideoClipMesgs.Add(new VideoClipMesg(e.mesg));
+                    VideoClipMesgs = VideoClipMesgs.Append(new VideoClipMesg(e.mesg));
                     break;
 
                 case MesgNum.Set:
-                    if (SetMesgs == null)
-                        SetMesgs = new List<SetMesg>();
-
-                    SetMesgs.Add(new SetMesg(e.mesg));
+                    SetMesgs = SetMesgs.Append(new SetMesg(e.mesg));
                     break;
 
                 case MesgNum.Jump:
-                    if (JumpMesgs == null)
-                        JumpMesgs = new List<JumpMesg>();
-
-                    JumpMesgs.Add(new JumpMesg(e.mesg));
+                    JumpMesgs = JumpMesgs.Append(new JumpMesg(e.mesg));
                     break;
 
                 case MesgNum.Course:
-                    if (CourseMesgs == null)
-                        CourseMesgs = new List<CourseMesg>();
-
-                    CourseMesgs.Add(new CourseMesg(e.mesg));
+                    CourseMesgs = CourseMesgs.Append(new CourseMesg(e.mesg));
                     break;
 
                 case MesgNum.CoursePoint:
-                    if (CoursePointMesgs == null)
-                        CoursePointMesgs = new List<CoursePointMesg>();
-
-                    CoursePointMesgs.Add(new CoursePointMesg(e.mesg));
+                    CoursePointMesgs = CoursePointMesgs.Append(new CoursePointMesg(e.mesg));
                     break;
 
                 case MesgNum.SegmentId:
-                    if (SegmentIdMesgs == null)
-                        SegmentIdMesgs = new List<SegmentIdMesg>();
-
-                    SegmentIdMesgs.Add(new SegmentIdMesg(e.mesg));
+                    SegmentIdMesgs = SegmentIdMesgs.Append(new SegmentIdMesg(e.mesg));
                     break;
 
                 case MesgNum.SegmentLeaderboardEntry:
-                    if (SegmentLeaderboardEntryMesgs == null)
-                        SegmentLeaderboardEntryMesgs = new List<SegmentLeaderboardEntryMesg>();
-
-                    SegmentLeaderboardEntryMesgs.Add(new SegmentLeaderboardEntryMesg(e.mesg));
+                    SegmentLeaderboardEntryMesgs = SegmentLeaderboardEntryMesgs.Append(new SegmentLeaderboardEntryMesg(e.mesg));
                     break;
 
                 case MesgNum.SegmentPoint:
-                    if (SegmentPointMesgs == null)
-                        SegmentPointMesgs = new List<SegmentPointMesg>();
-
-                    SegmentPointMesgs.Add(new SegmentPointMesg(e.mesg));
+                    SegmentPointMesgs = SegmentPointMesgs.Append(new SegmentPointMesg(e.mesg));
                     break;
 
                 case MesgNum.SegmentLap:
-                    if (SegmentLapMesgs == null)
-                        SegmentLapMesgs = new List<SegmentLapMesg>();
-
-                    SegmentLapMesgs.Add(new SegmentLapMesg(e.mesg));
+                    SegmentLapMesgs = SegmentLapMesgs.Append(new SegmentLapMesg(e.mesg));
                     break;
 
                 case MesgNum.SegmentFile:
-                    if (SegmentFileMesgs == null)
-                        SegmentFileMesgs = new List<SegmentFileMesg>();
-
-                    SegmentFileMesgs.Add(new SegmentFileMesg(e.mesg));
+                    SegmentFileMesgs = SegmentFileMesgs.Append(new SegmentFileMesg(e.mesg));
                     break;
 
                 case MesgNum.Workout:
-                    if (WorkoutMesgs == null)
-                        WorkoutMesgs = new List<WorkoutMesg>();
-
-                    WorkoutMesgs.Add(new WorkoutMesg(e.mesg));
+                    WorkoutMesgs = WorkoutMesgs.Append(new WorkoutMesg(e.mesg));
                     break;
 
                 case MesgNum.WorkoutSession:
-                    if (WorkoutSessionMesgs == null)
-                        WorkoutSessionMesgs = new List<WorkoutSessionMesg>();
-
-                    WorkoutSessionMesgs.Add(new WorkoutSessionMesg(e.mesg));
+                    WorkoutSessionMesgs = WorkoutSessionMesgs.Append(new WorkoutSessionMesg(e.mesg));
                     break;
 
                 case MesgNum.WorkoutStep:
-                    if (WorkoutStepMesgs == null)
-                        WorkoutStepMesgs = new List<WorkoutStepMesg>();
-
-                    WorkoutStepMesgs.Add(new WorkoutStepMesg(e.mesg));
+                    WorkoutStepMesgs = WorkoutStepMesgs.Append(new WorkoutStepMesg(e.mesg));
                     break;
 
                 case MesgNum.ExerciseTitle:
-                    if (ExerciseTitleMesgs == null)
-                        ExerciseTitleMesgs = new List<ExerciseTitleMesg>();
-
-                    ExerciseTitleMesgs.Add(new ExerciseTitleMesg(e.mesg));
+                    ExerciseTitleMesgs = ExerciseTitleMesgs.Append(new ExerciseTitleMesg(e.mesg));
                     break;
 
                 case MesgNum.Schedule:
-                    if (ScheduleMesgs == null)
-                        ScheduleMesgs = new List<ScheduleMesg>();
-
-                    ScheduleMesgs.Add(new ScheduleMesg(e.mesg));
+                    ScheduleMesgs = ScheduleMesgs.Append(new ScheduleMesg(e.mesg));
                     break;
 
                 case MesgNum.Totals:
-                    if (TotalsMesgs == null)
-                        TotalsMesgs = new List<TotalsMesg>();
-
-                    TotalsMesgs.Add(new TotalsMesg(e.mesg));
+                    TotalsMesgs = TotalsMesgs.Append(new TotalsMesg(e.mesg));
                     break;
 
                 case MesgNum.WeightScale:
-                    if (WeightScaleMesgs == null)
-                        WeightScaleMesgs = new List<WeightScaleMesg>();
-
-                    WeightScaleMesgs.Add(new WeightScaleMesg(e.mesg));
+                    WeightScaleMesgs = WeightScaleMesgs.Append(new WeightScaleMesg(e.mesg));
                     break;
 
                 case MesgNum.BloodPressure:
-                    if (BloodPressureMesgs == null)
-                        BloodPressureMesgs = new List<BloodPressureMesg>();
-
-                    BloodPressureMesgs.Add(new BloodPressureMesg(e.mesg));
+                    BloodPressureMesgs = BloodPressureMesgs.Append(new BloodPressureMesg(e.mesg));
                     break;
 
                 case MesgNum.MonitoringInfo:
-                    if (MonitoringInfoMesgs == null)
-                        MonitoringInfoMesgs = new List<MonitoringInfoMesg>();
-
-                    MonitoringInfoMesgs.Add(new MonitoringInfoMesg(e.mesg));
+                    MonitoringInfoMesgs = MonitoringInfoMesgs.Append(new MonitoringInfoMesg(e.mesg));
                     break;
 
                 case MesgNum.Monitoring:
-                    if (MonitoringMesgs == null)
-                        MonitoringMesgs = new List<MonitoringMesg>();
-
-                    MonitoringMesgs.Add(new MonitoringMesg(e.mesg));
+                    MonitoringMesgs = MonitoringMesgs.Append(new MonitoringMesg(e.mesg));
                     break;
 
                 case MesgNum.Hr:
-                    if (HrMesgs == null)
-                        HrMesgs = new List<HrMesg>();
-
-                    HrMesgs.Add(new HrMesg(e.mesg));
+                    HrMesgs = HrMesgs.Append(new HrMesg(e.mesg));
                     break;
 
                 case MesgNum.StressLevel:
-                    if (StressLevelMesgs == null)
-                        StressLevelMesgs = new List<StressLevelMesg>();
-
-                    StressLevelMesgs.Add(new StressLevelMesg(e.mesg));
+                    StressLevelMesgs = StressLevelMesgs.Append(new StressLevelMesg(e.mesg));
                     break;
 
                 case MesgNum.MemoGlob:
-                    if (MemoGlobMesgs == null)
-                        MemoGlobMesgs = new List<MemoGlobMesg>();
-
-                    MemoGlobMesgs.Add(new MemoGlobMesg(e.mesg));
+                    MemoGlobMesgs = MemoGlobMesgs.Append(new MemoGlobMesg(e.mesg));
                     break;
 
                 case MesgNum.AntChannelId:
-                    if (AntChannelIdMesgs == null)
-                        AntChannelIdMesgs = new List<AntChannelIdMesg>();
-
-                    AntChannelIdMesgs.Add(new AntChannelIdMesg(e.mesg));
+                    AntChannelIdMesgs = AntChannelIdMesgs.Append(new AntChannelIdMesg(e.mesg));
                     break;
 
                 case MesgNum.AntRx:
-                    if (AntRxMesgs == null)
-                        AntRxMesgs = new List<AntRxMesg>();
-
-                    AntRxMesgs.Add(new AntRxMesg(e.mesg));
+                    AntRxMesgs = AntRxMesgs.Append(new AntRxMesg(e.mesg));
                     break;
 
                 case MesgNum.AntTx:
-                    if (AntTxMesgs == null)
-                        AntTxMesgs = new List<AntTxMesg>();
-
-                    AntTxMesgs.Add(new AntTxMesg(e.mesg));
+                    AntTxMesgs = AntTxMesgs.Append(new AntTxMesg(e.mesg));
                     break;
 
                 case MesgNum.ExdScreenConfiguration:
-                    if (ExdScreenConfigurationMesgs == null)
-                        ExdScreenConfigurationMesgs = new List<ExdScreenConfigurationMesg>();
-
-                    ExdScreenConfigurationMesgs.Add(new ExdScreenConfigurationMesg(e.mesg));
+                    ExdScreenConfigurationMesgs = ExdScreenConfigurationMesgs.Append(new ExdScreenConfigurationMesg(e.mesg));
                     break;
 
                 case MesgNum.ExdDataFieldConfiguration:
-                    if (ExdDataFieldConfigurationMesgs == null)
-                        ExdDataFieldConfigurationMesgs = new List<ExdDataFieldConfigurationMesg>();
-
-                    ExdDataFieldConfigurationMesgs.Add(new ExdDataFieldConfigurationMesg(e.mesg));
+                    ExdDataFieldConfigurationMesgs = ExdDataFieldConfigurationMesgs.Append(new ExdDataFieldConfigurationMesg(e.mesg));
                     break;
 
                 case MesgNum.ExdDataConceptConfiguration:
-                    if (ExdDataConceptConfigurationMesgs == null)
-                        ExdDataConceptConfigurationMesgs = new List<ExdDataConceptConfigurationMesg>();
-
-                    ExdDataConceptConfigurationMesgs.Add(new ExdDataConceptConfigurationMesg(e.mesg));
+                    ExdDataConceptConfigurationMesgs = ExdDataConceptConfigurationMesgs.Append(new ExdDataConceptConfigurationMesg(e.mesg));
                     break;
 
                 case MesgNum.FieldDescription:
-                    if (FieldDescriptionMesgs == null)
-                        FieldDescriptionMesgs = new List<FieldDescriptionMesg>();
-
-                    FieldDescriptionMesgs.Add(new FieldDescriptionMesg(e.mesg));
+                    FieldDescriptionMesgs = FieldDescriptionMesgs.Append(new FieldDescriptionMesg(e.mesg));
                     break;
 
                 case MesgNum.DeveloperDataId:
-                    if (DeveloperDataIdMesgs == null)
-                        DeveloperDataIdMesgs = new List<DeveloperDataIdMesg>();
-
-                    DeveloperDataIdMesgs.Add(new DeveloperDataIdMesg(e.mesg));
+                    DeveloperDataIdMesgs = DeveloperDataIdMesgs.Append(new DeveloperDataIdMesg(e.mesg));
                     break;
 
                 case MesgNum.DiveSummary:
-                    if (DiveSummaryMesgs == null)
-                        DiveSummaryMesgs = new List<DiveSummaryMesg>();
-
-                    DiveSummaryMesgs.Add(new DiveSummaryMesg(e.mesg));
+                    DiveSummaryMesgs = DiveSummaryMesgs.Append(new DiveSummaryMesg(e.mesg));
                     break;
 
                 case MesgNum.ClimbPro:
-                    if (ClimbProMesgs == null)
-                        ClimbProMesgs = new List<ClimbProMesg>();
-
-                    ClimbProMesgs.Add(new ClimbProMesg(e.mesg));
+                    ClimbProMesgs = ClimbProMesgs.Append(new ClimbProMesg(e.mesg));
                     break;
 
                 case MesgNum.Pad:
-                    if (PadMesgs == null)
-                        PadMesgs = new List<PadMesg>();
-
-                    PadMesgs.Add(new PadMesg(e.mesg));
+                    PadMesgs = PadMesgs.Append(new PadMesg(e.mesg));
                     break;
                 default:
-                    if (UnknownMesgs == null)
-                        UnknownMesgs = new List<Mesg>();
-
-                    UnknownMesgs.Add(e.mesg);
+                    UnknownMesgs = UnknownMesgs.Append(e.mesg);
                     break;
             }
         }
 
-        public void Edit<T>(List<T> newMesgs)where T : Mesg
+        public void Edit<T>(Func<T, T> newMesgs)where T : Mesg
         {
-            switch (newMesgs)
+
+            switch (typeof(T).Name)
             {
-                case List<FileIdMesg> fileIdMesgs:
-                    if (FileIdMesgs == null)
-                        FileIdMesgs = new List<FileIdMesg>();
-
-                    FileIdMesgs = fileIdMesgs;
+                case "FileIdMesg":
+                    FileIdMesgs = FileIdMesgs
+                        .Select((Func<FileIdMesg, FileIdMesg>)Delegate.CreateDelegate(typeof(Func<FileIdMesg, FileIdMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
-
-                case List<FileCreatorMesg> fileCreatorMesgs:
-                    if (FileCreatorMesgs == null)
-                        FileCreatorMesgs = new List<FileCreatorMesg>();
 
-                    FileCreatorMesgs = fileCreatorMesgs;
+                case "FileCreatorMesg":
+                    FileCreatorMesgs = FileCreatorMesgs.Select((Func<FileCreatorMesg, FileCreatorMesg>)Delegate.CreateDelegate(typeof(Func<FileCreatorMesg, FileCreatorMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<TimestampCorrelationMesg> timestampCorrelationMesgs:
-                    if (TimestampCorrelationMesgs == null)
-                        TimestampCorrelationMesgs = new List<TimestampCorrelationMesg>();
-
-                    TimestampCorrelationMesgs = timestampCorrelationMesgs;
+                case "TimestampCorrelationMesg":
+                    TimestampCorrelationMesgs = TimestampCorrelationMesgs.Select((Func<TimestampCorrelationMesg, TimestampCorrelationMesg>)Delegate.CreateDelegate(typeof(Func<TimestampCorrelationMesg, TimestampCorrelationMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<SoftwareMesg> softwareMesgs:
-                    if (SoftwareMesgs == null)
-                        SoftwareMesgs = new List<SoftwareMesg>();
-
-                    SoftwareMesgs = softwareMesgs;
+                case "SoftwareMesg":
+                    SoftwareMesgs = SoftwareMesgs.Select((Func<SoftwareMesg, SoftwareMesg>)Delegate.CreateDelegate(typeof(Func<SoftwareMesg, SoftwareMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
-
-                case List<SlaveDeviceMesg> slaveDeviceMesgs:
-                    if (SlaveDeviceMesgs == null)
-                        SlaveDeviceMesgs = new List<SlaveDeviceMesg>();
 
-                    SlaveDeviceMesgs = slaveDeviceMesgs;
+                case "SlaveDeviceMesg":
+                    SlaveDeviceMesgs = SlaveDeviceMesgs.Select((Func<SlaveDeviceMesg, SlaveDeviceMesg>)Delegate.CreateDelegate(typeof(Func<SlaveDeviceMesg, SlaveDeviceMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<CapabilitiesMesg> capabilitiesMesgs:
-                    if (CapabilitiesMesgs == null)
-                        CapabilitiesMesgs = new List<CapabilitiesMesg>();
-
-                    CapabilitiesMesgs = capabilitiesMesgs;
+                case "CapabilitiesMesg":
+                    CapabilitiesMesgs = CapabilitiesMesgs.Select((Func<CapabilitiesMesg, CapabilitiesMesg>)Delegate.CreateDelegate(typeof(Func<CapabilitiesMesg, CapabilitiesMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<FileCapabilitiesMesg> fileCapabilitiesMesgs:
-                    if (FileCapabilitiesMesgs == null)
-                        FileCapabilitiesMesgs = new List<FileCapabilitiesMesg>();
-
-                    FileCapabilitiesMesgs = fileCapabilitiesMesgs;
+                case "FileCapabilitiesMesg":
+                    FileCapabilitiesMesgs = FileCapabilitiesMesgs.Select((Func<FileCapabilitiesMesg, FileCapabilitiesMesg>)Delegate.CreateDelegate(typeof(Func<FileCapabilitiesMesg, FileCapabilitiesMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
-
-                case List<MesgCapabilitiesMesg> mesgCapabilitiesMesgs:
-                    if (MesgCapabilitiesMesgs == null)
-                        MesgCapabilitiesMesgs = new List<MesgCapabilitiesMesg>();
 
-                    MesgCapabilitiesMesgs = mesgCapabilitiesMesgs;
+                case "MesgCapabilitiesMesg":
+                    MesgCapabilitiesMesgs = MesgCapabilitiesMesgs.Select((Func<MesgCapabilitiesMesg, MesgCapabilitiesMesg>)Delegate.CreateDelegate(typeof(Func<MesgCapabilitiesMesg, MesgCapabilitiesMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<FieldCapabilitiesMesg> fieldCapabilitiesMesgs:
-                    if (FieldCapabilitiesMesgs == null)
-                        FieldCapabilitiesMesgs = new List<FieldCapabilitiesMesg>();
-
-                    FieldCapabilitiesMesgs = fieldCapabilitiesMesgs;
+                case "FieldCapabilitiesMesg":
+                    FieldCapabilitiesMesgs = FieldCapabilitiesMesgs.Select((Func<FieldCapabilitiesMesg, FieldCapabilitiesMesg>)Delegate.CreateDelegate(typeof(Func<FieldCapabilitiesMesg, FieldCapabilitiesMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<DeviceSettingsMesg> deviceSettingsMesgs:
-                    if (DeviceSettingsMesgs == null)
-                        DeviceSettingsMesgs = new List<DeviceSettingsMesg>();
-
-                    DeviceSettingsMesgs = deviceSettingsMesgs;
+                case "DeviceSettingsMesg":
+                    DeviceSettingsMesgs = DeviceSettingsMesgs.Select((Func<DeviceSettingsMesg, DeviceSettingsMesg>)Delegate.CreateDelegate(typeof(Func<DeviceSettingsMesg, DeviceSettingsMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
-
-                case List<UserProfileMesg> userProfileMesgs:
-                    if (UserProfileMesgs == null)
-                        UserProfileMesgs = new List<UserProfileMesg>();
 
-                    UserProfileMesgs = userProfileMesgs;
+                case "UserProfileMesg":
+                    UserProfileMesgs = UserProfileMesgs.Select((Func<UserProfileMesg, UserProfileMesg>)Delegate.CreateDelegate(typeof(Func<UserProfileMesg, UserProfileMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<HrmProfileMesg> hrmProfileMesgs:
-                    if (HrmProfileMesgs == null)
-                        HrmProfileMesgs = new List<HrmProfileMesg>();
-
-                    HrmProfileMesgs = hrmProfileMesgs;
+                case "HrmProfileMesg":
+                    HrmProfileMesgs = HrmProfileMesgs.Select((Func<HrmProfileMesg, HrmProfileMesg>)Delegate.CreateDelegate(typeof(Func<HrmProfileMesg, HrmProfileMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
-
-                case List<SdmProfileMesg> sdmProfileMesgs:
-                    if (SdmProfileMesgs == null)
-                        SdmProfileMesgs = new List<SdmProfileMesg>();
 
-                    SdmProfileMesgs = sdmProfileMesgs;
+                case "SdmProfileMesg":
+                    SdmProfileMesgs = SdmProfileMesgs.Select((Func<SdmProfileMesg, SdmProfileMesg>)Delegate.CreateDelegate(typeof(Func<SdmProfileMesg, SdmProfileMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<BikeProfileMesg> bikeProfileMesgs:
-                    if (BikeProfileMesgs == null)
-                        BikeProfileMesgs = new List<BikeProfileMesg>();
-
-                    BikeProfileMesgs = bikeProfileMesgs;
+                case "BikeProfileMesg":
+                    BikeProfileMesgs = BikeProfileMesgs.Select((Func<BikeProfileMesg, BikeProfileMesg>)Delegate.CreateDelegate(typeof(Func<BikeProfileMesg, BikeProfileMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<ConnectivityMesg> connectivityMesgs:
-                    if (ConnectivityMesgs == null)
-                        ConnectivityMesgs = new List<ConnectivityMesg>();
-
-                    ConnectivityMesgs = connectivityMesgs;
+                case "ConnectivityMesg":
+                    ConnectivityMesgs = ConnectivityMesgs.Select((Func<ConnectivityMesg, ConnectivityMesg>)Delegate.CreateDelegate(typeof(Func<ConnectivityMesg, ConnectivityMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
-
-                case List<WatchfaceSettingsMesg> watchfaceSettingsMesgs:
-                    if (WatchfaceSettingsMesgs == null)
-                        WatchfaceSettingsMesgs = new List<WatchfaceSettingsMesg>();
 
-                    WatchfaceSettingsMesgs = watchfaceSettingsMesgs;
+                case "WatchfaceSettingsMesg":
+                    WatchfaceSettingsMesgs = WatchfaceSettingsMesgs.Select((Func<WatchfaceSettingsMesg, WatchfaceSettingsMesg>)Delegate.CreateDelegate(typeof(Func<WatchfaceSettingsMesg, WatchfaceSettingsMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<OhrSettingsMesg> ohrSettingsMesgs:
-                    if (OhrSettingsMesgs == null)
-                        OhrSettingsMesgs = new List<OhrSettingsMesg>();
-
-                    OhrSettingsMesgs = ohrSettingsMesgs;
+                case "OhrSettingsMesg":
+                    OhrSettingsMesgs = OhrSettingsMesgs.Select((Func<OhrSettingsMesg, OhrSettingsMesg>)Delegate.CreateDelegate(typeof(Func<OhrSettingsMesg, OhrSettingsMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<ZonesTargetMesg> zonesTargetMesgs:
-                    if (ZonesTargetMesgs == null)
-                        ZonesTargetMesgs = new List<ZonesTargetMesg>();
-
-                    ZonesTargetMesgs = zonesTargetMesgs;
+                case "ZonesTargetMesg":
+                    ZonesTargetMesgs = ZonesTargetMesgs.Select((Func<ZonesTargetMesg, ZonesTargetMesg>)Delegate.CreateDelegate(typeof(Func<ZonesTargetMesg, ZonesTargetMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
-
-                case List<SportMesg> sportMesgs:
-                    if (SportMesgs == null)
-                        SportMesgs = new List<SportMesg>();
 
-                    SportMesgs = sportMesgs;
+                case "SportMesg":
+                    SportMesgs = SportMesgs.Select((Func<SportMesg, SportMesg>)Delegate.CreateDelegate(typeof(Func<SportMesg, SportMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<HrZoneMesg> hrZoneMesgs:
-                    if (HrZoneMesgs == null)
-                        HrZoneMesgs = new List<HrZoneMesg>();
-
-                    HrZoneMesgs = hrZoneMesgs;
+                case "HrZoneMesg":
+                    HrZoneMesgs = HrZoneMesgs.Select((Func<HrZoneMesg, HrZoneMesg>)Delegate.CreateDelegate(typeof(Func<HrZoneMesg, HrZoneMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<SpeedZoneMesg> speedZoneMesgs:
-                    if (SpeedZoneMesgs == null)
-                        SpeedZoneMesgs = new List<SpeedZoneMesg>();
-
-                    SpeedZoneMesgs = speedZoneMesgs;
+                case "SpeedZoneMesg":
+                    SpeedZoneMesgs = SpeedZoneMesgs.Select((Func<SpeedZoneMesg, SpeedZoneMesg>)Delegate.CreateDelegate(typeof(Func<SpeedZoneMesg, SpeedZoneMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
-
-                case List<CadenceZoneMesg> cadenceZoneMesgs:
-                    if (CadenceZoneMesgs == null)
-                        CadenceZoneMesgs = new List<CadenceZoneMesg>();
 
-                    CadenceZoneMesgs = cadenceZoneMesgs;
+                case "CadenceZoneMesg":
+                    CadenceZoneMesgs = CadenceZoneMesgs.Select((Func<CadenceZoneMesg, CadenceZoneMesg>)Delegate.CreateDelegate(typeof(Func<CadenceZoneMesg, CadenceZoneMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<PowerZoneMesg> powerZoneMesgs:
-                    if (PowerZoneMesgs == null)
-                        PowerZoneMesgs = new List<PowerZoneMesg>();
-
-                    PowerZoneMesgs = powerZoneMesgs;
+                case "PowerZoneMesg":
+                    PowerZoneMesgs = PowerZoneMesgs.Select((Func<PowerZoneMesg, PowerZoneMesg>)Delegate.CreateDelegate(typeof(Func<PowerZoneMesg, PowerZoneMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
-
-                case List<MetZoneMesg> metZoneMesgs:
-                    if (MetZoneMesgs == null)
-                        MetZoneMesgs = new List<MetZoneMesg>();
 
-                    MetZoneMesgs = metZoneMesgs;
+                case "MetZoneMesg":
+                    MetZoneMesgs = MetZoneMesgs.Select((Func<MetZoneMesg, MetZoneMesg>)Delegate.CreateDelegate(typeof(Func<MetZoneMesg, MetZoneMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<DiveSettingsMesg> diveSettingsMesgs:
-                    if (DiveSettingsMesgs == null)
-                        DiveSettingsMesgs = new List<DiveSettingsMesg>();
-
-                    DiveSettingsMesgs = diveSettingsMesgs;
+                case "DiveSettingsMesg":
+                    DiveSettingsMesgs = DiveSettingsMesgs.Select((Func<DiveSettingsMesg, DiveSettingsMesg>)Delegate.CreateDelegate(typeof(Func<DiveSettingsMesg, DiveSettingsMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<DiveAlarmMesg> diveAlarmMesgs:
-                    if (DiveAlarmMesgs == null)
-                        DiveAlarmMesgs = new List<DiveAlarmMesg>();
-
-                    DiveAlarmMesgs = diveAlarmMesgs;
+                case "DiveAlarmMesg":
+                    DiveAlarmMesgs = DiveAlarmMesgs.Select((Func<DiveAlarmMesg, DiveAlarmMesg>)Delegate.CreateDelegate(typeof(Func<DiveAlarmMesg, DiveAlarmMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
-
-                case List<DiveGasMesg> diveGasMesgs:
-                    if (DiveGasMesgs == null)
-                        DiveGasMesgs = new List<DiveGasMesg>();
 
-                    DiveGasMesgs = diveGasMesgs;
+                case "DiveGasMesg":
+                    DiveGasMesgs = DiveGasMesgs.Select((Func<DiveGasMesg, DiveGasMesg>)Delegate.CreateDelegate(typeof(Func<DiveGasMesg, DiveGasMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<GoalMesg> goalMesgs:
-                    if (GoalMesgs == null)
-                        GoalMesgs = new List<GoalMesg>();
-
-                    GoalMesgs = goalMesgs;
+                case "GoalMesg":
+                    GoalMesgs = GoalMesgs.Select((Func<GoalMesg, GoalMesg>)Delegate.CreateDelegate(typeof(Func<GoalMesg, GoalMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<ActivityMesg> activityMesgs:
-                    if (ActivityMesgs == null)
-                        ActivityMesgs = new List<ActivityMesg>();
-
-                    ActivityMesgs = activityMesgs;
+                case "ActivityMesg":
+                    ActivityMesgs = ActivityMesgs.Select((Func<ActivityMesg, ActivityMesg>)Delegate.CreateDelegate(typeof(Func<ActivityMesg, ActivityMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
-
-                case List<SessionMesg> sessionMesgs:
-                    if (SessionMesgs == null)
-                        SessionMesgs = new List<SessionMesg>();
 
-                    SessionMesgs = sessionMesgs;
+                case "SessionMesg":
+                    SessionMesgs = SessionMesgs.Select((Func<SessionMesg, SessionMesg>)Delegate.CreateDelegate(typeof(Func<SessionMesg, SessionMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<LapMesg> lapMesgs:
-                    if (LapMesgs == null)
-                        LapMesgs = new List<LapMesg>();
-
-                    LapMesgs = lapMesgs;
+                case "LapMesg":
+                    LapMesgs = LapMesgs.Select((Func<LapMesg, LapMesg>)Delegate.CreateDelegate(typeof(Func<LapMesg, LapMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<LengthMesg> lengthMesgs:
-                    if (LengthMesgs == null)
-                        LengthMesgs = new List<LengthMesg>();
-
-                    LengthMesgs = lengthMesgs;
+                case "LengthMesg":
+                    LengthMesgs = LengthMesgs.Select((Func<LengthMesg, LengthMesg>)Delegate.CreateDelegate(typeof(Func<LengthMesg, LengthMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
-
-                case List<RecordMesg> recordMesgs:
-                    if (RecordMesgs == null)
-                        RecordMesgs = new List<RecordMesg>();
 
-                    RecordMesgs = recordMesgs;
+                case "RecordMesg":
+                    RecordMesgs = RecordMesgs.Select((Func<RecordMesg, RecordMesg>)Delegate.CreateDelegate(typeof(Func<RecordMesg, RecordMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<EventMesg> eventMesgs:
-                    if (EventMesgs == null)
-                        EventMesgs = new List<EventMesg>();
-
-                    EventMesgs = eventMesgs;
+                case "EventMesg":
+                    EventMesgs = EventMesgs.Select((Func<EventMesg, EventMesg>)Delegate.CreateDelegate(typeof(Func<EventMesg, EventMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<DeviceInfoMesg> deviceInfoMesgs:
-                    if (DeviceInfoMesgs == null)
-                        DeviceInfoMesgs = new List<DeviceInfoMesg>();
-
-                    DeviceInfoMesgs = deviceInfoMesgs;
+                case "DeviceInfoMesg":
+                    DeviceInfoMesgs = DeviceInfoMesgs.Select((Func<DeviceInfoMesg, DeviceInfoMesg>)Delegate.CreateDelegate(typeof(Func<DeviceInfoMesg, DeviceInfoMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
-
-                case List<TrainingFileMesg> trainingFileMesgs:
-                    if (TrainingFileMesgs == null)
-                        TrainingFileMesgs = new List<TrainingFileMesg>();
 
-                    TrainingFileMesgs = trainingFileMesgs;
+                case "TrainingFileMesg":
+                    TrainingFileMesgs = TrainingFileMesgs.Select((Func<TrainingFileMesg, TrainingFileMesg>)Delegate.CreateDelegate(typeof(Func<TrainingFileMesg, TrainingFileMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<HrvMesg> hrvMesgs:
-                    if (HrvMesgs == null)
-                        HrvMesgs = new List<HrvMesg>();
-
-                    HrvMesgs = hrvMesgs;
+                case "HrvMesg":
+                    HrvMesgs = HrvMesgs.Select((Func<HrvMesg, HrvMesg>)Delegate.CreateDelegate(typeof(Func<HrvMesg, HrvMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<WeatherConditionsMesg> weatherConditionsMesgs:
-                    if (WeatherConditionsMesgs == null)
-                        WeatherConditionsMesgs = new List<WeatherConditionsMesg>();
-
-                    WeatherConditionsMesgs = weatherConditionsMesgs;
+                case "WeatherConditionsMesg":
+                    WeatherConditionsMesgs = WeatherConditionsMesgs.Select((Func<WeatherConditionsMesg, WeatherConditionsMesg>)Delegate.CreateDelegate(typeof(Func<WeatherConditionsMesg, WeatherConditionsMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
-
-                case List<WeatherAlertMesg> weatherAlertMesgs:
-                    if (WeatherAlertMesgs == null)
-                        WeatherAlertMesgs = new List<WeatherAlertMesg>();
 
-                    WeatherAlertMesgs = weatherAlertMesgs;
+                case "WeatherAlertMesg":
+                    WeatherAlertMesgs = WeatherAlertMesgs.Select((Func<WeatherAlertMesg, WeatherAlertMesg>)Delegate.CreateDelegate(typeof(Func<WeatherAlertMesg, WeatherAlertMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<GpsMetadataMesg> gpsMetadataMesgs:
-                    if (GpsMetadataMesgs == null)
-                        GpsMetadataMesgs = new List<GpsMetadataMesg>();
-
-                    GpsMetadataMesgs = gpsMetadataMesgs;
+                case "GpsMetadataMesg":
+                    GpsMetadataMesgs = GpsMetadataMesgs.Select((Func<GpsMetadataMesg, GpsMetadataMesg>)Delegate.CreateDelegate(typeof(Func<GpsMetadataMesg, GpsMetadataMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<CameraEventMesg> cameraEventMesgs:
-                    if (CameraEventMesgs == null)
-                        CameraEventMesgs = new List<CameraEventMesg>();
-
-                    CameraEventMesgs = cameraEventMesgs;
+                case "CameraEventMesg":
+                    CameraEventMesgs = CameraEventMesgs.Select((Func<CameraEventMesg, CameraEventMesg>)Delegate.CreateDelegate(typeof(Func<CameraEventMesg, CameraEventMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
-
-                case List<GyroscopeDataMesg> gyroscopeDataMesgs:
-                    if (GyroscopeDataMesgs == null)
-                        GyroscopeDataMesgs = new List<GyroscopeDataMesg>();
 
-                    GyroscopeDataMesgs = gyroscopeDataMesgs;
+                case "GyroscopeDataMesg":
+                    GyroscopeDataMesgs = GyroscopeDataMesgs.Select((Func<GyroscopeDataMesg, GyroscopeDataMesg>)Delegate.CreateDelegate(typeof(Func<GyroscopeDataMesg, GyroscopeDataMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<AccelerometerDataMesg> accelerometerDataMesgs:
-                    if (AccelerometerDataMesgs == null)
-                        AccelerometerDataMesgs = new List<AccelerometerDataMesg>();
-
-                    AccelerometerDataMesgs = accelerometerDataMesgs;
+                case "AccelerometerDataMesg":
+                    AccelerometerDataMesgs = AccelerometerDataMesgs.Select((Func<AccelerometerDataMesg, AccelerometerDataMesg>)Delegate.CreateDelegate(typeof(Func<AccelerometerDataMesg, AccelerometerDataMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<MagnetometerDataMesg> magnetometerDataMesgs:
-                    if (MagnetometerDataMesgs == null)
-                        MagnetometerDataMesgs = new List<MagnetometerDataMesg>();
-
-                    MagnetometerDataMesgs = magnetometerDataMesgs;
+                case "MagnetometerDataMesg":
+                    MagnetometerDataMesgs = MagnetometerDataMesgs.Select((Func<MagnetometerDataMesg, MagnetometerDataMesg>)Delegate.CreateDelegate(typeof(Func<MagnetometerDataMesg, MagnetometerDataMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
-
-                case List<BarometerDataMesg> barometerDataMesgs:
-                    if (BarometerDataMesgs == null)
-                        BarometerDataMesgs = new List<BarometerDataMesg>();
 
-                    BarometerDataMesgs = barometerDataMesgs;
+                case "BarometerDataMesg":
+                    BarometerDataMesgs = BarometerDataMesgs.Select((Func<BarometerDataMesg, BarometerDataMesg>)Delegate.CreateDelegate(typeof(Func<BarometerDataMesg, BarometerDataMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<ThreeDSensorCalibrationMesg> threeDSensorCalibrationMesgs:
-                    if (ThreeDSensorCalibrationMesgs == null)
-                        ThreeDSensorCalibrationMesgs = new List<ThreeDSensorCalibrationMesg>();
-
-                    ThreeDSensorCalibrationMesgs = threeDSensorCalibrationMesgs;
+                case "ThreeDSensorCalibrationMesg":
+                    ThreeDSensorCalibrationMesgs = ThreeDSensorCalibrationMesgs.Select((Func<ThreeDSensorCalibrationMesg, ThreeDSensorCalibrationMesg>)Delegate.CreateDelegate(typeof(Func<ThreeDSensorCalibrationMesg, ThreeDSensorCalibrationMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
-
-                case List<OneDSensorCalibrationMesg> oneDSensorCalibrationMesgs:
-                    if (OneDSensorCalibrationMesgs == null)
-                        OneDSensorCalibrationMesgs = new List<OneDSensorCalibrationMesg>();
 
-                    OneDSensorCalibrationMesgs = oneDSensorCalibrationMesgs;
+                case "OneDSensorCalibrationMesg":
+                    OneDSensorCalibrationMesgs = OneDSensorCalibrationMesgs.Select((Func<OneDSensorCalibrationMesg, OneDSensorCalibrationMesg>)Delegate.CreateDelegate(typeof(Func<OneDSensorCalibrationMesg, OneDSensorCalibrationMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<VideoFrameMesg> videoFrameMesgs:
-                    if (VideoFrameMesgs == null)
-                        VideoFrameMesgs = new List<VideoFrameMesg>();
-
-                    VideoFrameMesgs = videoFrameMesgs;
+                case "VideoFrameMesg":
+                    VideoFrameMesgs = VideoFrameMesgs.Select((Func<VideoFrameMesg, VideoFrameMesg>)Delegate.CreateDelegate(typeof(Func<VideoFrameMesg, VideoFrameMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<ObdiiDataMesg> obdiiDataMesgs:
-                    if (ObdiiDataMesgs == null)
-                        ObdiiDataMesgs = new List<ObdiiDataMesg>();
-
-                    ObdiiDataMesgs = obdiiDataMesgs;
+                case "ObdiiDataMesg":
+                    ObdiiDataMesgs = ObdiiDataMesgs.Select((Func<ObdiiDataMesg, ObdiiDataMesg>)Delegate.CreateDelegate(typeof(Func<ObdiiDataMesg, ObdiiDataMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
-
-                case List<NmeaSentenceMesg> nmeaSentenceMesgs:
-                    if (NmeaSentenceMesgs == null)
-                        NmeaSentenceMesgs = new List<NmeaSentenceMesg>();
 
-                    NmeaSentenceMesgs = nmeaSentenceMesgs;
+                case "NmeaSentenceMesg":
+                    NmeaSentenceMesgs = NmeaSentenceMesgs.Select((Func<NmeaSentenceMesg, NmeaSentenceMesg>)Delegate.CreateDelegate(typeof(Func<NmeaSentenceMesg, NmeaSentenceMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<AviationAttitudeMesg> aviationAttitudeMesgs:
-                    if (AviationAttitudeMesgs == null)
-                        AviationAttitudeMesgs = new List<AviationAttitudeMesg>();
-
-                    AviationAttitudeMesgs = aviationAttitudeMesgs;
+                case "AviationAttitudeMesg":
+                    AviationAttitudeMesgs = AviationAttitudeMesgs.Select((Func<AviationAttitudeMesg, AviationAttitudeMesg>)Delegate.CreateDelegate(typeof(Func<AviationAttitudeMesg, AviationAttitudeMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<VideoMesg> videoMesgs:
-                    if (VideoMesgs == null)
-                        VideoMesgs = new List<VideoMesg>();
-
-                    VideoMesgs = videoMesgs;
+                case "VideoMesg":
+                    VideoMesgs = VideoMesgs.Select((Func<VideoMesg, VideoMesg>)Delegate.CreateDelegate(typeof(Func<VideoMesg, VideoMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
-
-                case List<VideoTitleMesg> videoTitleMesgs:
-                    if (VideoTitleMesgs == null)
-                        VideoTitleMesgs = new List<VideoTitleMesg>();
 
-                    VideoTitleMesgs = videoTitleMesgs;
+                case "VideoTitleMesg":
+                    VideoTitleMesgs = VideoTitleMesgs.Select((Func<VideoTitleMesg, VideoTitleMesg>)Delegate.CreateDelegate(typeof(Func<VideoTitleMesg, VideoTitleMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<VideoDescriptionMesg> videoDescriptionMesgs:
-                    if (VideoDescriptionMesgs == null)
-                        VideoDescriptionMesgs = new List<VideoDescriptionMesg>();
-
-                    VideoDescriptionMesgs = videoDescriptionMesgs;
+                case "VideoDescriptionMesg":
+                    VideoDescriptionMesgs = VideoDescriptionMesgs.Select((Func<VideoDescriptionMesg, VideoDescriptionMesg>)Delegate.CreateDelegate(typeof(Func<VideoDescriptionMesg, VideoDescriptionMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<VideoClipMesg> videoClipMesgs:
-                    if (VideoClipMesgs == null)
-                        VideoClipMesgs = new List<VideoClipMesg>();
-
-                    VideoClipMesgs = videoClipMesgs;
+                case "VideoClipMesg":
+                    VideoClipMesgs = VideoClipMesgs.Select((Func<VideoClipMesg, VideoClipMesg>)Delegate.CreateDelegate(typeof(Func<VideoClipMesg, VideoClipMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
-
-                case List<SetMesg> setMesgs:
-                    if (SetMesgs == null)
-                        SetMesgs = new List<SetMesg>();
 
-                    SetMesgs = setMesgs;
+                case "SetMesg":
+                    SetMesgs = SetMesgs.Select((Func<SetMesg, SetMesg>)Delegate.CreateDelegate(typeof(Func<SetMesg, SetMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<JumpMesg> jumpMesgs:
-                    if (JumpMesgs == null)
-                        JumpMesgs = new List<JumpMesg>();
-
-                    JumpMesgs = jumpMesgs;
+                case "JumpMesg":
+                    JumpMesgs = JumpMesgs.Select((Func<JumpMesg, JumpMesg>)Delegate.CreateDelegate(typeof(Func<JumpMesg, JumpMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<CourseMesg> courseMesgs:
-                    if (CourseMesgs == null)
-                        CourseMesgs = new List<CourseMesg>();
-
-                    CourseMesgs = courseMesgs;
+                case "CourseMesg":
+                    CourseMesgs = CourseMesgs.Select((Func<CourseMesg, CourseMesg>)Delegate.CreateDelegate(typeof(Func<CourseMesg, CourseMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
-
-                case List<CoursePointMesg> coursePointMesgs:
-                    if (CoursePointMesgs == null)
-                        CoursePointMesgs = new List<CoursePointMesg>();
 
-                    CoursePointMesgs = coursePointMesgs;
+                case "CoursePointMesg":
+                    CoursePointMesgs = CoursePointMesgs.Select((Func<CoursePointMesg, CoursePointMesg>)Delegate.CreateDelegate(typeof(Func<CoursePointMesg, CoursePointMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<SegmentIdMesg> segmentIdMesgs:
-                    if (SegmentIdMesgs == null)
-                        SegmentIdMesgs = new List<SegmentIdMesg>();
-
-                    SegmentIdMesgs = segmentIdMesgs;
+                case "SegmentIdMesg":
+                    SegmentIdMesgs = SegmentIdMesgs.Select((Func<SegmentIdMesg, SegmentIdMesg>)Delegate.CreateDelegate(typeof(Func<SegmentIdMesg, SegmentIdMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<SegmentLeaderboardEntryMesg> segmentLeaderboardEntryMesgs:
-                    if (SegmentLeaderboardEntryMesgs == null)
-                        SegmentLeaderboardEntryMesgs = new List<SegmentLeaderboardEntryMesg>();
-
-                    SegmentLeaderboardEntryMesgs = segmentLeaderboardEntryMesgs;
+                case "SegmentLeaderboardEntryMesg":
+                    SegmentLeaderboardEntryMesgs = SegmentLeaderboardEntryMesgs.Select((Func<SegmentLeaderboardEntryMesg, SegmentLeaderboardEntryMesg>)Delegate.CreateDelegate(typeof(Func<SegmentLeaderboardEntryMesg, SegmentLeaderboardEntryMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
-
-                case List<SegmentPointMesg> segmentPointMesgs:
-                    if (SegmentPointMesgs == null)
-                        SegmentPointMesgs = new List<SegmentPointMesg>();
 
-                    SegmentPointMesgs = segmentPointMesgs;
+                case "SegmentPointMesg":
+                    SegmentPointMesgs = SegmentPointMesgs.Select((Func<SegmentPointMesg, SegmentPointMesg>)Delegate.CreateDelegate(typeof(Func<SegmentPointMesg, SegmentPointMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<SegmentLapMesg> segmentLapMesgs:
-                    if (SegmentLapMesgs == null)
-                        SegmentLapMesgs = new List<SegmentLapMesg>();
-
-                    SegmentLapMesgs = segmentLapMesgs;
+                case "SegmentLapMesg":
+                    SegmentLapMesgs = SegmentLapMesgs.Select((Func<SegmentLapMesg, SegmentLapMesg>)Delegate.CreateDelegate(typeof(Func<SegmentLapMesg, SegmentLapMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<SegmentFileMesg> segmentFileMesgs:
-                    if (SegmentFileMesgs == null)
-                        SegmentFileMesgs = new List<SegmentFileMesg>();
-
-                    SegmentFileMesgs = segmentFileMesgs;
+                case "SegmentFileMesg":
+                    SegmentFileMesgs = SegmentFileMesgs.Select((Func<SegmentFileMesg, SegmentFileMesg>)Delegate.CreateDelegate(typeof(Func<SegmentFileMesg, SegmentFileMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
-
-                case List<WorkoutMesg> workoutMesgs:
-                    if (WorkoutMesgs == null)
-                        WorkoutMesgs = new List<WorkoutMesg>();
 
-                    WorkoutMesgs = workoutMesgs;
+                case "WorkoutMesg":
+                    WorkoutMesgs = WorkoutMesgs.Select((Func<WorkoutMesg, WorkoutMesg>)Delegate.CreateDelegate(typeof(Func<WorkoutMesg, WorkoutMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<WorkoutSessionMesg> workoutSessionMesgs:
-                    if (WorkoutSessionMesgs == null)
-                        WorkoutSessionMesgs = new List<WorkoutSessionMesg>();
-
-                    WorkoutSessionMesgs = workoutSessionMesgs;
+                case "WorkoutSessionMesg":
+                    WorkoutSessionMesgs = WorkoutSessionMesgs.Select((Func<WorkoutSessionMesg, WorkoutSessionMesg>)Delegate.CreateDelegate(typeof(Func<WorkoutSessionMesg, WorkoutSessionMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<WorkoutStepMesg> workoutStepMesgs:
-                    if (WorkoutStepMesgs == null)
-                        WorkoutStepMesgs = new List<WorkoutStepMesg>();
-
-                    WorkoutStepMesgs = workoutStepMesgs;
+                case "WorkoutStepMesg":
+                    WorkoutStepMesgs = WorkoutStepMesgs.Select((Func<WorkoutStepMesg, WorkoutStepMesg>)Delegate.CreateDelegate(typeof(Func<WorkoutStepMesg, WorkoutStepMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
-
-                case List<ExerciseTitleMesg> exerciseTitleMesgs:
-                    if (ExerciseTitleMesgs == null)
-                        ExerciseTitleMesgs = new List<ExerciseTitleMesg>();
 
-                    ExerciseTitleMesgs = exerciseTitleMesgs;
+                case "ExerciseTitleMesg":
+                    ExerciseTitleMesgs = ExerciseTitleMesgs.Select((Func<ExerciseTitleMesg, ExerciseTitleMesg>)Delegate.CreateDelegate(typeof(Func<ExerciseTitleMesg, ExerciseTitleMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<ScheduleMesg> scheduleMesgs:
-                    if (ScheduleMesgs == null)
-                        ScheduleMesgs = new List<ScheduleMesg>();
-
-                    ScheduleMesgs = scheduleMesgs;
+                case "ScheduleMesg":
+                    ScheduleMesgs = ScheduleMesgs.Select((Func<ScheduleMesg, ScheduleMesg>)Delegate.CreateDelegate(typeof(Func<ScheduleMesg, ScheduleMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
-
-                case List<TotalsMesg> totalsMesgs:
-                    if (TotalsMesgs == null)
-                        TotalsMesgs = new List<TotalsMesg>();
 
-                    TotalsMesgs = totalsMesgs;
+                case "TotalsMesg":
+                    TotalsMesgs = TotalsMesgs.Select((Func<TotalsMesg, TotalsMesg>)Delegate.CreateDelegate(typeof(Func<TotalsMesg, TotalsMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<WeightScaleMesg> weightScaleMesgs:
-                    if (WeightScaleMesgs == null)
-                        WeightScaleMesgs = new List<WeightScaleMesg>();
-
-                    WeightScaleMesgs = weightScaleMesgs;
+                case "WeightScaleMesg":
+                    WeightScaleMesgs = WeightScaleMesgs.Select((Func<WeightScaleMesg, WeightScaleMesg>)Delegate.CreateDelegate(typeof(Func<WeightScaleMesg, WeightScaleMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<BloodPressureMesg> bloodPressureMesgs:
-                    if (BloodPressureMesgs == null)
-                        BloodPressureMesgs = new List<BloodPressureMesg>();
-
-                    BloodPressureMesgs = bloodPressureMesgs;
+                case "BloodPressureMesg":
+                    BloodPressureMesgs = BloodPressureMesgs.Select((Func<BloodPressureMesg, BloodPressureMesg>)Delegate.CreateDelegate(typeof(Func<BloodPressureMesg, BloodPressureMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
-
-                case List<MonitoringInfoMesg> monitoringInfoMesgs:
-                    if (MonitoringInfoMesgs == null)
-                        MonitoringInfoMesgs = new List<MonitoringInfoMesg>();
 
-                    MonitoringInfoMesgs = monitoringInfoMesgs;
+                case "MonitoringInfoMesg":
+                    MonitoringInfoMesgs = MonitoringInfoMesgs.Select((Func<MonitoringInfoMesg, MonitoringInfoMesg>)Delegate.CreateDelegate(typeof(Func<MonitoringInfoMesg, MonitoringInfoMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<MonitoringMesg> monitoringMesgs:
-                    if (MonitoringMesgs == null)
-                        MonitoringMesgs = new List<MonitoringMesg>();
-
-                    MonitoringMesgs = monitoringMesgs;
+                case "MonitoringMesg":
+                    MonitoringMesgs = MonitoringMesgs.Select((Func<MonitoringMesg, MonitoringMesg>)Delegate.CreateDelegate(typeof(Func<MonitoringMesg, MonitoringMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<HrMesg> hrMesgs:
-                    if (HrMesgs == null)
-                        HrMesgs = new List<HrMesg>();
-
-                    HrMesgs = hrMesgs;
+                case "HrMesg":
+                    HrMesgs = HrMesgs.Select((Func<HrMesg, HrMesg>)Delegate.CreateDelegate(typeof(Func<HrMesg, HrMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
-
-                case List<StressLevelMesg> stressLevelMesgs:
-                    if (StressLevelMesgs == null)
-                        StressLevelMesgs = new List<StressLevelMesg>();
 
-                    StressLevelMesgs = stressLevelMesgs;
+                case "StressLevelMesg":
+                    StressLevelMesgs = StressLevelMesgs.Select((Func<StressLevelMesg, StressLevelMesg>)Delegate.CreateDelegate(typeof(Func<StressLevelMesg, StressLevelMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<MemoGlobMesg> memoGlobMesgs:
-                    if (MemoGlobMesgs == null)
-                        MemoGlobMesgs = new List<MemoGlobMesg>();
-
-                    MemoGlobMesgs = memoGlobMesgs;
+                case "MemoGlobMesg":
+                    MemoGlobMesgs = MemoGlobMesgs.Select((Func<MemoGlobMesg, MemoGlobMesg>)Delegate.CreateDelegate(typeof(Func<MemoGlobMesg, MemoGlobMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<AntChannelIdMesg> antChannelIdMesgs:
-                    if (AntChannelIdMesgs == null)
-                        AntChannelIdMesgs = new List<AntChannelIdMesg>();
-
-                    AntChannelIdMesgs = antChannelIdMesgs;
+                case "AntChannelIdMesg":
+                    AntChannelIdMesgs = AntChannelIdMesgs.Select((Func<AntChannelIdMesg, AntChannelIdMesg>)Delegate.CreateDelegate(typeof(Func<AntChannelIdMesg, AntChannelIdMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
-
-                case List<AntRxMesg> antRxMesgs:
-                    if (AntRxMesgs == null)
-                        AntRxMesgs = new List<AntRxMesg>();
 
-                    AntRxMesgs = antRxMesgs;
+                case "AntRxMesg":
+                    AntRxMesgs = AntRxMesgs.Select((Func<AntRxMesg, AntRxMesg>)Delegate.CreateDelegate(typeof(Func<AntRxMesg, AntRxMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<AntTxMesg> antTxMesgs:
-                    if (AntTxMesgs == null)
-                        AntTxMesgs = new List<AntTxMesg>();
-
-                    AntTxMesgs = antTxMesgs;
+                case "AntTxMesg":
+                    AntTxMesgs = AntTxMesgs.Select((Func<AntTxMesg, AntTxMesg>)Delegate.CreateDelegate(typeof(Func<AntTxMesg, AntTxMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<ExdScreenConfigurationMesg> exdScreenConfigurationMesgs:
-                    if (ExdScreenConfigurationMesgs == null)
-                        ExdScreenConfigurationMesgs = new List<ExdScreenConfigurationMesg>();
-
-                    ExdScreenConfigurationMesgs = exdScreenConfigurationMesgs;
+                case "ExdScreenConfigurationMesg":
+                    ExdScreenConfigurationMesgs = ExdScreenConfigurationMesgs.Select((Func<ExdScreenConfigurationMesg, ExdScreenConfigurationMesg>)Delegate.CreateDelegate(typeof(Func<ExdScreenConfigurationMesg, ExdScreenConfigurationMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
-
-                case List<ExdDataFieldConfigurationMesg> exdDataFieldConfigurationMesgs:
-                    if (ExdDataFieldConfigurationMesgs == null)
-                        ExdDataFieldConfigurationMesgs = new List<ExdDataFieldConfigurationMesg>();
 
-                    ExdDataFieldConfigurationMesgs = exdDataFieldConfigurationMesgs;
+                case "ExdDataFieldConfigurationMesg":
+                    ExdDataFieldConfigurationMesgs = ExdDataFieldConfigurationMesgs.Select((Func<ExdDataFieldConfigurationMesg, ExdDataFieldConfigurationMesg>)Delegate.CreateDelegate(typeof(Func<ExdDataFieldConfigurationMesg, ExdDataFieldConfigurationMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<ExdDataConceptConfigurationMesg> exdDataConceptConfigurationMesgs:
-                    if (ExdDataConceptConfigurationMesgs == null)
-                        ExdDataConceptConfigurationMesgs = new List<ExdDataConceptConfigurationMesg>();
-
-                    ExdDataConceptConfigurationMesgs = exdDataConceptConfigurationMesgs;
+                case "ExdDataConceptConfigurationMesg":
+                    ExdDataConceptConfigurationMesgs = ExdDataConceptConfigurationMesgs.Select((Func<ExdDataConceptConfigurationMesg, ExdDataConceptConfigurationMesg>)Delegate.CreateDelegate(typeof(Func<ExdDataConceptConfigurationMesg, ExdDataConceptConfigurationMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
-                case List<FieldDescriptionMesg> fieldDescriptionMesgs:
-                    if (FieldDescriptionMesgs == null)
-                        FieldDescriptionMesgs = new List<FieldDescriptionMesg>();
-
-                    FieldDescriptionMesgs = fieldDescriptionMesgs;
+                case "FieldDescriptionMesg":
+                    FieldDescriptionMesgs = FieldDescriptionMesgs.Select((Func<FieldDescriptionMesg, FieldDescriptionMesg>)Delegate.CreateDelegate(typeof(Func<FieldDescriptionMesg, FieldDescriptionMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
-
-                case List<DeveloperDataIdMesg> developerDataIdMesgs:
-                    if (DeveloperDataIdMesgs == null)
-                        DeveloperDataIdMesgs = new List<DeveloperDataIdMesg>();
 
-                    DeveloperDataIdMesgs = developerDataIdMesgs;
+                case "DeveloperDataIdMesg":
+                    DeveloperDataIdMesgs = DeveloperDataIdMesgs.Select((Func<DeveloperDataIdMesg, DeveloperDataIdMesg>)Delegate.CreateDelegate(typeof(Func<DeveloperDataIdMesg, DeveloperDataIdMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<DiveSummaryMesg> diveSummaryMesgs:
-                    if (DiveSummaryMesgs == null)
-                        DiveSummaryMesgs = new List<DiveSummaryMesg>();
-
-                    DiveSummaryMesgs = diveSummaryMesgs;
+                case "DiveSummaryMesg":
+                    DiveSummaryMesgs = DiveSummaryMesgs.Select((Func<DiveSummaryMesg, DiveSummaryMesg>)Delegate.CreateDelegate(typeof(Func<DiveSummaryMesg, DiveSummaryMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
 
-                case List<ClimbProMesg> climbProMesgs:
-                    if (ClimbProMesgs == null)
-                        ClimbProMesgs = new List<ClimbProMesg>();
-
-                    ClimbProMesgs = climbProMesgs;
+                case "ClimbProMesg":
+                    ClimbProMesgs = ClimbProMesgs.Select((Func<ClimbProMesg, ClimbProMesg>)Delegate.CreateDelegate(typeof(Func<ClimbProMesg, ClimbProMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
-
-                case List<PadMesg> padMesgs:
-                    if (PadMesgs == null)
-                        PadMesgs = new List<PadMesg>();
 
-                    PadMesgs = padMesgs;
+                case "PadMesg":
+                    PadMesgs = PadMesgs.Select((Func<PadMesg, PadMesg>)Delegate.CreateDelegate(typeof(Func<PadMesg, PadMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
-
-                    // default:
-                    //     if (UnknownMesgs == null)
-                    //         UnknownMesgs = new List<Mesg>();
-
-                    //     UnknownMesgs = newMesgs;
-                    //     break;
-                case List<Mesg> mesgs:
-                    if (UnknownMesgs == null)
-                        UnknownMesgs = new List<Mesg>();
-
-                    UnknownMesgs = mesgs;
+                case "Mesg":
+                    UnknownMesgs = UnknownMesgs.Select((Func<Mesg, Mesg>)Delegate.CreateDelegate(typeof(Func<Mesg, Mesg>), newMesgs.Target, newMesgs.Method)).ToList();
                     break;
             }
         }

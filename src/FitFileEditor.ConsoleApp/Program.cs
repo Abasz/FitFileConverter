@@ -14,58 +14,8 @@ namespace FitFileEditor.ConsoleApp
 
             return parserResult
                 .MapResult(
-                    (EditorOptions options) =>
-                    {
-                        if (!File.Exists(options.FitFilePath))
-                            throw new FileNotFoundException("Invalid FIT file path");
-
-                        var editor = new Editor(options.FitFilePath);
-
-                        editor.Edit(options.Output, !options.NoMultiply);
-
-                        if (options.Convert)
-                        {
-                            File.WriteAllText(options.Output ?? $"{Path.GetFileNameWithoutExtension(options.FitFilePath)}-edited.fit.json", editor.ToJson());
-                        }
-
-                        return 0;
-                    },
-                    (ConverterOptions options) =>
-                    {
-                        if (!File.Exists(options.FilePath))
-                            throw new FileNotFoundException("Invalid file path");
-
-                        var extention = Path.GetExtension(options.FilePath).ToLower();
-                        if (extention == ".fit")
-                        {
-                            var parser = new FitFileParser();
-
-                            parser.ReadFitFile(options.FilePath);
-
-                            var path = options.Output ?? $"{Path.GetFileNameWithoutExtension(options.FilePath)}.json";
-                            File.WriteAllText(path, parser.ToJson());
-
-                            Console.WriteLine($"Converted to Json: ${path}");
-                        }
-
-                        if (extention == ".json")
-                        {
-                            var parser = new FitFileParser();
-                            if (options.fromFit is not null)
-                            {
-                                if (!File.Exists(options.fromFit))
-                                    throw new FileNotFoundException("Invalid input Fit file path");
-
-                                Console.WriteLine($"Using \"${options.fromFit}\" for conversion");
-
-                                parser.ReadFitFile(options.fromFit);
-                            }
-
-                            parser.FromJson(options.FilePath, options.Output);
-                        }
-
-                        return 0;
-                    },
+                    (EditorOptions options) => Editor(options),
+                    (ConverterOptions options) => Converter(options),
                     (SetupOptions options) => Setup(options),
                     errors =>
                     {
@@ -84,6 +34,67 @@ namespace FitFileEditor.ConsoleApp
             }
 
             GenerateFitMetadata.Generate(options.ShouldGenerateProfiles, options.ShouldGenerateTypes);
+
+            return 0;
+        }
+
+        private static int Converter(ConverterOptions options)
+        {
+            var extention = Path.GetExtension(options.FilePath).ToLower();
+            if (extention == ".fit")
+            {
+                var fitFileParser = FitFileParser.FromFit(options.FilePath);
+
+                var jsonPath = options.Output ??
+                    $"{Path.GetFileNameWithoutExtension(options.FilePath)}.json";
+
+                fitFileParser.ToJson(jsonPath);
+
+                Console.WriteLine($"Converted to Json: {jsonPath}");
+            }
+
+            if (extention == ".json")
+            {
+                FitFileParser? originalFitData = null;
+                if (options.fromFit is not null)
+                {
+                    Console.WriteLine($"Using \"{options.fromFit}\" for conversion");
+
+                    originalFitData = FitFileParser.FromFit(options.fromFit);
+                }
+
+                var fitPath = options.Output ??
+                    $"{Path.GetFileNameWithoutExtension(options.FilePath)}.fit";
+
+                FitFileParser.FromJson(options.FilePath, originalFitData, fitPath);
+
+                Console.WriteLine($"Converted to Fit: \"{fitPath}\"");
+            }
+
+            return 0;
+        }
+
+        private static int Editor(EditorOptions options)
+        {
+            var fitFileParser = FitFileParser.FromFit(options.FitFilePath);
+
+            fitFileParser.Edit(!options.NoMultiply, 2);
+
+            if (options.Convert)
+            {
+                var jsonPath = options.Output is not null ?
+                    $"{Path.GetFileNameWithoutExtension(options.Output)}.json" :
+                    $"{Path.GetFileNameWithoutExtension(options.FitFilePath)}-edited.json";
+                fitFileParser.ToJson(jsonPath);
+                Console.WriteLine($"Json file created: {jsonPath}");
+            }
+
+            var fitPath = options.Output is not null ?
+                $"{Path.GetFileNameWithoutExtension(options.Output)}.fit" :
+                $"{Path.GetFileNameWithoutExtension(options.FitFilePath)}-edited.fit";
+
+            fitFileParser.ToFit(fitPath);
+            Console.WriteLine($"Fit file created: {fitPath}");
 
             return 0;
         }
