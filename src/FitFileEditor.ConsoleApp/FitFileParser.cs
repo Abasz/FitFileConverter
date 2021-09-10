@@ -260,7 +260,7 @@ namespace FitFileEditor.ConsoleApp
             }
 
             if (!File.Exists("profiles.json"))
-                GenerateFitMetadata.Generate();
+                GenerateFitMetadata.Generate(true, false);
 
             var profiles = JsonSerializer.Deserialize<Dictionary<string, ProfileMeta>>(File.ReadAllText("profiles.json"), new JsonSerializerOptions()
                 {
@@ -277,7 +277,7 @@ namespace FitFileEditor.ConsoleApp
             }
 
             if (!File.Exists("types.json"))
-                GenerateFitMetadata.Generate();
+                GenerateFitMetadata.Generate(false, true);
 
             var types = JsonSerializer.Deserialize<Dictionary<string, TypeMeta>>(File.ReadAllText("types.json"), new JsonSerializerOptions()
                 {

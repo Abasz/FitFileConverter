@@ -64,7 +64,29 @@ namespace FitFileEditor.ConsoleApp
     }
 
     [Verb("setup", HelpText = "Generate metadata for json to fit converter")]
-    public class SetupOptions {}
+    public class SetupOptions
+    {
+        [Option('p', "profiles", HelpText = "Generate profiles metadata")]
+        public bool ShouldGenerateProfiles { get; set; }
+
+        [Option('t', "types", HelpText = "Generate types metadata")]
+        public bool ShouldGenerateTypes { get; set; }
+
+        [Usage(ApplicationAlias = "FitFileEditor")]
+        public static IEnumerable<Example> Examples
+        {
+            get
+            {
+            return new List<Example>()
+            {
+            new Example("Setup both types and profiles", new SetupOptions {}),
+            {
+            new Example("Setup only types", new SetupOptions { ShouldGenerateTypes = true })
+            }
+                };
+            }
+        }
+    }
 
     public static class HelperTextOptions
     {

@@ -66,13 +66,26 @@ namespace FitFileEditor.ConsoleApp
 
                         return 0;
                     },
-                    (SetupOptions options) => GenerateFitMetadata.Generate(),
+                    (SetupOptions options) => Setup(options),
                     errors =>
                     {
                         Console.WriteLine(HelperTextOptions.HelpText(parserResult));
                         return 1;
                     }
                 );
+        }
+
+        private static int Setup(SetupOptions options)
+        {
+            if (!options.ShouldGenerateProfiles && !options.ShouldGenerateTypes)
+            {
+                options.ShouldGenerateProfiles = true;
+                options.ShouldGenerateTypes = true;
+            }
+
+            GenerateFitMetadata.Generate(options.ShouldGenerateProfiles, options.ShouldGenerateTypes);
+
+            return 0;
         }
     }
 }
