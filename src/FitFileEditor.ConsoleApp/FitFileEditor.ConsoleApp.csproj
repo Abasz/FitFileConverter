@@ -13,9 +13,9 @@
         <Version>1.2.0</Version>
     </PropertyGroup>
     <ItemGroup>
-        <Reference Include="Fit, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+        <Reference Include="Fit, Culture=neutral, processorArchitecture=MSIL">
             <SpecificVersion>False</SpecificVersion>
-            <HintPath>..\..\..\..\connectiq-sdk-manager-windows\FitSDKRelease_21.53.00\cs\Fit.dll</HintPath>
+            <HintPath>..\..\..\..\connectiq-sdk-manager-windows\FitSDKRelease_21.60.00\cs\Fit.dll</HintPath>
         </Reference>
     </ItemGroup>
     <ItemGroup>
