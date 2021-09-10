@@ -42,26 +42,12 @@ namespace FitFileEditor.Libs
         {
             using var fileStream = File.OpenRead(filePath);
 
-            return await JsonSerializer.DeserializeAsync<T>(fileStream, new JsonSerializerOptions()
-            {
-                WriteIndented = true,
-                    PropertyNameCaseInsensitive = true,
-                    IgnoreNullValues = true,
-                    DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
-                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            });
+            return await JsonSerializer.DeserializeAsync<T>(fileStream, JsonSerializerOptions);
         }
 
         public static T? DeserializeJsonString<T>(string jsonString)
         {
-            return JsonSerializer.Deserialize<T>(jsonString, new JsonSerializerOptions()
-            {
-                WriteIndented = true,
-                    PropertyNameCaseInsensitive = true,
-                    IgnoreNullValues = true,
-                    DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
-                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            });
+            return JsonSerializer.Deserialize<T>(jsonString, JsonSerializerOptions);
         }
 
         /// <summary>
@@ -79,30 +65,20 @@ namespace FitFileEditor.Libs
         public static T ToConsole<T>(this T data)
         {
             Console.WriteLine(
-                // JsonConvert.SerializeObject(data));
-                JsonSerializer.Serialize(data, new JsonSerializerOptions
-                {
-                    WriteIndented = true,
-                        PropertyNameCaseInsensitive = true,
-                        IgnoreNullValues = true,
-                        DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
-                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-                }));
+                JsonSerializer.Serialize(data, JsonSerializerOptions));
             return data;
         }
 
-        public const string IPAddressRegex =
-            @"^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?).){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";
-
-        public const string RSSFeedRegex =
-            @"^(?:https?|ftps?)://[a-z0-9-]+(?:\.[a-z0-9-]+)+(?:/[-\w._~%!$&*+=/?]*)?(?::[\w.-]+:[\w.-]+=[\w.-]+;[\w.-]+=[\w.-]+)?$";
-
-        public const string UrlPathFileDebRegex = @"^(https?|ftps?)://[a-z0-9-]+(?:\.[a-z0-9-]+)+(/[\w.-]+)*/[\w.-]+\.deb$";
-
-        public const string UrlPathFileGeneralRegex = @"^(https?|ftps?)://[a-z0-9-]+(?:\.[a-z0-9-]+)+(/[\w.-]+)*/[\w.-]+$";
-
-        public const string DirectoryPathRegex = "^/(?:[^\\/:*?\"<>|\n]+/)*$";
-
-        public const string FilePathRegex = "^/(?:[^\\/:*?\"<>|\n]+/)*[^\\/:*?\"<>|\n]+$";
+        public static JsonSerializerOptions JsonSerializerOptions
+        {
+            get => new()
+            {
+                WriteIndented = true,
+                PropertyNameCaseInsensitive = true,
+                IgnoreNullValues = true,
+                DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            };
+        }
     }
 }

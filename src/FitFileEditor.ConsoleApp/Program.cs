@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 
 using CommandLine;
 
@@ -7,25 +9,25 @@ namespace FitFileEditor.ConsoleApp
 {
     class Program
     {
-        static int Main(string[] args)
+        static Task<int> Main(string[] args)
         {
             var parser = new Parser(with => with.HelpWriter = null);
             var parserResult = parser.ParseArguments<EditorOptions, ConverterOptions, SetupOptions>(args);
 
             return parserResult
-                .MapResult(
-                    (EditorOptions options) => Editor(options),
-                    (ConverterOptions options) => Converter(options),
-                    (SetupOptions options) => Setup(options),
+                .MapResult<EditorOptions, ConverterOptions, SetupOptions, Task<int>>(
+                    Editor,
+                    Converter,
+                    Setup,
                     errors =>
                     {
                         Console.WriteLine(HelperTextOptions.HelpText(parserResult));
-                        return 1;
+                        return Task.FromResult(1);
                     }
                 );
         }
 
-        private static int Setup(SetupOptions options)
+        private static Task<int> Setup(SetupOptions options)
         {
             if (!options.ShouldGenerateProfiles && !options.ShouldGenerateTypes)
             {
@@ -35,10 +37,10 @@ namespace FitFileEditor.ConsoleApp
 
             GenerateFitMetadata.Generate(options.ShouldGenerateProfiles, options.ShouldGenerateTypes);
 
-            return 0;
+            return Task.FromResult(0);
         }
 
-        private static int Converter(ConverterOptions options)
+        private static async Task<int> Converter(ConverterOptions options)
         {
             var extention = Path.GetExtension(options.FilePath).ToLower();
             if (extention == ".fit")
@@ -66,7 +68,7 @@ namespace FitFileEditor.ConsoleApp
                 var fitPath = options.Output ??
                     $"{Path.GetFileNameWithoutExtension(options.FilePath)}.fit";
 
-                FitFileParser.FromJson(options.FilePath, originalFitData, fitPath);
+                await FitFileParser.FromJson(options.FilePath, originalFitData, fitPath);
 
                 Console.WriteLine($"Converted to Fit: \"{fitPath}\"");
             }
@@ -74,7 +76,7 @@ namespace FitFileEditor.ConsoleApp
             return 0;
         }
 
-        private static int Editor(EditorOptions options)
+        private static Task<int> Editor(EditorOptions options)
         {
             var fitFileParser = FitFileParser.FromFit(options.FitFilePath);
 
@@ -96,7 +98,7 @@ namespace FitFileEditor.ConsoleApp
             fitFileParser.ToFit(fitPath);
             Console.WriteLine($"Fit file created: {fitPath}");
 
-            return 0;
+            return Task.FromResult(0);
         }
     }
 }

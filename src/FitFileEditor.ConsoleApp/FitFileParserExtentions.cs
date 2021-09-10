@@ -125,14 +125,7 @@ namespace FitFileEditor.ConsoleApp
                     .ToList());
 
             File.WriteAllText(filePath,
-                JsonSerializer.Serialize(newobject, new JsonSerializerOptions()
-                {
-                    WriteIndented = true,
-                        PropertyNameCaseInsensitive = true,
-                        IgnoreNullValues = true,
-                        DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
-                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-                })
+                JsonSerializer.Serialize(newobject, HelperMethods.JsonSerializerOptions)
             );
         }
     }

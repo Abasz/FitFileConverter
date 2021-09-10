@@ -8,6 +8,8 @@ using File = System.IO.File;
 
 using Dynastream.Fit;
 
+using FitFileEditor.Libs;
+
 namespace FitFileEditor.ConsoleApp
 {
     public class GenerateFitMetadata
@@ -62,14 +64,7 @@ namespace FitFileEditor.ConsoleApp
             });
 
             File.WriteAllText("types.json",
-                JsonSerializer.Serialize(types, new JsonSerializerOptions()
-                {
-                    WriteIndented = true,
-                        PropertyNameCaseInsensitive = true,
-                        IgnoreNullValues = true,
-                        DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
-                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-                })
+                JsonSerializer.Serialize(types, HelperMethods.JsonSerializerOptions)
             );
 
             Console.WriteLine("types.json have been generated");
@@ -109,14 +104,7 @@ namespace FitFileEditor.ConsoleApp
                 });
 
             File.WriteAllText("profiles.json",
-                JsonSerializer.Serialize(profiles, new JsonSerializerOptions()
-                {
-                    WriteIndented = true,
-                        PropertyNameCaseInsensitive = true,
-                        IgnoreNullValues = true,
-                        DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
-                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-                })
+                JsonSerializer.Serialize(profiles, HelperMethods.JsonSerializerOptions)
             );
 
             Console.WriteLine("profile.json have been generated");

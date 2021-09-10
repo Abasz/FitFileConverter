@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 using Dynastream.Fit;
 
@@ -125,13 +126,13 @@ namespace FitFileEditor.ConsoleApp
             return fitFileModel;
         }
 
-        public static FitFileParser FromJson(string path, string fitFilePath, string? outputPath = null)
+        public static Task<FitFileParser> FromJson(string path, string fitFilePath, string? outputPath = null)
         {
             var fitFileModel = FromFit(fitFilePath);
             return FromJson(path, fitFileModel, outputPath);
         }
 
-        public static FitFileParser FromJson(string path, FitFileParser? fitFileModel = null, string? outputPath = null)
+        public static async Task<FitFileParser> FromJson(string path, FitFileParser? fitFileModel = null, string? outputPath = null)
         {
             if (!File.Exists(path))
                 throw new FileNotFoundException("Invalid Json file path");
@@ -149,14 +150,7 @@ namespace FitFileEditor.ConsoleApp
             var fitFileWriter = new Encode(ProtocolVersion.V20);
             fitFileWriter.Open(outputFile);
 
-            var fitJsonFile = JsonSerializer.Deserialize<Dictionary<string, List<Dictionary<string, object>>>>(File.ReadAllText(path), new JsonSerializerOptions()
-                {
-                    WriteIndented = true,
-                        PropertyNameCaseInsensitive = true,
-                        IgnoreNullValues = true,
-                        DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
-                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-                });
+            var fitJsonFile = await HelperMethods.DeserializeJsonFileAsync<Dictionary<string, List<Dictionary<string, object>>>>(path);
 
             if (fitJsonFile is null)
             {
@@ -166,14 +160,7 @@ namespace FitFileEditor.ConsoleApp
             if (!File.Exists("profiles.json"))
                 GenerateFitMetadata.Generate(ShouldGenerateProfiles: true);
 
-            var profiles = JsonSerializer.Deserialize<Dictionary<string, ProfileMeta>>(File.ReadAllText("profiles.json"), new JsonSerializerOptions()
-                {
-                    WriteIndented = true,
-                        PropertyNameCaseInsensitive = true,
-                        IgnoreNullValues = true,
-                        DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
-                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-                });
+            var profiles = await HelperMethods.DeserializeJsonFileAsync<Dictionary<string, ProfileMeta>>("profiles.json");
 
             if (profiles is null)
             {
@@ -183,14 +170,7 @@ namespace FitFileEditor.ConsoleApp
             if (!File.Exists("types.json"))
                 GenerateFitMetadata.Generate(ShouldGenerateTypes: true);
 
-            var types = JsonSerializer.Deserialize<Dictionary<string, TypeMeta>>(File.ReadAllText("types.json"), new JsonSerializerOptions()
-                {
-                    WriteIndented = true,
-                        PropertyNameCaseInsensitive = true,
-                        IgnoreNullValues = true,
-                        DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
-                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-                });
+            var types = await HelperMethods.DeserializeJsonFileAsync<Dictionary<string, TypeMeta>>("types.json");
 
             if (types is null)
             {
