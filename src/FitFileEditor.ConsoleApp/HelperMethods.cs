@@ -17,7 +17,7 @@ namespace FitFileEditor.Libs
         {
             if (!string.IsNullOrEmpty(str) && str.Length > 1)
             {
-                return Char.ToLowerInvariant(str[0]) + str[1..];
+                return char.ToLowerInvariant(str[0]) + str[1..];
             }
             return str;
         }
@@ -64,21 +64,17 @@ namespace FitFileEditor.Libs
         /// <param name="data">The object to be written to console</param>
         public static T ToConsole<T>(this T data)
         {
-            Console.WriteLine(
-                JsonSerializer.Serialize(data, JsonSerializerOptions));
+            Console.WriteLine(JsonSerializer.Serialize(data, JsonSerializerOptions));
             return data;
         }
 
-        public static JsonSerializerOptions JsonSerializerOptions
+        public static readonly JsonSerializerOptions JsonSerializerOptions = new()
         {
-            get => new()
-            {
-                WriteIndented = true,
-                PropertyNameCaseInsensitive = true,
-                IgnoreNullValues = true,
-                DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            };
-        }
+            WriteIndented = true,
+            PropertyNameCaseInsensitive = true,
+            IgnoreNullValues = true,
+            DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        };
     }
 }

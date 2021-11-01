@@ -2,7 +2,7 @@
 
 This is a utility tool written in C# to convert and edit Fit files. It is capable of converting a Fit file to json and back without data loss or do standard editing directly (changing sport, potentially multiplying cadence, etc.)
 
-This means that one may convert a Fit file to Json, manipulate this Json and then convert it back to Fit file. If the original Fit file contains "unknown" fit messages or fields, when converting from json the --from-fit option (please see more details on [usage](#usage)) is necessary to avoid data loss. Unknown messages and fields in a Json file are not included, unless the original Fit file is included (as argument of the --from-fit flag) due to the lack of necessary metadata for conversion. This is a limitation/design of the Fit SDK rather then this app.
+This means that one may convert a Fit file to Json, manipulate this Json and then convert it back to Fit file. If the original Fit file contains "unknown" fit messages or fields, when converting from json the --from-fit option (please see more details on [usage](#usage-fitfileeditor-command-path-options)) is necessary to avoid data loss. Unknown messages and fields in a Json file are not included, unless the original Fit file is included (as argument of the --from-fit flag) due to the lack of necessary metadata for conversion. This is a limitation/design of the Fit SDK rather then this app.
 
 ## Installing
 **Compiling**

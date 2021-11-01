@@ -13,7 +13,7 @@ namespace FitFileEditor.ConsoleApp
         {
             Console.WriteLine($"Applying changes to FIT data (shouldMultiply: {shouldMultiplyCadence}, multiplier: {multiplier})");
 
-            fitFileParser.Edit(EditWorkoutMesgs(shouldMultiplyCadence));
+            fitFileParser.Edit(EditWorkoutMesgs());
             fitFileParser.Edit(EditWorkoutStepMesgs(shouldMultiplyCadence, multiplier));
             fitFileParser.Edit(EditSportMesgs());
             fitFileParser.Edit(EditRecordMesgs(shouldMultiplyCadence, multiplier));
@@ -23,13 +23,18 @@ namespace FitFileEditor.ConsoleApp
             return fitFileParser;
         }
 
-        public static Func<WorkoutMesg, WorkoutMesg> EditWorkoutMesgs(bool shouldMultiplyCadence = true)
+        public static Func<WorkoutMesg, WorkoutMesg> EditWorkoutMesgs()
         {
             return workMesg =>
             {
-                workMesg.SetSport(Sport.Rowing);
-                workMesg.SetSubSport(SubSport.Generic);
-
+                if (workMesg.GetSport() != Sport.Rowing)
+                {
+                    workMesg.SetSport(Sport.Rowing);
+                    workMesg.SetSubSport(
+                        workMesg.GetSubSport() == SubSport.IndoorCycling ?
+                        SubSport.IndoorRowing : SubSport.Generic
+                    );
+                }
                 return workMesg;
             };
         }
@@ -51,11 +56,17 @@ namespace FitFileEditor.ConsoleApp
         {
             return sportMesg =>
             {
-                sportMesg.SetSport(Sport.Rowing);
-                sportMesg.SetSubSport(SubSport.Generic);
-                sportMesg.SetName("Row");
-                sportMesg.SetFieldValue(4, 29);
+                if (sportMesg.GetSport() != Sport.Rowing)
+                {
+                    sportMesg.SetSport(Sport.Rowing);
+                    sportMesg.SetSubSport(
+                        sportMesg.GetSubSport() == SubSport.IndoorCycling ?
+                        SubSport.IndoorRowing : SubSport.Generic
+                    );
 
+                    sportMesg.SetName("Row");
+                    sportMesg.SetFieldValue(4, 29);
+                }
                 return sportMesg;
             };
         }
@@ -79,9 +90,15 @@ namespace FitFileEditor.ConsoleApp
         {
             return sessionMesg =>
             {
-                sessionMesg.SetSport(Sport.Rowing);
-                sessionMesg.SetSubSport(SubSport.Generic);
-                sessionMesg.SetFieldValue(110, Encoding.UTF8.GetBytes("Row"));
+                if (sessionMesg.GetSport() != Sport.Rowing)
+                {
+                    sessionMesg.SetSport(Sport.Rowing);
+                    sessionMesg.SetSubSport(
+                        sessionMesg.GetSubSport() == SubSport.IndoorCycling ?
+                        SubSport.IndoorRowing : SubSport.Generic
+                    );
+                    sessionMesg.SetFieldValue(110, Encoding.UTF8.GetBytes("Row"));
+                }
                 sessionMesg.AddStrokeDistance(recordMesgs);
 
                 if (shouldMultiplyCadence)
@@ -97,8 +114,14 @@ namespace FitFileEditor.ConsoleApp
         {
             return lapMesg =>
             {
-                lapMesg.SetSport(Sport.Rowing);
-                lapMesg.SetSubSport(SubSport.Generic);
+                if (lapMesg.GetSport() != Sport.Rowing)
+                {
+                    lapMesg.SetSport(Sport.Rowing);
+                    lapMesg.SetSubSport(
+                        lapMesg.GetSubSport() == SubSport.IndoorCycling ?
+                        SubSport.IndoorRowing : SubSport.Generic
+                    );
+                }
                 lapMesg.AddStrokeDistance(recordMesgs);
 
                 if (shouldMultiplyCadence)

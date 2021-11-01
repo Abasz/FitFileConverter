@@ -129,10 +129,10 @@ namespace FitFileEditor.ConsoleApp
         public static Task<FitFileParser> FromJson(string path, string fitFilePath, string? outputPath = null)
         {
             var fitFileModel = FromFit(fitFilePath);
-            return FromJson(path, fitFileModel, outputPath);
+            return FromJsonAsync(path, fitFileModel, outputPath);
         }
 
-        public static async Task<FitFileParser> FromJson(string path, FitFileParser? fitFileModel = null, string? outputPath = null)
+        public static async Task<FitFileParser> FromJsonAsync(string path, FitFileParser? fitFileModel = null, string? outputPath = null)
         {
             if (!File.Exists(path))
                 throw new FileNotFoundException("Invalid Json file path");

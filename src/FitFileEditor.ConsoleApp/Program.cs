@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -17,7 +16,7 @@ namespace FitFileEditor.ConsoleApp
             return parserResult
                 .MapResult<EditorOptions, ConverterOptions, SetupOptions, Task<int>>(
                     Editor,
-                    Converter,
+                    ConverterAsync,
                     Setup,
                     errors =>
                     {
@@ -40,7 +39,7 @@ namespace FitFileEditor.ConsoleApp
             return Task.FromResult(0);
         }
 
-        private static async Task<int> Converter(ConverterOptions options)
+        private static async Task<int> ConverterAsync(ConverterOptions options)
         {
             var extention = Path.GetExtension(options.FilePath).ToLower();
             if (extention == ".fit")
@@ -68,7 +67,7 @@ namespace FitFileEditor.ConsoleApp
                 var fitPath = options.Output ??
                     $"{Path.GetFileNameWithoutExtension(options.FilePath)}.fit";
 
-                await FitFileParser.FromJson(options.FilePath, originalFitData, fitPath);
+                await FitFileParser.FromJsonAsync(options.FilePath, originalFitData, fitPath);
 
                 Console.WriteLine($"Converted to Fit: \"{fitPath}\"");
             }
