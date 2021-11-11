@@ -205,8 +205,8 @@ namespace FitFileEditor.ConsoleApp
                 var recordsWithStrokeDist = recordMesgs.Where(
                     record =>
                     (record.GetStrokeDistance()is not null and > 0 and < 65535) &&
-                    record.GetTimestamp().GetDateTime() > lap.GetStartTime().GetDateTime() &&
-                    record.GetTimestamp().GetDateTime() <= lap.GetTimestamp().GetDateTime()
+                    record.GetTimestamp().GetDateTime() >= lap.GetStartTime().GetDateTime() &&
+                    record.GetTimestamp().GetDateTime() < lap.GetTimestamp().GetDateTime()
                 );
                 var recordLength = recordsWithStrokeDist.Count();
 
