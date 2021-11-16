@@ -6,6 +6,8 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using File = System.IO.File;
 
+using System.IO;
+
 using Dynastream.Fit;
 
 using FitFileEditor.Libs;
@@ -63,7 +65,7 @@ namespace FitFileEditor.ConsoleApp
                 };
             });
 
-            File.WriteAllText("types.json",
+            File.WriteAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "types.json"),
                 JsonSerializer.Serialize(types, HelperMethods.JsonSerializerOptions)
             );
 
@@ -103,7 +105,7 @@ namespace FitFileEditor.ConsoleApp
                     };
                 });
 
-            File.WriteAllText("profiles.json",
+            File.WriteAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "profiles.json"),
                 JsonSerializer.Serialize(profiles, HelperMethods.JsonSerializerOptions)
             );
 

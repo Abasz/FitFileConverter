@@ -126,7 +126,7 @@ namespace FitFileEditor.ConsoleApp
             return fitFileModel;
         }
 
-        public static Task<FitFileParser> FromJson(string path, string fitFilePath, string? outputPath = null)
+        public static Task<FitFileParser> FromJsonAsync(string path, string fitFilePath, string? outputPath = null)
         {
             var fitFileModel = FromFit(fitFilePath);
             return FromJsonAsync(path, fitFileModel, outputPath);
@@ -145,6 +145,9 @@ namespace FitFileEditor.ConsoleApp
             }
 
             var pathEdited = outputPath ?? $"{Path.GetFileNameWithoutExtension(path)}-edited.fit";
+            var profilesPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "profiles.json");
+            var typesPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "types.json");
+
             var outputFile = new FileStream($"{pathEdited}", FileMode.Create, FileAccess.ReadWrite, FileShare.Read);
 
             var fitFileWriter = new Encode(ProtocolVersion.V20);
@@ -157,20 +160,20 @@ namespace FitFileEditor.ConsoleApp
                 throw new JsonException("Fit json file is in an invalid format");
             }
 
-            if (!File.Exists("profiles.json"))
+            if (!File.Exists(profilesPath))
                 GenerateFitMetadata.Generate(ShouldGenerateProfiles: true);
 
-            var profiles = await HelperMethods.DeserializeJsonFileAsync<Dictionary<string, ProfileMeta>>("profiles.json");
+            var profiles = await HelperMethods.DeserializeJsonFileAsync<Dictionary<string, ProfileMeta>>(profilesPath);
 
             if (profiles is null)
             {
                 throw new JsonException("Profiles.json file is in an invalid format");
             }
 
-            if (!File.Exists("types.json"))
+            if (!File.Exists(typesPath))
                 GenerateFitMetadata.Generate(ShouldGenerateTypes: true);
 
-            var types = await HelperMethods.DeserializeJsonFileAsync<Dictionary<string, TypeMeta>>("types.json");
+            var types = await HelperMethods.DeserializeJsonFileAsync<Dictionary<string, TypeMeta>>(typesPath);
 
             if (types is null)
             {

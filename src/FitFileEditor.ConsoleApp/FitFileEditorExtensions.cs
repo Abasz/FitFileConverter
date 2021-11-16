@@ -175,7 +175,7 @@ namespace FitFileEditor.ConsoleApp
                 record.SetCadence((byte)(cadence * multiplier));
             if (record.GetFractionalCadence()is float fractionalCadence)
                 record.SetFractionalCadence(fractionalCadence * multiplier);
-            if (record.GetCycles()is byte totalCycles)
+            if (record.GetTotalCycles()is uint totalCycles)
                 record.SetTotalCycles(totalCycles * multiplier);
             if (record.GetCycles()is byte cycles)
                 record.SetCycles((byte)(cycles * multiplier));
@@ -217,7 +217,6 @@ namespace FitFileEditor.ConsoleApp
 
                     lap.SetAvgStrokeDistance(avgStrokeDistance);
                 }
-                // Console.WriteLine("Lap avgStrokeDist: {0}", lap.GetAvgStrokeDistance());
             }
 
             return lap;
@@ -239,7 +238,6 @@ namespace FitFileEditor.ConsoleApp
                     session.SetAvgStrokeDistance(avgStrokeDistance);
                 }
             }
-            // Console.WriteLine("Session avgStrokeDist: {0}", session.GetAvgStrokeDistance());
 
             return session;
         }
@@ -252,15 +250,10 @@ namespace FitFileEditor.ConsoleApp
             var speed = record.GetSpeed() * 60;
             var distPerStroke = speed / cadence;
 
-            // Console.WriteLine("Original stroke: {0}", record.GetStrokeDistance());
-
             if (distPerStroke is not null && distPerStroke > 0 && !float.IsInfinity(distPerStroke.Value) && !float.IsNaN(distPerStroke.Value))
             {
-                // Console.WriteLine("Setting stroke: {0}", distPerStroke);
-
                 record.SetStrokeDistance(distPerStroke);
             }
-            // Console.WriteLine("Stroke is {0}", record.GetFieldValue(87));
 
             return record;
         }
