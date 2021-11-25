@@ -214,7 +214,7 @@ namespace FitFileEditor.ConsoleApp
                                 var unkownMesg = key.Contains("unknown") ? mesg : currentMesgs!.ElementAt(index);
                                 var unkownField = unkownMesg.GetField(Convert.ToByte(property.Key.Replace("unknown-", "")));
 
-                                if (long.TryParse(propertyValue, out long value))
+                                if (unkownField.Type != types["string"].Num && long.TryParse(propertyValue, out long value))
                                 {
                                     unkownField.SetValue(value);
                                     mesg.SetField(unkownField);
