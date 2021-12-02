@@ -11,7 +11,7 @@ using Dynastream.Fit;
 
 using FitFileEditor.Libs;
 
-namespace FitFileEditor.ConsoleApp
+namespace FitFileEditor.ClassLibrary
 {
     public static class FitFileParserExtentions
     {

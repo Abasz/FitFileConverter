@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 using CommandLine;
 
+using FitFileEditor.ClassLibrary;
+
 namespace FitFileEditor.ConsoleApp
 {
     class Program

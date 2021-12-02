@@ -5,6 +5,8 @@ using System.Text;
 
 using Dynastream.Fit;
 
+using FitFileEditor.ClassLibrary;
+
 namespace FitFileEditor.ConsoleApp
 {
     public static class EditorExtensions

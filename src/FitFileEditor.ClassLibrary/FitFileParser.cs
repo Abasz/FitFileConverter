@@ -12,7 +12,7 @@ using FitFileEditor.Libs;
 
 using File = System.IO.File;
 
-namespace FitFileEditor.ConsoleApp
+namespace FitFileEditor.ClassLibrary
 {
     public class FitFileParser
     {
