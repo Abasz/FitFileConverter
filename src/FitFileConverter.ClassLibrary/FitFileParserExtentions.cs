@@ -9,9 +9,9 @@ using File = System.IO.File;
 
 using Dynastream.Fit;
 
-using FitFileEditor.Libs;
+using FitFileConverter.Libs;
 
-namespace FitFileEditor.ClassLibrary
+namespace FitFileConverter.ClassLibrary
 {
     public static class FitFileParserExtentions
     {

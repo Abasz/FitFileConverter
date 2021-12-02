@@ -4,7 +4,7 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace FitFileEditor.Libs
+namespace FitFileConverter.Libs
 {
     public static class HelperMethods
     {

@@ -11,11 +11,11 @@
         <InvariantGlobalization>true</InvariantGlobalization>
         <Nullable>enable</Nullable>
         <NoWarn>$(NoWarn);1591</NoWarn>
-        <Version>1.2.0</Version>
+        <Version>2.0.0</Version>
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="CommandLineParser" Version="2.8.0" />
-        <ProjectReference Include="..\FitFileEditor.ClassLibrary\FitFileEditor.ClassLibrary.csproj" />
+        <ProjectReference Include="..\FitFileConverter.ClassLibrary\FitFileConverter.ClassLibrary.csproj" />
         <Reference Include="Fit, Culture=neutral, processorArchitecture=MSIL">
             <SpecificVersion>False</SpecificVersion>
             <HintPath>..\..\..\..\connectiq-sdk-manager-windows\FitSDKRelease_21.60.00\cs\Fit.dll</HintPath>

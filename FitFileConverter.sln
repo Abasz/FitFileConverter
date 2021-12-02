@@ -5,13 +5,13 @@ VisualStudioVersion = 16.6.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{B4E9703C-D936-4E69-8E86-7BA1FED16358}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitFileEditor.ConsoleApp.Tests", "tests\FitFileEditor.ConsoleApp.Tests\FitFileEditor.ConsoleApp.Tests.csproj", "{7F5FD794-D534-41F8-8F2F-7CE8BF3D203F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitFileConverter.ConsoleApp.Tests", "tests\FitFileConverter.ConsoleApp.Tests\FitFileConverter.ConsoleApp.Tests.csproj", "{7F5FD794-D534-41F8-8F2F-7CE8BF3D203F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C021575D-FC86-41D5-98E8-32D1041D8328}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitFileEditor.ConsoleApp", "src\FitFileEditor.ConsoleApp\FitFileEditor.ConsoleApp.csproj", "{FB564343-AE90-4963-B507-955AAAB50827}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitFileConverter.ConsoleApp", "src\FitFileConverter.ConsoleApp\FitFileConverter.ConsoleApp.csproj", "{FB564343-AE90-4963-B507-955AAAB50827}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitFileEditor.ClassLibrary", "src\FitFileEditor.ClassLibrary\FitFileEditor.ClassLibrary.csproj", "{CD4ECAC8-9383-432C-BCA9-F77F69816796}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitFileConverter.ClassLibrary", "src\FitFileConverter.ClassLibrary\FitFileConverter.ClassLibrary.csproj", "{CD4ECAC8-9383-432C-BCA9-F77F69816796}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

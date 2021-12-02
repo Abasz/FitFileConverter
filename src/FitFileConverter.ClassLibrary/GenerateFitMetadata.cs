@@ -10,9 +10,9 @@ using System.IO;
 
 using Dynastream.Fit;
 
-using FitFileEditor.Libs;
+using FitFileConverter.Libs;
 
-namespace FitFileEditor.ClassLibrary
+namespace FitFileConverter.ClassLibrary
 {
     public class GenerateFitMetadata
     {

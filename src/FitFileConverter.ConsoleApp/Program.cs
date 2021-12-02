@@ -4,20 +4,19 @@ using System.Threading.Tasks;
 
 using CommandLine;
 
-using FitFileEditor.ClassLibrary;
+using FitFileConverter.ClassLibrary;
 
-namespace FitFileEditor.ConsoleApp
+namespace FitFileConverter.ConsoleApp
 {
     class Program
     {
         static Task<int> Main(string[] args)
         {
             var parser = new Parser(with => with.HelpWriter = null);
-            var parserResult = parser.ParseArguments<EditorOptions, ConverterOptions, SetupOptions>(args);
+            var parserResult = parser.ParseArguments<ConverterOptions, SetupOptions>(args);
 
             return parserResult
-                .MapResult<EditorOptions, ConverterOptions, SetupOptions, Task<int>>(
-                    Editor,
+                .MapResult<ConverterOptions, SetupOptions, Task<int>>(
                     ConverterAsync,
                     Setup,
                     errors =>
@@ -75,31 +74,6 @@ namespace FitFileEditor.ConsoleApp
             }
 
             return 0;
-        }
-
-        private static Task<int> Editor(EditorOptions options)
-        {
-            var fitFileParser = FitFileParser.FromFit(options.FitFilePath);
-
-            fitFileParser.Edit(!options.NoMultiply, 2);
-
-            if (options.Convert)
-            {
-                var jsonPath = options.Output is not null ?
-                    $"{Path.GetFileNameWithoutExtension(options.Output)}.json" :
-                    $"{Path.GetFileNameWithoutExtension(options.FitFilePath)}-edited.json";
-                fitFileParser.ToJson(jsonPath);
-                Console.WriteLine($"Json file created: {jsonPath}");
-            }
-
-            var fitPath = options.Output is not null ?
-                $"{Path.GetFileNameWithoutExtension(options.Output)}.fit" :
-                $"{Path.GetFileNameWithoutExtension(options.FitFilePath)}-edited.fit";
-
-            fitFileParser.ToFit(fitPath);
-            Console.WriteLine($"Fit file created: {fitPath}");
-
-            return Task.FromResult(0);
         }
     }
 }

@@ -9,9 +9,9 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/src/FitFileEditor.ConsoleApp/bin/Debug/net5.0/FitFileEditor.ConsoleApp.dll",
+            "program": "${workspaceFolder}/src/FitFileConverter.ConsoleApp/bin/Debug/net5.0/FitFileConverter.ConsoleApp.dll",
             "args": ["B5TD3213.FIT", "--convert"],
-            "cwd": "${workspaceFolder}/src/FitFileEditor.ConsoleApp",
+            "cwd": "${workspaceFolder}/src/FitFileConverter.ConsoleApp",
             "console": "internalConsole",
             "stopAtEntry": false,
             "env": { "DOTNET_ENVIRONMENT": "Development" }

@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/src/FitFileEditor.ConsoleApp/FitFileEditor.ConsoleApp.csproj",
+                "${workspaceFolder}/src/FitFileConverter.ConsoleApp/FitFileConverter.ConsoleApp.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -21,7 +21,7 @@
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/src/FitFileEditor.ConsoleApp/FitFileEditor.ConsoleApp.csproj",
+                "${workspaceFolder}/src/FitFileConverter.ConsoleApp/FitFileConverter.ConsoleApp.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -33,10 +33,10 @@
             "type": "process",
             "args": [
                 "test",
-                "${workspaceFolder}/tests/FitFileEditor.ConsoleApp.Tests/FitFileEditor.ConsoleApp.Tests.csproj",
+                "${workspaceFolder}/tests/FitFileConverter.ConsoleApp.Tests/FitFileConverter.ConsoleApp.Tests.csproj",
                 "/p:CollectCoverage=true",
                 "/p:CoverletOutputFormat=lcov",
-                "/p:CoverletOutput=./../../src/FitFileEditor.ConsoleApp/lcov"
+                "/p:CoverletOutput=./../../src/FitFileConverter.ConsoleApp/lcov"
             ],
             "group": "test",
             "problemMatcher": "$msCompile"
@@ -47,7 +47,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/src/FitFileEditor.ConsoleApp/FitFileEditor.ConsoleApp.csproj",
+                "${workspaceFolder}/src/FitFileConverter.ConsoleApp/FitFileConverter.ConsoleApp.csproj",
                 "/property:GenerateFullPaths=true",
                 "/property:TargetFramework=net5.0",
                 "/property:Configuration=Release",

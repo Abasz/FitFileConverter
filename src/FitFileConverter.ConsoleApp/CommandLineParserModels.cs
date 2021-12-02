@@ -5,36 +5,8 @@ using System.Text;
 using CommandLine;
 using CommandLine.Text;
 
-namespace FitFileEditor.ConsoleApp
+namespace FitFileConverter.ConsoleApp
 {
-    [Verb("edit", isDefault : true, HelpText = "Edit fit file")]
-    public class EditorOptions
-    {
-        [Value(0, Required = true, MetaName = "PATH", HelpText = "Path to the Fit file")]
-        public string FitFilePath { get; set; } = null!;
-
-        [Option('n', "no-multiply", HelpText = "Disable cadence multiplication")]
-        public bool NoMultiply { get; set; }
-
-        [Option('c', "convert", HelpText = "Convert the edited Fit file to json")]
-        public bool Convert { get; set; }
-
-        [Option('o', "output", HelpText = "Set edited Fit file output path and name")]
-        public string? Output { get; set; }
-
-        [Usage(ApplicationAlias = "FitFileEditor")]
-        public static IEnumerable<Example> Examples
-        {
-            get
-            {
-            return new List<Example>()
-            {
-            new Example("Edit then convert \"file.fit\" to json", new EditorOptions { FitFilePath = "file.fit", Convert = true })
-                };
-            }
-        }
-    }
-
     [Verb("convert", HelpText = "Json/Fit converter")]
     public class ConverterOptions
     {
@@ -47,7 +19,7 @@ namespace FitFileEditor.ConsoleApp
         [Option('o', "output", HelpText = "Set edited output path and name")]
         public string? Output { get; set; }
 
-        [Usage(ApplicationAlias = "FitFileEditor")]
+        [Usage(ApplicationAlias = "FitFileConverter")]
         public static IEnumerable<Example> Examples
         {
             get
@@ -72,7 +44,7 @@ namespace FitFileEditor.ConsoleApp
         [Option('t', "types", HelpText = "Generate types metadata")]
         public bool ShouldGenerateTypes { get; set; }
 
-        [Usage(ApplicationAlias = "FitFileEditor")]
+        [Usage(ApplicationAlias = "FitFileConverter")]
         public static IEnumerable<Example> Examples
         {
             get
@@ -106,10 +78,10 @@ namespace FitFileEditor.ConsoleApp
 
                         var sb = new StringBuilder();
                         sb.AppendLine("SYNOPSIS:");
-                        sb.AppendLine("        FitFileEditor [COMMAND] PATH [OPTIONS...]");
+                        sb.AppendLine("        FitFileConverter [COMMAND] PATH [OPTIONS...]");
                         sb.AppendLine();
                         sb.AppendLine("DESCRIPTION:");
-                        sb.Append("        FitFileEditor may be used to manipulate and/or convert Garmin Fit files. It is capable of converting a Fit file to json and back without data loss or do standard editing directly (changing sport, potentially multiplying cadence, etc.)");
+                        sb.Append("        FitFileConverter may be used to convert Garmin Fit files. It is capable of converting a Fit file to json and back without data loss(enable changing sport, potentially multiplying cadence, etc. in the json file)");
                         h.AddPreOptionsText(sb.ToString());
 
                         return CommandLine.Text.HelpText.DefaultParsingErrorsHandler(parserResult, h);

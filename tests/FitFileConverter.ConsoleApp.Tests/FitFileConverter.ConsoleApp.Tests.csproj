@@ -20,7 +20,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\src\FitFileEditor.ConsoleApp\FitFileEditor.ConsoleApp.csproj" />
+        <ProjectReference Include="..\..\src\FitFileConverter.ConsoleApp\FitFileConverter.ConsoleApp.csproj" />
     </ItemGroup>
 
 </Project>

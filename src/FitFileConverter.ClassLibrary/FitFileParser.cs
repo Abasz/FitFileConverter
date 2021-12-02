@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 using Dynastream.Fit;
 
-using FitFileEditor.Libs;
+using FitFileConverter.Libs;
 
 using File = System.IO.File;
 
-namespace FitFileEditor.ClassLibrary
+namespace FitFileConverter.ClassLibrary
 {
     public class FitFileParser
     {
