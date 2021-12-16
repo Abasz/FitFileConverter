@@ -9,7 +9,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/src/FitFileConverter.ConsoleApp/bin/Debug/net5.0/FitFileConverter.ConsoleApp.dll",
+            "program": "${workspaceFolder}/src/FitFileConverter.ConsoleApp/bin/Debug/net6.0/FitFileConverter.ConsoleApp.dll",
             "args": ["B5TD3213.FIT", "--convert"],
             "cwd": "${workspaceFolder}/src/FitFileConverter.ConsoleApp",
             "console": "internalConsole",

@@ -1,7 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFramework>net5.0</TargetFramework>
+        <TargetFramework>net6.0</TargetFramework>
         <InvariantGlobalization>true</InvariantGlobalization>
+        <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <NoWarn>$(NoWarn);1591</NoWarn>
         <Version>1.2.0</Version>
@@ -11,5 +12,14 @@
             <SpecificVersion>False</SpecificVersion>
             <HintPath>..\..\..\..\connectiq-sdk-manager-windows\FitSDKRelease_21.60.00\cs\Fit.dll</HintPath>
         </Reference>
+    </ItemGroup>
+    <ItemGroup>
+        <Using Include="System.Text"/>
+        <Using Include="System.Text.Json"/>
+        <Using Include="System.Text.RegularExpressions"/>
+
+        <Using Include="Dynastream.Fit"/>
+
+        <Using Include="FitFileConverter.Libs"/>
     </ItemGroup>
 </Project>

@@ -49,12 +49,10 @@
                 "publish",
                 "${workspaceFolder}/src/FitFileConverter.ConsoleApp/FitFileConverter.ConsoleApp.csproj",
                 "/property:GenerateFullPaths=true",
-                "/property:TargetFramework=net5.0",
                 "/property:Configuration=Release",
                 "/property:PublishSingleFile=true",
                 "/property:SelfContained=true",
                 "/property:RuntimeIdentifier=win-x64",
-                "/property:PublishTrimmed=true",
                 "/property:IncludeNativeLibrariesForSelfExtract=true",
                 "/property:PublishDir=${workspaceFolder}/dist/",
                 "/consoleloggerparameters:NoSummary"
