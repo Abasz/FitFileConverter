@@ -1,8 +1,4 @@
-using System.Text;
-
 using File = System.IO.File;
-
-using Dynastream.Fit;
 
 namespace FitFileConverter.ClassLibrary;
 
@@ -76,8 +72,23 @@ public static class FitFileParserExtentions
                         $"{field.Name}-{field.Num}" : field.Name,
                         field =>
                         {
-                            var fieldValue = field.GetValue();
                             var fieldType = new Field(field).ProfileType.ToString();
+
+                            if (fieldType == "Byte")
+                            {
+                                var numberOfBytes = field.GetNumValues();
+                                var i = 0;
+                                var byteList = new List<byte>();
+                                while (numberOfBytes > i)
+                                {
+                                    byteList.Add((byte)field.GetRawValue(i));
+                                    i++;
+                                }
+
+                                return byteList;
+                            }
+
+                            var fieldValue = field.GetValue();
 
                             if (fieldValue is byte[] stringValue)
                                 return Encoding.UTF8.GetString(stringValue).TrimEnd('\0');

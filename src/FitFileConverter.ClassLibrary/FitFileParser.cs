@@ -225,31 +225,19 @@ public class FitFileParser
 
                     var propertyMeta = profiles[key].Fields[property.Key];
 
-                    if (propertyMeta.IsNumber)
+                    if (propertyMeta.ProfileType == "Byte")
                     {
-                        if (propertyMeta.ProfileType == "DateTime" || propertyMeta.ProfileType == "LocalDateTime")
+                        if (property.Value is JsonElement jsonElement)
                         {
-                            mesg.SetFieldValue(
-                                propertyMeta.Num,
-                                new Dynastream.Fit.DateTime(
-                                    System.DateTime.Parse(propertyValue ?? "1990-01-01").ToUniversalTime()).GetTimeStamp()
-                            );
+                            var i = 0;
+                            foreach (var byteData in jsonElement.Deserialize<short[]>() !)
+                            {
+                                mesg.SetFieldValue(propertyMeta.Num, i, (byte)byteData);
+                                i++;
+                            };
 
                             continue;
                         }
-
-                        if (propertyMeta.Units == "semicircles")
-                        {
-                            var degrees = Convert.ToDouble(propertyValue) * (Math.Pow(2, 31) / 180);
-
-                            mesg.SetFieldValue(propertyMeta.Num, degrees);
-
-                            continue;
-                        }
-
-                        mesg.SetFieldValue(propertyMeta.Num, propertyValue);
-
-                        continue;
                     }
 
                     if (propertyMeta.ProfileType == "String")
@@ -259,6 +247,33 @@ public class FitFileParser
                         data.CopyTo(zdata, 0);
 
                         mesg.SetFieldValue(propertyMeta.Num, zdata);
+
+                        continue;
+                    }
+
+                    if (propertyMeta.ProfileType == "DateTime" || propertyMeta.ProfileType == "LocalDateTime")
+                    {
+                        mesg.SetFieldValue(
+                            propertyMeta.Num,
+                            new Dynastream.Fit.DateTime(
+                                System.DateTime.Parse(propertyValue ?? "1990-01-01").ToUniversalTime()).GetTimeStamp()
+                        );
+
+                        continue;
+                    }
+
+                    if (propertyMeta.Units == "semicircles")
+                    {
+                        var degrees = Convert.ToDouble(propertyValue) * (Math.Pow(2, 31) / 180);
+
+                        mesg.SetFieldValue(propertyMeta.Num, degrees);
+
+                        continue;
+                    }
+
+                    if (propertyMeta.IsNumber)
+                    {
+                        mesg.SetFieldValue(propertyMeta.Num, propertyValue);
 
                         continue;
                     }
