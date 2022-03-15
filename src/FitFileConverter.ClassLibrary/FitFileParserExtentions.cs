@@ -123,8 +123,15 @@ public static class FitFileParserExtentions
                             return Enum.ToObject(type!, enumValue)?.ToString()?.ToCamelCase() ?? fieldValue;
                         }
                     )
-                    .Concat(mesg.DeveloperFields.ToDictionary(field =>
-                        field.Name.ToLower() == "unknown" ? $"{field.Name}-{field.Num}" : field.Name, field => (object?)field.GetValue()))
+                    //TODO: needs the information necessary for converting back to FIT. This will need to be changed so each field contained the developerDataIndex and the fieldDefinitionNumber so data can be retained on coversion
+                    .Concat(mesg.DeveloperFields.Any() ? new Dictionary<string, object?>
+                    {
+                        {
+                            "DeveloperFields",
+                            mesg.DeveloperFields.ToDictionary(field =>
+                                field.Name.ToLower() == "unknown" ? $"{field.Name}-{field.Num}" : field.Name.Split(" ").ToCamelCase(), field => (object?)field.GetValue())
+                        }
+                    } : new Dictionary<string, object?>())
                     .ToDictionary(k => k.Key, k => k.Value))
                 .ToList());
 

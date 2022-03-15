@@ -20,6 +20,22 @@ public static class HelperMethods
     }
 
     /// <summary>
+    /// Concat IEnumerable<string> and convert to camelCase
+    /// </summary>
+    /// <param name="str">The IEnumerable<string> to convert</param>
+    /// <returns>Returns the camelCased <see cref="string"/></returns>
+    public static string ToCamelCase(this IEnumerable<string> strs)
+    {
+        return strs.Aggregate("", (previous, str) =>
+        {
+            if (string.IsNullOrEmpty(str) && str.Length < 2)
+                return "";
+
+            return $"{previous}{char.ToUpperInvariant(str[0]) + str[1..]}";
+        }).ToCamelCase();
+    }
+
+    /// <summary>
     /// Converts string to Capital first letter
     /// </summary>
     /// <param name="str">The string to convert</param>

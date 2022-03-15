@@ -222,6 +222,30 @@ public class FitFileParser
 
                         continue;
                     }
+                    // TODO: Decide if using the original fit file would be better approach (i.e. like with unkown to parse json to fit with developer messages the original fit file is required). The issue here is that to create a developer field the DeveloperDataIdMesg and FieldDescriptionMesg instance is necessary to be passed so these should be available on hand. Other option is to check if such messages are existing before starting the parsing of the rest of the JSON file so these are actually available once getting to this point.
+                    if (property.Key.Contains("developerFields"))
+                    {
+                        // TODO: Currently we are skipping developer fields as proper parsing needs to be implemented
+                        continue;
+                        // var developerFields = ((JsonElement)mesgItems["developerFields"]).Deserialize<Dictionary<string, object>>() !;
+
+                        // var developerDataIdMesg = fitJsonFile["developerDataId"];
+
+                        // foreach (var developerField in developerFields)
+                        // {
+                        //     var devFieldDescription = fitJsonFile["fieldDescription"].Find(fieldDescription => fieldDescription["fieldDefinitionNumber"].ToString() == developerField.Key.Split("-").Last());
+                        //     // new DeveloperField(devFieldDescription, )
+                        // }
+                        // foreach (var developerField in )
+                        // {
+                        //     var random = developerFields["fieldDefinitionNumber"] == property.Key.Split("-").Last();
+                        //     var devFieldDescription = fitJsonFile["fieldDescription"].Find(fieldDescription => fieldDescription["fieldDefinitionNumber"].ToString() == property.Key.Split("-").Last());
+                        // }
+
+                        // var developerField = new DeveloperField(doughnutsFieldDescMesg, developerIdMesg);
+
+                        // continue;
+                    }
 
                     var propertyMeta = profiles[key].Fields[property.Key];
 
