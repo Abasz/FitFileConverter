@@ -4,7 +4,7 @@ namespace FitFileConverter.ClassLibrary;
 
 public class FitFileParser
 {
-    private FitFileParser() {}
+    private FitFileParser() { }
 
     public IEnumerable<FileIdMesg> FileIdMesgs { get; private set; } = new List<FileIdMesg>();
     public IEnumerable<FileCreatorMesg> FileCreatorMesgs { get; private set; } = new List<FileCreatorMesg>();
@@ -193,9 +193,9 @@ public class FitFileParser
                     var propertyValue = property.Value?.ToString();
                     if (property.Key.Contains("unknown"))
                     {
-                        IEnumerable<Mesg> ? currentMesgs = null;
+                        IEnumerable<Mesg>? currentMesgs = null;
                         if (fitFileModel is not null)
-                            currentMesgs = (IEnumerable<Mesg> ? )typeof(FitFileParser)?.GetProperty($"{key.ToFirstUpper()}Mesgs")?.GetValue(fitFileModel);
+                            currentMesgs = (IEnumerable<Mesg>?)typeof(FitFileParser)?.GetProperty($"{key.ToFirstUpper()}Mesgs")?.GetValue(fitFileModel);
 
                         if ((currentMesgs is not null && currentMesgs.Any()) || key.Contains("unknown"))
                         {
@@ -254,7 +254,7 @@ public class FitFileParser
                         if (property.Value is JsonElement jsonElement)
                         {
                             var i = 0;
-                            foreach (var byteData in jsonElement.Deserialize<short[]>() !)
+                            foreach (var byteData in jsonElement.Deserialize<short[]>()!)
                             {
                                 mesg.SetFieldValue(propertyMeta.Num, i, (byte)byteData);
                                 i++;
@@ -686,7 +686,7 @@ public class FitFileParser
         }
     }
 
-    public void Edit<T>(Func<T, T> newMesgs)where T : Mesg
+    public void Edit<T>(Func<T, T> newMesgs) where T : Mesg
     {
 
         switch (typeof(T).Name)

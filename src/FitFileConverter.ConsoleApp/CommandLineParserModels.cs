@@ -2,7 +2,7 @@ using CommandLine.Text;
 
 namespace FitFileConverter.ConsoleApp;
 
-[Verb("convert", isDefault : true, HelpText = "Json/Fit converter")]
+[Verb("convert", isDefault: true, HelpText = "Json/Fit converter")]
 public class ConverterOptions
 {
     [Value(0, Required = true, MetaName = "PATH", HelpText = "Path to the file to be converted")]
@@ -19,7 +19,7 @@ public class ConverterOptions
     {
         get
         {
-        return new List<Example>()
+            return new List<Example>()
         {
         new Example("Edit \"file.fit\" with \"file.json\"", new ConverterOptions { FilePath = "file.json", fromFit = "file.fit" }),
         {
@@ -44,7 +44,7 @@ public class SetupOptions
     {
         get
         {
-        return new List<Example>()
+            return new List<Example>()
         {
         new Example("Setup both types and profiles", new SetupOptions {}),
         {
@@ -57,7 +57,7 @@ public class SetupOptions
 
 public static class HelperTextOptions
 {
-    public static HelpText HelpText(ParserResult<object> ? parserResult)
+    public static HelpText HelpText(ParserResult<object>? parserResult)
     {
         return CommandLine.Text.HelpText
             .AutoBuild(
@@ -82,7 +82,7 @@ public static class HelperTextOptions
                     return CommandLine.Text.HelpText.DefaultParsingErrorsHandler(parserResult, h);
                 },
                 e => e,
-                verbsIndex : true
+                verbsIndex: true
             );
     }
 

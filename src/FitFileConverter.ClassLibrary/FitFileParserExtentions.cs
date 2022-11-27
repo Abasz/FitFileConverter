@@ -13,7 +13,7 @@ public static class FitFileParserExtentions
         var properties = typeof(FitFileParser).GetProperties();
         foreach (var property in properties)
         {
-            var mesgs = (IEnumerable<dynamic> ? )property.GetValue(fitFileModel);
+            var mesgs = (IEnumerable<dynamic>?)property.GetValue(fitFileModel);
             if (mesgs is not null)
             {
                 fitFileWriter.Write(mesgs.Cast<Mesg>());
@@ -35,7 +35,7 @@ public static class FitFileParserExtentions
                 var value = prop.GetValue(fitFileModel);
                 return value is not null && ((IEnumerable<dynamic>)value).Any();
             })
-            .Select(prop => ((IEnumerable<dynamic>)prop.GetValue(fitFileModel) !)
+            .Select(prop => ((IEnumerable<dynamic>)prop.GetValue(fitFileModel)!)
                 .Select(mesg => new Mesg(mesg))
                 .ToList()
             )

@@ -7,7 +7,7 @@ public class GenerateFitMetadata
 {
     private readonly Assembly _assemblies = Assembly.Load("Fit");
 
-    private GenerateFitMetadata() {}
+    private GenerateFitMetadata() { }
 
     public static void Generate(bool ShouldGenerateProfiles = true, bool ShouldGenerateTypes = true)
     {
@@ -26,7 +26,7 @@ public class GenerateFitMetadata
         var types = Enum.GetNames(typeof(Profile.Type)).ToDictionary(type => type, type =>
         {
             var fields = new Dictionary<string, long>();
-            if (_assemblies.GetType($"Dynastream.Fit.{type}")is Type mesgType)
+            if (_assemblies.GetType($"Dynastream.Fit.{type}") is Type mesgType)
             {
                 if (mesgType is not null && mesgType.Name != "DateTime")
                 {
@@ -34,14 +34,14 @@ public class GenerateFitMetadata
                     {
                         foreach (object foo in Enum.GetValues(mesgType))
                         {
-                            fields.TryAdd(foo.ToString() !, Convert.ToInt64(foo));
+                            fields.TryAdd(foo.ToString()!, Convert.ToInt64(foo));
                         }
                     }
                     if (mesgType.IsClass)
                     {
                         fields = mesgType.GetFields().ToDictionary(
                             fieldMeta => fieldMeta.Name,
-                            fieldMeta => Convert.ToInt64(fieldMeta.GetValue(null)) !
+                            fieldMeta => Convert.ToInt64(fieldMeta.GetValue(null))!
                         );
                     }
                 }
@@ -50,7 +50,7 @@ public class GenerateFitMetadata
             return new TypeMeta
             {
                 Num = index++,
-                    Fields = fields
+                Fields = fields
             };
         });
 
@@ -66,29 +66,29 @@ public class GenerateFitMetadata
         var mesgs = _assemblies.DefinedTypes.Where(type => Regex.IsMatch(type.Name, "^.+Mesg$"));
 
         var profiles = mesgs.ToDictionary(
-            mesg => (string)mesg.GetProperty("Name") !.GetValue(Activator.CreateInstance(mesg)) !,
+            mesg => (string)mesg.GetProperty("Name")!.GetValue(Activator.CreateInstance(mesg))!,
             mesg =>
             {
-                var mesgInstance = (Mesg)Activator.CreateInstance(mesg) !;
-                var num = (ushort)mesg.GetProperty("Num") !.GetValue(mesgInstance) !;
-                var fields = mesg.GetNestedType("FieldDefNum") !.GetFields();
+                var mesgInstance = (Mesg)Activator.CreateInstance(mesg)!;
+                var num = (ushort)mesg.GetProperty("Num")!.GetValue(mesgInstance)!;
+                var fields = mesg.GetNestedType("FieldDefNum")!.GetFields();
 
                 return new ProfileMeta
                 {
                     Num = num,
-                        Fields =
+                    Fields =
                         fields.ToDictionary(field => field.Name,
                             field =>
                             {
-                                var fieldNum = (byte)field.GetValue(mesgInstance) !;
+                                var fieldNum = (byte)field.GetValue(mesgInstance)!;
                                 mesgInstance.SetFieldValue(fieldNum, 0);
                                 var fieldMeta = mesgInstance.GetField(fieldNum);
                                 return new ProfileFieldMeta
                                 {
                                     Num = fieldNum,
-                                        ProfileType = fieldMeta.ProfileType.ToString(),
-                                        Units = fieldMeta.Units,
-                                        IsNumber = fieldMeta.IsNumeric()
+                                    ProfileType = fieldMeta.ProfileType.ToString(),
+                                    Units = fieldMeta.Units,
+                                    IsNumber = fieldMeta.IsNumeric()
                                 };
                             })
                 };
