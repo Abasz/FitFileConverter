@@ -43,14 +43,14 @@ public static class FitFileParserExtentions
             {
                 if (mesgs.ElementAt(0).Name.ToLower() == "unknown")
                 {
-                    var unkownMesgGroups = mesgs.Select(mesg =>
+                    var unknownMesgGroups = mesgs.Select(mesg =>
                     {
                         mesg.Name = $"{mesg.Name}-{mesg.Num}";
 
                         return mesg;
                     }).GroupBy(mesg => mesg.Name);
 
-                    accumulator.AddRange(unkownMesgGroups.Select(group =>
+                    accumulator.AddRange(unknownMesgGroups.Select(group =>
                         group
                         .Aggregate(new List<Mesg>(), (accumulator, mesg) =>
                         {

@@ -1,3 +1,4 @@
+using System.Reflection.Metadata;
 using File = System.IO.File;
 
 namespace FitFileConverter.ClassLibrary;
@@ -141,35 +142,31 @@ public class FitFileParser
         var fitFileWriter = new Encode(ProtocolVersion.V20);
         fitFileWriter.Open(outputFile);
 
-        var fitJsonFile = await HelperMethods.DeserializeJsonFileAsync<Dictionary<string, List<Dictionary<string, object>>>>(path);
-
-        if (fitJsonFile is null)
-        {
-            throw new JsonException("Fit json file is in an invalid format");
-        }
+        var fitJsonFile = await HelperMethods.DeserializeJsonFileAsync<Dictionary<string, List<Dictionary<string, object>>>>(path) ?? throw new JsonException("Fit json file is in an invalid format");
 
         if (!File.Exists(profilesPath))
             GenerateFitMetadata.Generate(ShouldGenerateProfiles: true);
 
-        var profiles = await HelperMethods.DeserializeJsonFileAsync<Dictionary<string, ProfileMeta>>(profilesPath);
-
-        if (profiles is null)
-        {
-            throw new JsonException("Profiles.json file is in an invalid format");
-        }
+        var profiles = await HelperMethods.DeserializeJsonFileAsync<Dictionary<string, ProfileMeta>>(profilesPath) ?? throw new JsonException("Profiles.json file is in an invalid format");
 
         if (!File.Exists(typesPath))
             GenerateFitMetadata.Generate(ShouldGenerateTypes: true);
 
-        var types = await HelperMethods.DeserializeJsonFileAsync<Dictionary<string, TypeMeta>>(typesPath);
+        var types = await HelperMethods.DeserializeJsonFileAsync<Dictionary<string, TypeMeta>>(typesPath) ?? throw new JsonException("Types.json file is in an invalid format");
 
-        if (types is null)
-        {
-            throw new JsonException("Types.json file is in an invalid format");
-        }
+        var developerDataIdMesgs = fitJsonFile.ContainsKey("developerDataId") ?
+            CreateDeveloperDataIdMesgs(fitJsonFile["developerDataId"], profiles) :
+            new List<DeveloperDataIdMesg>();
+        developerDataIdMesgs.ForEach(developerDataIdMesg => fitFileWriter.Write(developerDataIdMesg));
+
+        var fieldDescriptionMesgs = fitJsonFile.ContainsKey("fieldDescription") ? CreateFieldDescriptionMesgs(fitJsonFile["fieldDescription"], profiles) :
+        new List<FieldDescriptionMesg>();
+        fieldDescriptionMesgs.ForEach(fieldDescriptionMesg => fitFileWriter.Write(fieldDescriptionMesg));
 
         foreach (var key in fitJsonFile.Keys)
         {
+            if (key.Contains("fieldDescription") || key.Contains("developerDataId")) continue;
+
             var index = 0;
             foreach (var mesgItems in fitJsonFile[key])
             {
@@ -199,13 +196,14 @@ public class FitFileParser
 
                         if ((currentMesgs is not null && currentMesgs.Any()) || key.Contains("unknown"))
                         {
-                            var unkownMesg = key.Contains("unknown") ? mesg : currentMesgs!.ElementAt(index);
-                            var unkownField = unkownMesg.GetField(Convert.ToByte(property.Key.Replace("unknown-", "")));
+                            var unknownMesg = key.Contains("unknown") ? mesg : currentMesgs!.ElementAt(index);
+                            var unknownField = unknownMesg.GetField(Convert.ToByte(property.Key.Replace("unknown-", "")));
+                            var test = unknownField.GetValue(Convert.ToByte(property.Key.Replace("unknown-", "")));
 
-                            if (unkownField.Type != types["string"].Num && long.TryParse(propertyValue, out long value))
+                            if (unknownField.Type != types["string"].Num && long.TryParse(propertyValue, out long value))
                             {
-                                unkownField.SetValue(value);
-                                mesg.SetField(unkownField);
+                                unknownField.SetValue(value);
+                                mesg.SetField(unknownField);
 
                                 continue;
                             }
@@ -214,37 +212,56 @@ public class FitFileParser
                             var zdata = new byte[data.Length + 1];
                             data.CopyTo(zdata, 0);
 
-                            var test = unkownField.GetValue(Convert.ToByte(property.Key.Replace("unknown-", "")));
-
-                            unkownField.SetValue(zdata);
-                            mesg.SetField(unkownField);
+                            unknownField.SetValue(zdata);
+                            mesg.SetField(unknownField);
                         }
 
                         continue;
                     }
-                    // TODO: Decide if using the original fit file would be better approach (i.e. like with unkown to parse json to fit with developer messages the original fit file is required). The issue here is that to create a developer field the DeveloperDataIdMesg and FieldDescriptionMesg instance is necessary to be passed so these should be available on hand. Other option is to check if such messages are existing before starting the parsing of the rest of the JSON file so these are actually available once getting to this point.
+
                     if (property.Key.Contains("developerFields"))
                     {
-                        // TODO: Currently we are skipping developer fields as proper parsing needs to be implemented
+                        if (!developerDataIdMesgs.Any() || !fieldDescriptionMesgs.Any()) continue;
+
+                        var i = 0;
+                        foreach (var developerField in ((JsonElement)mesgItems["developerFields"]).Deserialize<Dictionary<string, object>>()!)
+                        {
+                            var fieldDescription = fieldDescriptionMesgs.Find(mesg => mesg.GetFieldNameAsString(0).Trim('\0').ToCamelCase() == developerField.Key);
+
+                            if (fieldDescription is null) continue;
+
+                            var developerDataId = developerDataIdMesgs.Find(field => field.GetDeveloperDataIndex() == fieldDescription.GetDeveloperDataIndex());
+
+                            if (developerDataId is null) continue;
+
+                            var developerFieldMesg = new DeveloperField(fieldDescription, developerDataId);
+                            i++;
+
+                            var value = (JsonElement)developerField.Value;
+
+                            if (developerFieldMesg.Type >= types["sint8"].Num && developerFieldMesg.Type <= types["uint32"].Num)
+                            {
+                                developerFieldMesg.SetValue(value.GetInt64());
+                            }
+
+
+                            if (developerFieldMesg.Type == types["string"].Num)
+                            {
+                                var data = Encoding.UTF8.GetBytes(value.GetString() ?? "");
+                                var zdata = new byte[data.Length + 1];
+                                data.CopyTo(zdata, 0);
+
+                                developerFieldMesg.SetValue(zdata);
+                            }
+
+                            if (developerFieldMesg.Type >= types["float32"].Num && developerFieldMesg.Type <= types["float64"].Num)
+                            {
+                                developerFieldMesg.SetValue(value.GetDouble());
+                            }
+
+                            mesg.SetDeveloperField(developerFieldMesg);
+                        }
                         continue;
-                        // var developerFields = ((JsonElement)mesgItems["developerFields"]).Deserialize<Dictionary<string, object>>() !;
-
-                        // var developerDataIdMesg = fitJsonFile["developerDataId"];
-
-                        // foreach (var developerField in developerFields)
-                        // {
-                        //     var devFieldDescription = fitJsonFile["fieldDescription"].Find(fieldDescription => fieldDescription["fieldDefinitionNumber"].ToString() == developerField.Key.Split("-").Last());
-                        //     // new DeveloperField(devFieldDescription, )
-                        // }
-                        // foreach (var developerField in )
-                        // {
-                        //     var random = developerFields["fieldDefinitionNumber"] == property.Key.Split("-").Last();
-                        //     var devFieldDescription = fitJsonFile["fieldDescription"].Find(fieldDescription => fieldDescription["fieldDefinitionNumber"].ToString() == property.Key.Split("-").Last());
-                        // }
-
-                        // var developerField = new DeveloperField(doughnutsFieldDescMesg, developerIdMesg);
-
-                        // continue;
                     }
 
                     var propertyMeta = profiles[key].Fields[property.Key];
@@ -323,6 +340,71 @@ public class FitFileParser
         Console.WriteLine($"Decoded \"{path}\" file to \"{pathEdited}\"");
 
         return FromFit(pathEdited);
+    }
+
+    private static List<FieldDescriptionMesg> CreateFieldDescriptionMesgs(List<Dictionary<string, object>> fieldDescriptionJsonMesgs, Dictionary<string, ProfileMeta> profiles)
+    {
+        var fieldDescriptionMesgs = new List<FieldDescriptionMesg>();
+        foreach (var fieldDescriptionJsonMesg in fieldDescriptionJsonMesgs)
+        {
+            var fieldDescriptionMesg = new FieldDescriptionMesg();
+
+            foreach (var key in fieldDescriptionJsonMesg.Keys)
+            {
+                var propertyMeta = profiles["fieldDescription"].Fields[key];
+                switch (propertyMeta.ProfileType)
+                {
+                    case "String":
+                        var fieldData = ((JsonElement)fieldDescriptionJsonMesg[key]).Deserialize<string>();
+                        var data = Encoding.UTF8.GetBytes(fieldData ?? "");
+                        var zdata = new byte[data.Length + 1];
+                        data.CopyTo(zdata, 0);
+
+                        fieldDescriptionMesg.SetFieldValue(propertyMeta.Num, zdata);
+                        break;
+                    default:
+                        fieldDescriptionMesg.SetFieldValue(propertyMeta.Num, ((JsonElement)fieldDescriptionJsonMesg[key]).GetInt32()!);
+                        break;
+                }
+            };
+
+            fieldDescriptionMesgs.Add(fieldDescriptionMesg);
+        }
+        return fieldDescriptionMesgs;
+    }
+
+    private static List<DeveloperDataIdMesg> CreateDeveloperDataIdMesgs(List<Dictionary<string, object>> developerDataIdJsonMesgs, Dictionary<string, ProfileMeta> profiles)
+    {
+        var developerDataIdMesgs = new List<DeveloperDataIdMesg>();
+        foreach (var developerDataIdJsonMesg in developerDataIdJsonMesgs)
+        {
+            var developerDataIdMesg = new DeveloperDataIdMesg();
+
+            foreach (var key in developerDataIdJsonMesg.Keys)
+            {
+                var propertyMeta = profiles["developerDataId"].Fields[key];
+                switch (propertyMeta.ProfileType)
+                {
+                    case "Byte":
+                        var data = ((JsonElement)developerDataIdJsonMesg[key]).Deserialize<short[]>()!;
+                        var i = 0;
+                        foreach (var byteData in data)
+                        {
+                            developerDataIdMesg.SetFieldValue(propertyMeta.Num, i, byteData);
+                            i++;
+                        }
+                        break;
+
+                    default:
+                        developerDataIdMesg.SetFieldValue(propertyMeta.Num, ((JsonElement)developerDataIdJsonMesg[key]).GetInt32()!);
+                        break;
+                };
+            }
+
+            developerDataIdMesgs.Add(developerDataIdMesg);
+        }
+
+        return developerDataIdMesgs;
     }
 
     private void ProcessMesgs(object sender, MesgEventArgs e)
