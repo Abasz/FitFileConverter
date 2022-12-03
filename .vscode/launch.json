@@ -10,11 +10,18 @@
             "request": "launch",
             "preLaunchTask": "build",
             "program": "${workspaceFolder}/src/FitFileConverter.ConsoleApp/bin/Debug/net6.0/FitFileConverter.ConsoleApp.dll",
-            "args": ["B5TD3213.FIT", "--convert"],
+            "args": [
+                // "Bike-threshold.fit"
+                // "Bike-threshold.json", "--from-fit", "Bike-threshold.fit", "-o", "test.fit"
+                // "test.fit", "-o", "test-covnerted-back.json"
+                "--from-fit", "Bike-threshold.fit", "--output", "bike-threshold-edited.fit", "edited.json"
+            ],
             "cwd": "${workspaceFolder}/src/FitFileConverter.ConsoleApp",
             "console": "internalConsole",
             "stopAtEntry": false,
-            "env": { "DOTNET_ENVIRONMENT": "Development" }
+            "env": {
+                "DOTNET_ENVIRONMENT": "Development"
+            }
         },
         {
             "name": ".NET Core Attach",
