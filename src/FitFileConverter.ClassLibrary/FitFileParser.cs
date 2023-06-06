@@ -1,4 +1,3 @@
-using System.Reflection.Metadata;
 using File = System.IO.File;
 
 namespace FitFileConverter.ClassLibrary;
@@ -210,6 +209,19 @@ public class FitFileParser
                                 continue;
                             }
 
+                            if (property.Value is JsonElement jsonElement && jsonElement.ValueKind == JsonValueKind.Array)
+                            {
+                                var i = 0;
+                                foreach (var arrayData in jsonElement.Deserialize<double[]>()!)
+                                {
+                                    unknownField.SetValue(i, arrayData);
+                                    i++;
+                                };
+                                mesg.SetField(unknownField);
+
+                                continue;
+                            }
+
                             var data = Encoding.UTF8.GetBytes(propertyValue ?? "");
                             var zdata = new byte[data.Length + 1];
                             data.CopyTo(zdata, 0);
@@ -316,6 +328,20 @@ public class FitFileParser
 
                     if (propertyMeta.IsNumber)
                     {
+                        if (property.Value is JsonElement jsonElement && jsonElement.ValueKind == JsonValueKind.Array)
+                        {
+                            var i = 0;
+                            foreach (var arrayData in jsonElement.Deserialize<double[]>()!)
+                            {
+                                mesg.SetFieldValue(propertyMeta.Num, i, arrayData);
+
+                                i++;
+                            };
+
+                            continue;
+                        }
+
+
                         mesg.SetFieldValue(propertyMeta.Num, propertyValue);
 
                         continue;

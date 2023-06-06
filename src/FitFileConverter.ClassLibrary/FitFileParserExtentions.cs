@@ -110,6 +110,19 @@ public static class FitFileParserExtentions
                                     return date;
                                 };
 
+                                if (field.GetNumValues() > 1)
+                                {
+                                    var fieldValues = new List<double>();
+                                    var i = 0;
+                                    while (i < field.GetNumValues())
+                                    {
+                                        fieldValues.Add(Convert.ToDouble(field.GetValue(i)));
+                                        i++;
+                                    }
+
+                                    return fieldValues;
+                                }
+
                                 return fieldValue;
                             }
 
