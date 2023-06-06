@@ -24,6 +24,7 @@ public class FitFileParser
     public IEnumerable<ConnectivityMesg> ConnectivityMesgs { get; private set; } = new List<ConnectivityMesg>();
     public IEnumerable<WatchfaceSettingsMesg> WatchfaceSettingsMesgs { get; private set; } = new List<WatchfaceSettingsMesg>();
     public IEnumerable<OhrSettingsMesg> OhrSettingsMesgs { get; private set; } = new List<OhrSettingsMesg>();
+    public IEnumerable<TimeInZoneMesg> TimeInZoneMesgs { get; private set; } = new List<TimeInZoneMesg>();
     public IEnumerable<ZonesTargetMesg> ZonesTargetMesgs { get; private set; } = new List<ZonesTargetMesg>();
     public IEnumerable<SportMesg> SportMesgs { get; private set; } = new List<SportMesg>();
     public IEnumerable<HrZoneMesg> HrZoneMesgs { get; private set; } = new List<HrZoneMesg>();
@@ -42,6 +43,7 @@ public class FitFileParser
     public IEnumerable<RecordMesg> RecordMesgs { get; private set; } = new List<RecordMesg>();
     public IEnumerable<EventMesg> EventMesgs { get; private set; } = new List<EventMesg>();
     public IEnumerable<DeviceInfoMesg> DeviceInfoMesgs { get; private set; } = new List<DeviceInfoMesg>();
+    public IEnumerable<DeviceAuxBatteryInfoMesg> DeviceAuxBatteryInfoMesgs { get; private set; } = new List<DeviceAuxBatteryInfoMesg>();
     public IEnumerable<TrainingFileMesg> TrainingFileMesgs { get; private set; } = new List<TrainingFileMesg>();
     public IEnumerable<HrvMesg> HrvMesgs { get; private set; } = new List<HrvMesg>();
     public IEnumerable<WeatherConditionsMesg> WeatherConditionsMesgs { get; private set; } = new List<WeatherConditionsMesg>();
@@ -64,6 +66,7 @@ public class FitFileParser
     public IEnumerable<VideoClipMesg> VideoClipMesgs { get; private set; } = new List<VideoClipMesg>();
     public IEnumerable<SetMesg> SetMesgs { get; private set; } = new List<SetMesg>();
     public IEnumerable<JumpMesg> JumpMesgs { get; private set; } = new List<JumpMesg>();
+    public IEnumerable<SplitMesg> SplitMesgs { get; private set; } = new List<SplitMesg>();
     public IEnumerable<CourseMesg> CourseMesgs { get; private set; } = new List<CourseMesg>();
     public IEnumerable<CoursePointMesg> CoursePointMesgs { get; private set; } = new List<CoursePointMesg>();
     public IEnumerable<SegmentIdMesg> SegmentIdMesgs { get; private set; } = new List<SegmentIdMesg>();
@@ -198,7 +201,6 @@ public class FitFileParser
                         {
                             var unknownMesg = key.Contains("unknown") ? mesg : currentMesgs!.ElementAt(index);
                             var unknownField = unknownMesg.GetField(Convert.ToByte(property.Key.Replace("unknown-", "")));
-                            var test = unknownField.GetValue(Convert.ToByte(property.Key.Replace("unknown-", "")));
 
                             if (unknownField.Type != types["string"].Num && long.TryParse(propertyValue, out long value))
                             {
@@ -479,6 +481,10 @@ public class FitFileParser
                 OhrSettingsMesgs = OhrSettingsMesgs.Append(new OhrSettingsMesg(e.mesg));
                 break;
 
+            case MesgNum.TimeInZone:
+                TimeInZoneMesgs = TimeInZoneMesgs.Append(new TimeInZoneMesg(e.mesg));
+                break;
+
             case MesgNum.ZonesTarget:
                 ZonesTargetMesgs = ZonesTargetMesgs.Append(new ZonesTargetMesg(e.mesg));
                 break;
@@ -549,6 +555,10 @@ public class FitFileParser
 
             case MesgNum.DeviceInfo:
                 DeviceInfoMesgs = DeviceInfoMesgs.Append(new DeviceInfoMesg(e.mesg));
+                break;
+
+            case MesgNum.DeviceAuxBatteryInfo:
+                DeviceAuxBatteryInfoMesgs = DeviceAuxBatteryInfoMesgs.Append(new DeviceAuxBatteryInfoMesg(e.mesg));
                 break;
 
             case MesgNum.TrainingFile:
@@ -637,6 +647,10 @@ public class FitFileParser
 
             case MesgNum.Jump:
                 JumpMesgs = JumpMesgs.Append(new JumpMesg(e.mesg));
+                break;
+
+            case MesgNum.Split:
+                SplitMesgs = SplitMesgs.Append(new SplitMesg(e.mesg));
                 break;
 
             case MesgNum.Course:
@@ -842,6 +856,10 @@ public class FitFileParser
                 OhrSettingsMesgs = OhrSettingsMesgs.Select((Func<OhrSettingsMesg, OhrSettingsMesg>)Delegate.CreateDelegate(typeof(Func<OhrSettingsMesg, OhrSettingsMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                 break;
 
+            case "TimeInZoneMesg":
+                TimeInZoneMesgs = TimeInZoneMesgs.Select((Func<TimeInZoneMesg, TimeInZoneMesg>)Delegate.CreateDelegate(typeof(Func<TimeInZoneMesg, TimeInZoneMesg>), newMesgs.Target, newMesgs.Method)).ToList();
+                break;
+
             case "ZonesTargetMesg":
                 ZonesTargetMesgs = ZonesTargetMesgs.Select((Func<ZonesTargetMesg, ZonesTargetMesg>)Delegate.CreateDelegate(typeof(Func<ZonesTargetMesg, ZonesTargetMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                 break;
@@ -912,6 +930,10 @@ public class FitFileParser
 
             case "DeviceInfoMesg":
                 DeviceInfoMesgs = DeviceInfoMesgs.Select((Func<DeviceInfoMesg, DeviceInfoMesg>)Delegate.CreateDelegate(typeof(Func<DeviceInfoMesg, DeviceInfoMesg>), newMesgs.Target, newMesgs.Method)).ToList();
+                break;
+
+            case "DeviceAuxBatteryInfoMesg":
+                DeviceAuxBatteryInfoMesgs = DeviceAuxBatteryInfoMesgs.Select((Func<DeviceAuxBatteryInfoMesg, DeviceAuxBatteryInfoMesg>)Delegate.CreateDelegate(typeof(Func<DeviceAuxBatteryInfoMesg, DeviceAuxBatteryInfoMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                 break;
 
             case "TrainingFileMesg":
@@ -1000,6 +1022,10 @@ public class FitFileParser
 
             case "JumpMesg":
                 JumpMesgs = JumpMesgs.Select((Func<JumpMesg, JumpMesg>)Delegate.CreateDelegate(typeof(Func<JumpMesg, JumpMesg>), newMesgs.Target, newMesgs.Method)).ToList();
+                break;
+
+            case "SplitMesg":
+                SplitMesgs = SplitMesgs.Select((Func<SplitMesg, SplitMesg>)Delegate.CreateDelegate(typeof(Func<SplitMesg, SplitMesg>), newMesgs.Target, newMesgs.Method)).ToList();
                 break;
 
             case "CourseMesg":

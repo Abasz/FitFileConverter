@@ -9,7 +9,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/src/FitFileConverter.ConsoleApp/bin/Debug/net6.0/FitFileConverter.ConsoleApp.dll",
+            "program": "${workspaceFolder}/src/FitFileConverter.ConsoleApp/bin/Debug/net7.0/FitFileConverter.ConsoleApp.dll",
             "args": [
                 // "Bike-threshold.fit"
                 // "Bike-threshold.json", "--from-fit", "Bike-threshold.fit", "-o", "test.fit"

@@ -11,7 +11,9 @@
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
-            "group": "build",
+            "group": {
+                "kind": "build"
+            },
             "problemMatcher": "$msCompile"
         },
         {
