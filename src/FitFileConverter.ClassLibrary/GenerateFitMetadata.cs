@@ -3,7 +3,7 @@ using File = System.IO.File;
 
 namespace FitFileConverter.ClassLibrary;
 
-public class GenerateFitMetadata
+public partial class GenerateFitMetadata
 {
     private readonly Assembly _assemblies = Assembly.Load("Fit");
 
@@ -63,7 +63,7 @@ public class GenerateFitMetadata
 
     private void GenerateProfiles()
     {
-        var mesgs = _assemblies.DefinedTypes.Where(type => Regex.IsMatch(type.Name, "^.+Mesg$"));
+        var mesgs = _assemblies.DefinedTypes.Where(type => MesgsRegex().IsMatch(type.Name));
 
         var profiles = mesgs.ToDictionary(
             mesg => (string)mesg.GetProperty("Name")!.GetValue(Activator.CreateInstance(mesg))!,
@@ -101,6 +101,8 @@ public class GenerateFitMetadata
         Console.WriteLine("profile.json have been generated");
     }
 
+    [GeneratedRegex("^.+Mesg$")]
+    private static partial Regex MesgsRegex();
 }
 
 public class ProfileFieldMeta

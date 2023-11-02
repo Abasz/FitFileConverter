@@ -36,8 +36,8 @@ class Program
 
     private static async Task<int> ConverterAsync(ConverterOptions options)
     {
-        var extention = Path.GetExtension(options.FilePath).ToLower();
-        if (extention == ".fit")
+        var extension = Path.GetExtension(options.FilePath).ToLower();
+        if (extension == ".fit")
         {
             var fitFileParser = FitFileParser.FromFit(options.FilePath);
 
@@ -49,7 +49,7 @@ class Program
             Console.WriteLine($"Converted to Json: {jsonPath}");
         }
 
-        if (extention == ".json")
+        if (extension == ".json")
         {
             FitFileParser? originalFitData = null;
             if (options.fromFit is not null)

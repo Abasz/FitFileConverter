@@ -128,12 +128,9 @@ public class FitFileParser
         if (!File.Exists(path))
             throw new FileNotFoundException("Invalid Json file path");
 
-        var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(assembly => assembly?.FullName?.Contains("Fit,") ?? false).ElementAt(0);
-
-        if (assemblies is null)
-        {
-            throw new InvalidOperationException("Fit Assembly is not loaded");
-        }
+        var assemblies = AppDomain.CurrentDomain.GetAssemblies()
+            .Where(assembly => assembly?.FullName?.Contains("Fit,") ?? false).ElementAt(0)
+                ?? throw new InvalidOperationException("Fit Assembly is not loaded");
 
         var pathEdited = outputPath ?? $"{Path.GetFileNameWithoutExtension(path)}-edited.fit";
         var profilesPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "profiles.json");
@@ -144,26 +141,29 @@ public class FitFileParser
         var fitFileWriter = new Encode(ProtocolVersion.V20);
         fitFileWriter.Open(outputFile);
 
-        var fitJsonFile = await HelperMethods.DeserializeJsonFileAsync<Dictionary<string, List<Dictionary<string, object>>>>(path) ?? throw new JsonException("Fit json file is in an invalid format");
+        var fitJsonFile = await HelperMethods.DeserializeJsonFileAsync<Dictionary<string, List<Dictionary<string, object>>>>(path)
+            ?? throw new JsonException("Fit json file is in an invalid format");
 
         if (!File.Exists(profilesPath))
             GenerateFitMetadata.Generate(ShouldGenerateProfiles: true);
 
-        var profiles = await HelperMethods.DeserializeJsonFileAsync<Dictionary<string, ProfileMeta>>(profilesPath) ?? throw new JsonException("Profiles.json file is in an invalid format");
+        var profiles = await HelperMethods.DeserializeJsonFileAsync<Dictionary<string, ProfileMeta>>(profilesPath)
+            ?? throw new JsonException("Profiles.json file is in an invalid format");
 
         if (!File.Exists(typesPath))
             GenerateFitMetadata.Generate(ShouldGenerateTypes: true);
 
-        var types = await HelperMethods.DeserializeJsonFileAsync<Dictionary<string, TypeMeta>>(typesPath) ?? throw new JsonException("Types.json file is in an invalid format");
+        var types = await HelperMethods.DeserializeJsonFileAsync<Dictionary<string, TypeMeta>>(typesPath)
+            ?? throw new JsonException("Types.json file is in an invalid format");
 
-        var developerDataIdMesgs = fitJsonFile.ContainsKey("developerDataId") ?
-            CreateDeveloperDataIdMesgs(fitJsonFile["developerDataId"], profiles) :
+        var developerDataIdMesgs = fitJsonFile.TryGetValue("developerDataId", out List<Dictionary<string, object>>? developerDataIdValue) ?
+            CreateDeveloperDataIdMesgs(developerDataIdValue, profiles) :
             new List<DeveloperDataIdMesg>();
-        developerDataIdMesgs.ForEach(developerDataIdMesg => fitFileWriter.Write(developerDataIdMesg));
+        developerDataIdMesgs.ForEach(fitFileWriter.Write);
 
-        var fieldDescriptionMesgs = fitJsonFile.ContainsKey("fieldDescription") ? CreateFieldDescriptionMesgs(fitJsonFile["fieldDescription"], profiles) :
+        var fieldDescriptionMesgs = fitJsonFile.TryGetValue("fieldDescription", out List<Dictionary<string, object>>? fieldDescriptionValue) ? CreateFieldDescriptionMesgs(fieldDescriptionValue, profiles) :
         new List<FieldDescriptionMesg>();
-        fieldDescriptionMesgs.ForEach(fieldDescriptionMesg => fitFileWriter.Write(fieldDescriptionMesg));
+        fieldDescriptionMesgs.ForEach(fitFileWriter.Write);
 
         foreach (var key in fitJsonFile.Keys)
         {
@@ -237,7 +237,6 @@ public class FitFileParser
                     {
                         if (!developerDataIdMesgs.Any() || !fieldDescriptionMesgs.Any()) continue;
 
-                        var i = 0;
                         foreach (var developerField in ((JsonElement)mesgItems["developerFields"]).Deserialize<Dictionary<string, object>>()!)
                         {
                             var fieldDescription = fieldDescriptionMesgs.Find(mesg => mesg.GetFieldNameAsString(0).Trim('\0').ToCamelCase() == developerField.Key);
@@ -249,7 +248,6 @@ public class FitFileParser
                             if (developerDataId is null) continue;
 
                             var developerFieldMesg = new DeveloperField(fieldDescription, developerDataId);
-                            i++;
 
                             var value = (JsonElement)developerField.Value;
 

@@ -3,7 +3,7 @@ using File = System.IO.File;
 
 namespace FitFileConverter.Libs;
 
-public static class HelperMethods
+public static partial class HelperMethods
 {
     /// <summary>
     /// Converts string to camelCase
@@ -68,7 +68,7 @@ public static class HelperMethods
     /// </summary>
     /// <param name="name">The file name to be sanitize</param>
     /// <returns>Returns the file name without any invalid character</returns>
-    public static string SanitizeFileName(this string name) => Regex.Replace(name, @"[^\w\.@-]", "_");
+    public static string SanitizeFileName(this string name) => SanitizeRegex().Replace(name, "_");
 
     //TODO: this helper method debug purposes delete this
     /// <summary>
@@ -89,4 +89,7 @@ public static class HelperMethods
         DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase
     };
+
+    [GeneratedRegex("[^\\w\\.@-]")]
+    private static partial Regex SanitizeRegex();
 }

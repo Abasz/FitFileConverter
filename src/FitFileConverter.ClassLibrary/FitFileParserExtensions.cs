@@ -2,7 +2,7 @@ using File = System.IO.File;
 
 namespace FitFileConverter.ClassLibrary;
 
-public static class FitFileParserExtentions
+public static class FitFileParserExtensions
 {
     public static void ToFit(this FitFileParser fitFileModel, string fitFilePath)
     {
@@ -29,7 +29,7 @@ public static class FitFileParserExtentions
     {
         var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(assembly => assembly.FullName!.Contains("Fit,")).ElementAt(0);
 
-        var newobject = typeof(FitFileParser).GetProperties()
+        var parsedFitFile = typeof(FitFileParser).GetProperties()
             .Where(prop =>
             {
                 var value = prop.GetValue(fitFileModel);
@@ -51,8 +51,7 @@ public static class FitFileParserExtentions
                     }).GroupBy(mesg => mesg.Name);
 
                     accumulator.AddRange(unknownMesgGroups.Select(group =>
-                        group
-                        .Aggregate(new List<Mesg>(), (accumulator, mesg) =>
+                        group.Aggregate(new List<Mesg>(), (accumulator, mesg) =>
                         {
                             accumulator.Add(mesg);
                             return accumulator;
@@ -110,7 +109,7 @@ public static class FitFileParserExtentions
                                     return date;
                                 };
 
-                                if (field.GetNumValues() > 1)
+                                if (field.IsArray())
                                 {
                                     var fieldValues = new List<double>();
                                     var i = 0;
@@ -126,17 +125,15 @@ public static class FitFileParserExtentions
                                 return fieldValue;
                             }
 
-                            var enumValue = fieldValue ?? 0xFF;
                             var type = assemblies.GetType($"Dynastream.Fit.{fieldType ?? "Enum"}");
                             if (type is null)
                             {
                                 return fieldValue;
                             }
 
-                            return Enum.ToObject(type!, enumValue)?.ToString()?.ToCamelCase() ?? fieldValue;
+                            return Enum.ToObject(type!, fieldValue ?? 0xFF)?.ToString()?.ToCamelCase() ?? fieldValue;
                         }
                     )
-                    //TODO: needs the information necessary for converting back to FIT. This will need to be changed so each field contained the developerDataIndex and the fieldDefinitionNumber so data can be retained on coversion
                     .Concat(mesg.DeveloperFields.Any() ? new Dictionary<string, object?>
                     {
                         {
@@ -149,7 +146,12 @@ public static class FitFileParserExtentions
                 .ToList());
 
         File.WriteAllText(filePath,
-            JsonSerializer.Serialize(newobject, HelperMethods.JsonSerializerOptions)
+            JsonSerializer.Serialize(parsedFitFile, HelperMethods.JsonSerializerOptions)
         );
+    }
+
+    private static bool IsArray(this Field field)
+    {
+        return field.GetNumValues() > 1;
     }
 }
