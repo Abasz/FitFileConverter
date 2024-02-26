@@ -6,127 +6,127 @@ public class FitFileParser
 {
     private FitFileParser() { }
 
-    public IEnumerable<AadAccelFeaturesMesg> AadAccelFeaturesMesgs { get; private set; } = new List<AadAccelFeaturesMesg>();
-    public IEnumerable<AccelerometerDataMesg> AccelerometerDataMesgs { get; private set; } = new List<AccelerometerDataMesg>();
-    public IEnumerable<ActivityMesg> ActivityMesgs { get; private set; } = new List<ActivityMesg>();
-    public IEnumerable<AntChannelIdMesg> AntChannelIdMesgs { get; private set; } = new List<AntChannelIdMesg>();
-    public IEnumerable<AntRxMesg> AntRxMesgs { get; private set; } = new List<AntRxMesg>();
-    public IEnumerable<AntTxMesg> AntTxMesgs { get; private set; } = new List<AntTxMesg>();
-    public IEnumerable<AviationAttitudeMesg> AviationAttitudeMesgs { get; private set; } = new List<AviationAttitudeMesg>();
-    public IEnumerable<BarometerDataMesg> BarometerDataMesgs { get; private set; } = new List<BarometerDataMesg>();
-    public IEnumerable<BeatIntervalsMesg> BeatIntervalsMesgs { get; private set; } = new List<BeatIntervalsMesg>();
-    public IEnumerable<BikeProfileMesg> BikeProfileMesgs { get; private set; } = new List<BikeProfileMesg>();
-    public IEnumerable<BloodPressureMesg> BloodPressureMesgs { get; private set; } = new List<BloodPressureMesg>();
-    public IEnumerable<CadenceZoneMesg> CadenceZoneMesgs { get; private set; } = new List<CadenceZoneMesg>();
-    public IEnumerable<CameraEventMesg> CameraEventMesgs { get; private set; } = new List<CameraEventMesg>();
-    public IEnumerable<CapabilitiesMesg> CapabilitiesMesgs { get; private set; } = new List<CapabilitiesMesg>();
-    public IEnumerable<ChronoShotDataMesg> ChronoShotDataMesgs { get; private set; } = new List<ChronoShotDataMesg>();
-    public IEnumerable<ChronoShotSessionMesg> ChronoShotSessionMesgs { get; private set; } = new List<ChronoShotSessionMesg>();
-    public IEnumerable<ClimbProMesg> ClimbProMesgs { get; private set; } = new List<ClimbProMesg>();
-    public IEnumerable<ConnectivityMesg> ConnectivityMesgs { get; private set; } = new List<ConnectivityMesg>();
-    public IEnumerable<CourseMesg> CourseMesgs { get; private set; } = new List<CourseMesg>();
-    public IEnumerable<CoursePointMesg> CoursePointMesgs { get; private set; } = new List<CoursePointMesg>();
-    public IEnumerable<DeveloperDataIdMesg> DeveloperDataIdMesgs { get; private set; } = new List<DeveloperDataIdMesg>();
-    public IEnumerable<DeviceAuxBatteryInfoMesg> DeviceAuxBatteryInfoMesgs { get; private set; } = new List<DeviceAuxBatteryInfoMesg>();
-    public IEnumerable<DeviceInfoMesg> DeviceInfoMesgs { get; private set; } = new List<DeviceInfoMesg>();
-    public IEnumerable<DeviceSettingsMesg> DeviceSettingsMesgs { get; private set; } = new List<DeviceSettingsMesg>();
-    public IEnumerable<DiveAlarmMesg> DiveAlarmMesgs { get; private set; } = new List<DiveAlarmMesg>();
-    public IEnumerable<DiveApneaAlarmMesg> DiveApneaAlarmMesgs { get; private set; } = new List<DiveApneaAlarmMesg>();
-    public IEnumerable<DiveGasMesg> DiveGasMesgs { get; private set; } = new List<DiveGasMesg>();
-    public IEnumerable<DiveSettingsMesg> DiveSettingsMesgs { get; private set; } = new List<DiveSettingsMesg>();
-    public IEnumerable<DiveSummaryMesg> DiveSummaryMesgs { get; private set; } = new List<DiveSummaryMesg>();
-    public IEnumerable<EventMesg> EventMesgs { get; private set; } = new List<EventMesg>();
-    public IEnumerable<ExdDataConceptConfigurationMesg> ExdDataConceptConfigurationMesgs { get; private set; } = new List<ExdDataConceptConfigurationMesg>();
-    public IEnumerable<ExdDataFieldConfigurationMesg> ExdDataFieldConfigurationMesgs { get; private set; } = new List<ExdDataFieldConfigurationMesg>();
-    public IEnumerable<ExdScreenConfigurationMesg> ExdScreenConfigurationMesgs { get; private set; } = new List<ExdScreenConfigurationMesg>();
-    public IEnumerable<ExerciseTitleMesg> ExerciseTitleMesgs { get; private set; } = new List<ExerciseTitleMesg>();
-    public IEnumerable<FieldCapabilitiesMesg> FieldCapabilitiesMesgs { get; private set; } = new List<FieldCapabilitiesMesg>();
-    public IEnumerable<FieldDescriptionMesg> FieldDescriptionMesgs { get; private set; } = new List<FieldDescriptionMesg>();
-    public IEnumerable<FileCapabilitiesMesg> FileCapabilitiesMesgs { get; private set; } = new List<FileCapabilitiesMesg>();
-    public IEnumerable<FileCreatorMesg> FileCreatorMesgs { get; private set; } = new List<FileCreatorMesg>();
-    public IEnumerable<FileIdMesg> FileIdMesgs { get; private set; } = new List<FileIdMesg>();
-    public IEnumerable<GoalMesg> GoalMesgs { get; private set; } = new List<GoalMesg>();
-    public IEnumerable<GpsMetadataMesg> GpsMetadataMesgs { get; private set; } = new List<GpsMetadataMesg>();
-    public IEnumerable<GyroscopeDataMesg> GyroscopeDataMesgs { get; private set; } = new List<GyroscopeDataMesg>();
-    public IEnumerable<HrMesg> HrMesgs { get; private set; } = new List<HrMesg>();
-    public IEnumerable<HrmProfileMesg> HrmProfileMesgs { get; private set; } = new List<HrmProfileMesg>();
-    public IEnumerable<HrvMesg> HrvMesgs { get; private set; } = new List<HrvMesg>();
-    public IEnumerable<HrvStatusSummaryMesg> HrvStatusSummaryMesgs { get; private set; } = new List<HrvStatusSummaryMesg>();
-    public IEnumerable<HrvValueMesg> HrvValueMesgs { get; private set; } = new List<HrvValueMesg>();
-    public IEnumerable<HrZoneMesg> HrZoneMesgs { get; private set; } = new List<HrZoneMesg>();
-    public IEnumerable<HsaAccelerometerDataMesg> HsaAccelerometerDataMesgs { get; private set; } = new List<HsaAccelerometerDataMesg>();
-    public IEnumerable<HsaBodyBatteryDataMesg> HsaBodyBatteryDataMesgs { get; private set; } = new List<HsaBodyBatteryDataMesg>();
-    public IEnumerable<HsaConfigurationDataMesg> HsaConfigurationDataMesgs { get; private set; } = new List<HsaConfigurationDataMesg>();
-    public IEnumerable<HsaEventMesg> HsaEventMesgs { get; private set; } = new List<HsaEventMesg>();
-    public IEnumerable<HsaGyroscopeDataMesg> HsaGyroscopeDataMesgs { get; private set; } = new List<HsaGyroscopeDataMesg>();
-    public IEnumerable<HsaHeartRateDataMesg> HsaHeartRateDataMesgs { get; private set; } = new List<HsaHeartRateDataMesg>();
-    public IEnumerable<HsaRespirationDataMesg> HsaRespirationDataMesgs { get; private set; } = new List<HsaRespirationDataMesg>();
-    public IEnumerable<HsaSpo2DataMesg> HsaSpo2DataMesgs { get; private set; } = new List<HsaSpo2DataMesg>();
-    public IEnumerable<HsaStepDataMesg> HsaStepDataMesgs { get; private set; } = new List<HsaStepDataMesg>();
-    public IEnumerable<HsaStressDataMesg> HsaStressDataMesgs { get; private set; } = new List<HsaStressDataMesg>();
-    public IEnumerable<HsaWristTemperatureDataMesg> HsaWristTemperatureDataMesgs { get; private set; } = new List<HsaWristTemperatureDataMesg>();
-    public IEnumerable<JumpMesg> JumpMesgs { get; private set; } = new List<JumpMesg>();
-    public IEnumerable<LapMesg> LapMesgs { get; private set; } = new List<LapMesg>();
-    public IEnumerable<LengthMesg> LengthMesgs { get; private set; } = new List<LengthMesg>();
-    public IEnumerable<MagnetometerDataMesg> MagnetometerDataMesgs { get; private set; } = new List<MagnetometerDataMesg>();
-    public IEnumerable<MaxMetDataMesg> MaxMetDataMesgs { get; private set; } = new List<MaxMetDataMesg>();
-    public IEnumerable<MemoGlobMesg> MemoGlobMesgs { get; private set; } = new List<MemoGlobMesg>();
-    public IEnumerable<MesgCapabilitiesMesg> MesgCapabilitiesMesgs { get; private set; } = new List<MesgCapabilitiesMesg>();
-    public IEnumerable<MetZoneMesg> MetZoneMesgs { get; private set; } = new List<MetZoneMesg>();
-    public IEnumerable<MonitoringHrDataMesg> MonitoringHrDataMesgs { get; private set; } = new List<MonitoringHrDataMesg>();
-    public IEnumerable<MonitoringInfoMesg> MonitoringInfoMesgs { get; private set; } = new List<MonitoringInfoMesg>();
-    public IEnumerable<MonitoringMesg> MonitoringMesgs { get; private set; } = new List<MonitoringMesg>();
-    public IEnumerable<NmeaSentenceMesg> NmeaSentenceMesgs { get; private set; } = new List<NmeaSentenceMesg>();
-    public IEnumerable<ObdiiDataMesg> ObdiiDataMesgs { get; private set; } = new List<ObdiiDataMesg>();
-    public IEnumerable<OhrSettingsMesg> OhrSettingsMesgs { get; private set; } = new List<OhrSettingsMesg>();
-    public IEnumerable<OneDSensorCalibrationMesg> OneDSensorCalibrationMesgs { get; private set; } = new List<OneDSensorCalibrationMesg>();
-    public IEnumerable<PadMesg> PadMesgs { get; private set; } = new List<PadMesg>();
-    public IEnumerable<PowerZoneMesg> PowerZoneMesgs { get; private set; } = new List<PowerZoneMesg>();
-    public IEnumerable<RawBbiMesg> RawBbiMesgs { get; private set; } = new List<RawBbiMesg>();
-    public IEnumerable<RecordMesg> RecordMesgs { get; private set; } = new List<RecordMesg>();
-    public IEnumerable<RespirationRateMesg> RespirationRateMesgs { get; private set; } = new List<RespirationRateMesg>();
-    public IEnumerable<ScheduleMesg> ScheduleMesgs { get; private set; } = new List<ScheduleMesg>();
-    public IEnumerable<SdmProfileMesg> SdmProfileMesgs { get; private set; } = new List<SdmProfileMesg>();
-    public IEnumerable<SegmentFileMesg> SegmentFileMesgs { get; private set; } = new List<SegmentFileMesg>();
-    public IEnumerable<SegmentIdMesg> SegmentIdMesgs { get; private set; } = new List<SegmentIdMesg>();
-    public IEnumerable<SegmentLapMesg> SegmentLapMesgs { get; private set; } = new List<SegmentLapMesg>();
-    public IEnumerable<SegmentLeaderboardEntryMesg> SegmentLeaderboardEntryMesgs { get; private set; } = new List<SegmentLeaderboardEntryMesg>();
-    public IEnumerable<SegmentPointMesg> SegmentPointMesgs { get; private set; } = new List<SegmentPointMesg>();
-    public IEnumerable<SessionMesg> SessionMesgs { get; private set; } = new List<SessionMesg>();
-    public IEnumerable<SetMesg> SetMesgs { get; private set; } = new List<SetMesg>();
-    public IEnumerable<SlaveDeviceMesg> SlaveDeviceMesgs { get; private set; } = new List<SlaveDeviceMesg>();
-    public IEnumerable<SleepAssessmentMesg> SleepAssessmentMesgs { get; private set; } = new List<SleepAssessmentMesg>();
-    public IEnumerable<SleepLevelMesg> SleepLevelMesgs { get; private set; } = new List<SleepLevelMesg>();
-    public IEnumerable<SoftwareMesg> SoftwareMesgs { get; private set; } = new List<SoftwareMesg>();
-    public IEnumerable<SpeedZoneMesg> SpeedZoneMesgs { get; private set; } = new List<SpeedZoneMesg>();
-    public IEnumerable<SplitMesg> SplitMesgs { get; private set; } = new List<SplitMesg>();
-    public IEnumerable<SplitSummaryMesg> SplitSummaryMesgs { get; private set; } = new List<SplitSummaryMesg>();
-    public IEnumerable<Spo2DataMesg> Spo2DataMesgs { get; private set; } = new List<Spo2DataMesg>();
-    public IEnumerable<SportMesg> SportMesgs { get; private set; } = new List<SportMesg>();
-    public IEnumerable<StressLevelMesg> StressLevelMesgs { get; private set; } = new List<StressLevelMesg>();
-    public IEnumerable<TankSummaryMesg> TankSummaryMesgs { get; private set; } = new List<TankSummaryMesg>();
-    public IEnumerable<TankUpdateMesg> TankUpdateMesgs { get; private set; } = new List<TankUpdateMesg>();
-    public IEnumerable<ThreeDSensorCalibrationMesg> ThreeDSensorCalibrationMesgs { get; private set; } = new List<ThreeDSensorCalibrationMesg>();
-    public IEnumerable<TimeInZoneMesg> TimeInZoneMesgs { get; private set; } = new List<TimeInZoneMesg>();
-    public IEnumerable<TimestampCorrelationMesg> TimestampCorrelationMesgs { get; private set; } = new List<TimestampCorrelationMesg>();
-    public IEnumerable<TotalsMesg> TotalsMesgs { get; private set; } = new List<TotalsMesg>();
-    public IEnumerable<TrainingFileMesg> TrainingFileMesgs { get; private set; } = new List<TrainingFileMesg>();
-    public IEnumerable<UserProfileMesg> UserProfileMesgs { get; private set; } = new List<UserProfileMesg>();
-    public IEnumerable<VideoClipMesg> VideoClipMesgs { get; private set; } = new List<VideoClipMesg>();
-    public IEnumerable<VideoDescriptionMesg> VideoDescriptionMesgs { get; private set; } = new List<VideoDescriptionMesg>();
-    public IEnumerable<VideoFrameMesg> VideoFrameMesgs { get; private set; } = new List<VideoFrameMesg>();
-    public IEnumerable<VideoMesg> VideoMesgs { get; private set; } = new List<VideoMesg>();
-    public IEnumerable<VideoTitleMesg> VideoTitleMesgs { get; private set; } = new List<VideoTitleMesg>();
-    public IEnumerable<WatchfaceSettingsMesg> WatchfaceSettingsMesgs { get; private set; } = new List<WatchfaceSettingsMesg>();
-    public IEnumerable<WeatherAlertMesg> WeatherAlertMesgs { get; private set; } = new List<WeatherAlertMesg>();
-    public IEnumerable<WeatherConditionsMesg> WeatherConditionsMesgs { get; private set; } = new List<WeatherConditionsMesg>();
-    public IEnumerable<WeightScaleMesg> WeightScaleMesgs { get; private set; } = new List<WeightScaleMesg>();
-    public IEnumerable<WorkoutMesg> WorkoutMesgs { get; private set; } = new List<WorkoutMesg>();
-    public IEnumerable<WorkoutSessionMesg> WorkoutSessionMesgs { get; private set; } = new List<WorkoutSessionMesg>();
-    public IEnumerable<WorkoutStepMesg> WorkoutStepMesgs { get; private set; } = new List<WorkoutStepMesg>();
-    public IEnumerable<ZonesTargetMesg> ZonesTargetMesgs { get; private set; } = new List<ZonesTargetMesg>();
+    public IEnumerable<AadAccelFeaturesMesg> AadAccelFeaturesMesgs { get; private set; } = [];
+    public IEnumerable<AccelerometerDataMesg> AccelerometerDataMesgs { get; private set; } = [];
+    public IEnumerable<ActivityMesg> ActivityMesgs { get; private set; } = [];
+    public IEnumerable<AntChannelIdMesg> AntChannelIdMesgs { get; private set; } = [];
+    public IEnumerable<AntRxMesg> AntRxMesgs { get; private set; } = [];
+    public IEnumerable<AntTxMesg> AntTxMesgs { get; private set; } = [];
+    public IEnumerable<AviationAttitudeMesg> AviationAttitudeMesgs { get; private set; } = [];
+    public IEnumerable<BarometerDataMesg> BarometerDataMesgs { get; private set; } = [];
+    public IEnumerable<BeatIntervalsMesg> BeatIntervalsMesgs { get; private set; } = [];
+    public IEnumerable<BikeProfileMesg> BikeProfileMesgs { get; private set; } = [];
+    public IEnumerable<BloodPressureMesg> BloodPressureMesgs { get; private set; } = [];
+    public IEnumerable<CadenceZoneMesg> CadenceZoneMesgs { get; private set; } = [];
+    public IEnumerable<CameraEventMesg> CameraEventMesgs { get; private set; } = [];
+    public IEnumerable<CapabilitiesMesg> CapabilitiesMesgs { get; private set; } = [];
+    public IEnumerable<ChronoShotDataMesg> ChronoShotDataMesgs { get; private set; } = [];
+    public IEnumerable<ChronoShotSessionMesg> ChronoShotSessionMesgs { get; private set; } = [];
+    public IEnumerable<ClimbProMesg> ClimbProMesgs { get; private set; } = [];
+    public IEnumerable<ConnectivityMesg> ConnectivityMesgs { get; private set; } = [];
+    public IEnumerable<CourseMesg> CourseMesgs { get; private set; } = [];
+    public IEnumerable<CoursePointMesg> CoursePointMesgs { get; private set; } = [];
+    public IEnumerable<DeveloperDataIdMesg> DeveloperDataIdMesgs { get; private set; } = [];
+    public IEnumerable<DeviceAuxBatteryInfoMesg> DeviceAuxBatteryInfoMesgs { get; private set; } = [];
+    public IEnumerable<DeviceInfoMesg> DeviceInfoMesgs { get; private set; } = [];
+    public IEnumerable<DeviceSettingsMesg> DeviceSettingsMesgs { get; private set; } = [];
+    public IEnumerable<DiveAlarmMesg> DiveAlarmMesgs { get; private set; } = [];
+    public IEnumerable<DiveApneaAlarmMesg> DiveApneaAlarmMesgs { get; private set; } = [];
+    public IEnumerable<DiveGasMesg> DiveGasMesgs { get; private set; } = [];
+    public IEnumerable<DiveSettingsMesg> DiveSettingsMesgs { get; private set; } = [];
+    public IEnumerable<DiveSummaryMesg> DiveSummaryMesgs { get; private set; } = [];
+    public IEnumerable<EventMesg> EventMesgs { get; private set; } = [];
+    public IEnumerable<ExdDataConceptConfigurationMesg> ExdDataConceptConfigurationMesgs { get; private set; } = [];
+    public IEnumerable<ExdDataFieldConfigurationMesg> ExdDataFieldConfigurationMesgs { get; private set; } = [];
+    public IEnumerable<ExdScreenConfigurationMesg> ExdScreenConfigurationMesgs { get; private set; } = [];
+    public IEnumerable<ExerciseTitleMesg> ExerciseTitleMesgs { get; private set; } = [];
+    public IEnumerable<FieldCapabilitiesMesg> FieldCapabilitiesMesgs { get; private set; } = [];
+    public IEnumerable<FieldDescriptionMesg> FieldDescriptionMesgs { get; private set; } = [];
+    public IEnumerable<FileCapabilitiesMesg> FileCapabilitiesMesgs { get; private set; } = [];
+    public IEnumerable<FileCreatorMesg> FileCreatorMesgs { get; private set; } = [];
+    public IEnumerable<FileIdMesg> FileIdMesgs { get; private set; } = [];
+    public IEnumerable<GoalMesg> GoalMesgs { get; private set; } = [];
+    public IEnumerable<GpsMetadataMesg> GpsMetadataMesgs { get; private set; } = [];
+    public IEnumerable<GyroscopeDataMesg> GyroscopeDataMesgs { get; private set; } = [];
+    public IEnumerable<HrMesg> HrMesgs { get; private set; } = [];
+    public IEnumerable<HrmProfileMesg> HrmProfileMesgs { get; private set; } = [];
+    public IEnumerable<HrvMesg> HrvMesgs { get; private set; } = [];
+    public IEnumerable<HrvStatusSummaryMesg> HrvStatusSummaryMesgs { get; private set; } = [];
+    public IEnumerable<HrvValueMesg> HrvValueMesgs { get; private set; } = [];
+    public IEnumerable<HrZoneMesg> HrZoneMesgs { get; private set; } = [];
+    public IEnumerable<HsaAccelerometerDataMesg> HsaAccelerometerDataMesgs { get; private set; } = [];
+    public IEnumerable<HsaBodyBatteryDataMesg> HsaBodyBatteryDataMesgs { get; private set; } = [];
+    public IEnumerable<HsaConfigurationDataMesg> HsaConfigurationDataMesgs { get; private set; } = [];
+    public IEnumerable<HsaEventMesg> HsaEventMesgs { get; private set; } = [];
+    public IEnumerable<HsaGyroscopeDataMesg> HsaGyroscopeDataMesgs { get; private set; } = [];
+    public IEnumerable<HsaHeartRateDataMesg> HsaHeartRateDataMesgs { get; private set; } = [];
+    public IEnumerable<HsaRespirationDataMesg> HsaRespirationDataMesgs { get; private set; } = [];
+    public IEnumerable<HsaSpo2DataMesg> HsaSpo2DataMesgs { get; private set; } = [];
+    public IEnumerable<HsaStepDataMesg> HsaStepDataMesgs { get; private set; } = [];
+    public IEnumerable<HsaStressDataMesg> HsaStressDataMesgs { get; private set; } = [];
+    public IEnumerable<HsaWristTemperatureDataMesg> HsaWristTemperatureDataMesgs { get; private set; } = [];
+    public IEnumerable<JumpMesg> JumpMesgs { get; private set; } = [];
+    public IEnumerable<LapMesg> LapMesgs { get; private set; } = [];
+    public IEnumerable<LengthMesg> LengthMesgs { get; private set; } = [];
+    public IEnumerable<MagnetometerDataMesg> MagnetometerDataMesgs { get; private set; } = [];
+    public IEnumerable<MaxMetDataMesg> MaxMetDataMesgs { get; private set; } = [];
+    public IEnumerable<MemoGlobMesg> MemoGlobMesgs { get; private set; } = [];
+    public IEnumerable<MesgCapabilitiesMesg> MesgCapabilitiesMesgs { get; private set; } = [];
+    public IEnumerable<MetZoneMesg> MetZoneMesgs { get; private set; } = [];
+    public IEnumerable<MonitoringHrDataMesg> MonitoringHrDataMesgs { get; private set; } = [];
+    public IEnumerable<MonitoringInfoMesg> MonitoringInfoMesgs { get; private set; } = [];
+    public IEnumerable<MonitoringMesg> MonitoringMesgs { get; private set; } = [];
+    public IEnumerable<NmeaSentenceMesg> NmeaSentenceMesgs { get; private set; } = [];
+    public IEnumerable<ObdiiDataMesg> ObdiiDataMesgs { get; private set; } = [];
+    public IEnumerable<OhrSettingsMesg> OhrSettingsMesgs { get; private set; } = [];
+    public IEnumerable<OneDSensorCalibrationMesg> OneDSensorCalibrationMesgs { get; private set; } = [];
+    public IEnumerable<PadMesg> PadMesgs { get; private set; } = [];
+    public IEnumerable<PowerZoneMesg> PowerZoneMesgs { get; private set; } = [];
+    public IEnumerable<RawBbiMesg> RawBbiMesgs { get; private set; } = [];
+    public IEnumerable<RecordMesg> RecordMesgs { get; private set; } = [];
+    public IEnumerable<RespirationRateMesg> RespirationRateMesgs { get; private set; } = [];
+    public IEnumerable<ScheduleMesg> ScheduleMesgs { get; private set; } = [];
+    public IEnumerable<SdmProfileMesg> SdmProfileMesgs { get; private set; } = [];
+    public IEnumerable<SegmentFileMesg> SegmentFileMesgs { get; private set; } = [];
+    public IEnumerable<SegmentIdMesg> SegmentIdMesgs { get; private set; } = [];
+    public IEnumerable<SegmentLapMesg> SegmentLapMesgs { get; private set; } = [];
+    public IEnumerable<SegmentLeaderboardEntryMesg> SegmentLeaderboardEntryMesgs { get; private set; } = [];
+    public IEnumerable<SegmentPointMesg> SegmentPointMesgs { get; private set; } = [];
+    public IEnumerable<SessionMesg> SessionMesgs { get; private set; } = [];
+    public IEnumerable<SetMesg> SetMesgs { get; private set; } = [];
+    public IEnumerable<SlaveDeviceMesg> SlaveDeviceMesgs { get; private set; } = [];
+    public IEnumerable<SleepAssessmentMesg> SleepAssessmentMesgs { get; private set; } = [];
+    public IEnumerable<SleepLevelMesg> SleepLevelMesgs { get; private set; } = [];
+    public IEnumerable<SoftwareMesg> SoftwareMesgs { get; private set; } = [];
+    public IEnumerable<SpeedZoneMesg> SpeedZoneMesgs { get; private set; } = [];
+    public IEnumerable<SplitMesg> SplitMesgs { get; private set; } = [];
+    public IEnumerable<SplitSummaryMesg> SplitSummaryMesgs { get; private set; } = [];
+    public IEnumerable<Spo2DataMesg> Spo2DataMesgs { get; private set; } = [];
+    public IEnumerable<SportMesg> SportMesgs { get; private set; } = [];
+    public IEnumerable<StressLevelMesg> StressLevelMesgs { get; private set; } = [];
+    public IEnumerable<TankSummaryMesg> TankSummaryMesgs { get; private set; } = [];
+    public IEnumerable<TankUpdateMesg> TankUpdateMesgs { get; private set; } = [];
+    public IEnumerable<ThreeDSensorCalibrationMesg> ThreeDSensorCalibrationMesgs { get; private set; } = [];
+    public IEnumerable<TimeInZoneMesg> TimeInZoneMesgs { get; private set; } = [];
+    public IEnumerable<TimestampCorrelationMesg> TimestampCorrelationMesgs { get; private set; } = [];
+    public IEnumerable<TotalsMesg> TotalsMesgs { get; private set; } = [];
+    public IEnumerable<TrainingFileMesg> TrainingFileMesgs { get; private set; } = [];
+    public IEnumerable<UserProfileMesg> UserProfileMesgs { get; private set; } = [];
+    public IEnumerable<VideoClipMesg> VideoClipMesgs { get; private set; } = [];
+    public IEnumerable<VideoDescriptionMesg> VideoDescriptionMesgs { get; private set; } = [];
+    public IEnumerable<VideoFrameMesg> VideoFrameMesgs { get; private set; } = [];
+    public IEnumerable<VideoMesg> VideoMesgs { get; private set; } = [];
+    public IEnumerable<VideoTitleMesg> VideoTitleMesgs { get; private set; } = [];
+    public IEnumerable<WatchfaceSettingsMesg> WatchfaceSettingsMesgs { get; private set; } = [];
+    public IEnumerable<WeatherAlertMesg> WeatherAlertMesgs { get; private set; } = [];
+    public IEnumerable<WeatherConditionsMesg> WeatherConditionsMesgs { get; private set; } = [];
+    public IEnumerable<WeightScaleMesg> WeightScaleMesgs { get; private set; } = [];
+    public IEnumerable<WorkoutMesg> WorkoutMesgs { get; private set; } = [];
+    public IEnumerable<WorkoutSessionMesg> WorkoutSessionMesgs { get; private set; } = [];
+    public IEnumerable<WorkoutStepMesg> WorkoutStepMesgs { get; private set; } = [];
+    public IEnumerable<ZonesTargetMesg> ZonesTargetMesgs { get; private set; } = [];
 
-    public IEnumerable<Mesg> UnknownMesgs { get; private set; } = new List<Mesg>();
+    public IEnumerable<Mesg> UnknownMesgs { get; private set; } = [];
 
     public static FitFileParser FromFit(string fitFilePath)
     {
@@ -187,11 +187,11 @@ public class FitFileParser
 
         var developerDataIdMesgs = fitJsonFile.TryGetValue("developerDataId", out List<Dictionary<string, object>>? developerDataIdValue) ?
             CreateDeveloperDataIdMesgs(developerDataIdValue, profiles) :
-            new List<DeveloperDataIdMesg>();
+            [];
         developerDataIdMesgs.ForEach(fitFileWriter.Write);
 
         var fieldDescriptionMesgs = fitJsonFile.TryGetValue("fieldDescription", out List<Dictionary<string, object>>? fieldDescriptionValue) ? CreateFieldDescriptionMesgs(fieldDescriptionValue, profiles) :
-        new List<FieldDescriptionMesg>();
+        [];
         fieldDescriptionMesgs.ForEach(fitFileWriter.Write);
 
         foreach (var key in fitJsonFile.Keys)
@@ -218,7 +218,7 @@ public class FitFileParser
 
                 foreach (var property in mesgItems)
                 {
-                    var propertyValue = property.Value?.ToString();
+                    var propertyValue = property.Value.ToString() ?? "255";
                     if (property.Key.Contains("unknown"))
                     {
                         IEnumerable<Mesg>? currentMesgs = null;
@@ -264,7 +264,7 @@ public class FitFileParser
 
                     if (property.Key.Contains("developerFields"))
                     {
-                        if (!developerDataIdMesgs.Any() || !fieldDescriptionMesgs.Any()) continue;
+                        if (developerDataIdMesgs.Count == 0 || fieldDescriptionMesgs.Count == 0) continue;
 
                         foreach (var developerField in ((JsonElement)mesgItems["developerFields"]).Deserialize<Dictionary<string, object>>()!)
                         {
@@ -302,6 +302,7 @@ public class FitFileParser
 
                             mesg.SetDeveloperField(developerFieldMesg);
                         }
+
                         continue;
                     }
 
@@ -383,7 +384,7 @@ public class FitFileParser
                     }
 
                     Enum.TryParse(type!, propertyValue, true, out object? enumValue);
-                    mesg.SetFieldValue(propertyMeta.Num, enumValue);
+                    mesg.SetFieldValue(propertyMeta.Num, enumValue ?? 255);
                 }
                 fitFileWriter.Write(mesg);
                 index++;

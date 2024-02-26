@@ -116,11 +116,11 @@ public class ProfileFieldMeta
 public class ProfileMeta
 {
     public ushort Num { get; set; }
-    public Dictionary<string, ProfileFieldMeta> Fields { get; set; } = new Dictionary<string, ProfileFieldMeta>();
+    public Dictionary<string, ProfileFieldMeta> Fields { get; set; } = [];
 }
 
 public class TypeMeta
 {
     public int Num { get; set; }
-    public Dictionary<string, long> Fields { get; set; } = new Dictionary<string, long>();
+    public Dictionary<string, long> Fields { get; set; } = [];
 }

@@ -41,7 +41,7 @@ public static class FitFileParserExtensions
             )
             .Aggregate(new List<List<Mesg>>(), (accumulator, mesgs) =>
             {
-                if (mesgs.ElementAt(0).Name.ToLower() == "unknown")
+                if (mesgs.ElementAt(0).Name.Equals("unknown", StringComparison.CurrentCultureIgnoreCase))
                 {
                     var unknownMesgGroups = mesgs.Select(mesg =>
                     {
@@ -67,7 +67,7 @@ public static class FitFileParserExtensions
                 mesgs => mesgs[0].Name,
                 mesgs => mesgs.Select(mesg =>
                     mesg.Fields.ToDictionary(field =>
-                        field.Name.ToLower() == "unknown" ?
+                        field.Name.Equals("unknown", StringComparison.CurrentCultureIgnoreCase) ?
                         $"{field.Name}-{field.Num}" : field.Name,
                         field =>
                         {
@@ -139,9 +139,9 @@ public static class FitFileParserExtensions
                         {
                             "DeveloperFields",
                             mesg.DeveloperFields.ToDictionary(field =>
-                                field.Name.ToLower() == "unknown" ? $"{field.Name}-{field.Num}" : field.Name.Split(" ").ToCamelCase(), field => (object?)field.GetValue())
+                                field.Name.Equals("unknown", StringComparison.CurrentCultureIgnoreCase) ? $"{field.Name}-{field.Num}" : field.Name.Split(" ").ToCamelCase(), field => (object?)field.GetValue())
                         }
-                    } : new Dictionary<string, object?>())
+                    } : [])
                     .ToDictionary(k => k.Key, k => k.Value))
                 .ToList());
 

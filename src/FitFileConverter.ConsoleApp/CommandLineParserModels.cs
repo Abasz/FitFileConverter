@@ -15,19 +15,10 @@ public class ConverterOptions
     public string? Output { get; set; }
 
     [Usage(ApplicationAlias = "FitFileConverter")]
-    public static IEnumerable<Example> Examples
-    {
-        get
-        {
-            return new List<Example>()
-        {
-        new Example("Edit \"file.fit\" with \"file.json\"", new ConverterOptions { FilePath = "file.json", fromFit = "file.fit" }),
-        {
-        new Example("Create Fit file from \"file.json\" to path \"random/path/new.fit\"", new ConverterOptions { FilePath = "file.fit", Output = "random/path/new.fit" })
-        }
-            };
-        }
-    }
+    public static IEnumerable<Example> Examples => [
+            new("Edit \"file.fit\" with \"file.json\"", new ConverterOptions { FilePath = "file.json", fromFit = "file.fit" }),
+            new("Create Fit file from \"file.json\" to path \"random/path/new.fit\"", new ConverterOptions { FilePath = "file.fit", Output = "random/path/new.fit" })
+        ];
 }
 
 [Verb("setup", HelpText = "Generate metadata for json to fit converter")]
@@ -40,19 +31,10 @@ public class SetupOptions
     public bool ShouldGenerateTypes { get; set; }
 
     [Usage(ApplicationAlias = "FitFileConverter")]
-    public static IEnumerable<Example> Examples
-    {
-        get
-        {
-            return new List<Example>()
-        {
-        new Example("Setup both types and profiles", new SetupOptions {}),
-        {
-        new Example("Setup only types", new SetupOptions { ShouldGenerateTypes = true })
-        }
-            };
-        }
-    }
+    public static IEnumerable<Example> Examples => [
+            new("Setup both types and profiles", new SetupOptions {}),
+            new("Setup only types", new SetupOptions { ShouldGenerateTypes = true })
+        ];
 }
 
 public static class HelperTextOptions
