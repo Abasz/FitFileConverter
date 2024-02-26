@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitFileConverter.ConsoleApp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitFileConverter.ClassLibrary", "src\FitFileConverter.ClassLibrary\FitFileConverter.ClassLibrary.csproj", "{CD4ECAC8-9383-432C-BCA9-F77F69816796}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fit", "..\..\connectiq-sdk-manager-windows\FitSDKRelease_21.101.00\cs\Dynastream\Fit.csproj", "{7919C087-5B13-4297-8249-FC28C77D059E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,6 +64,18 @@ Global
 		{CD4ECAC8-9383-432C-BCA9-F77F69816796}.Release|x64.Build.0 = Release|Any CPU
 		{CD4ECAC8-9383-432C-BCA9-F77F69816796}.Release|x86.ActiveCfg = Release|Any CPU
 		{CD4ECAC8-9383-432C-BCA9-F77F69816796}.Release|x86.Build.0 = Release|Any CPU
+		{7919C087-5B13-4297-8249-FC28C77D059E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7919C087-5B13-4297-8249-FC28C77D059E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7919C087-5B13-4297-8249-FC28C77D059E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7919C087-5B13-4297-8249-FC28C77D059E}.Debug|x64.Build.0 = Debug|Any CPU
+		{7919C087-5B13-4297-8249-FC28C77D059E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7919C087-5B13-4297-8249-FC28C77D059E}.Debug|x86.Build.0 = Debug|Any CPU
+		{7919C087-5B13-4297-8249-FC28C77D059E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7919C087-5B13-4297-8249-FC28C77D059E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7919C087-5B13-4297-8249-FC28C77D059E}.Release|x64.ActiveCfg = Release|Any CPU
+		{7919C087-5B13-4297-8249-FC28C77D059E}.Release|x64.Build.0 = Release|Any CPU
+		{7919C087-5B13-4297-8249-FC28C77D059E}.Release|x86.ActiveCfg = Release|Any CPU
+		{7919C087-5B13-4297-8249-FC28C77D059E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{7F5FD794-D534-41F8-8F2F-7CE8BF3D203F} = {B4E9703C-D936-4E69-8E86-7BA1FED16358}

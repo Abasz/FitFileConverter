@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <InvariantGlobalization>true</InvariantGlobalization>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
@@ -8,10 +8,7 @@
         <Version>1.2.0</Version>
     </PropertyGroup>
     <ItemGroup>
-        <Reference Include="Fit, Culture=neutral, processorArchitecture=MSIL">
-            <SpecificVersion>False</SpecificVersion>
-            <HintPath>..\..\..\..\connectiq-sdk-manager-windows\FitSDKRelease_21.101.00\cs\Fit.dll</HintPath>
-        </Reference>
+        <ProjectReference Include ="..\..\..\..\connectiq-sdk-manager-windows\FitSDKRelease_21.101.00\cs\Dynastream\Fit.csproj"/>
     </ItemGroup>
     <ItemGroup>
         <Using Include="System.Text"/>
